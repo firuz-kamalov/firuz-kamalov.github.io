@@ -26,7 +26,7 @@ author:
   avatar           : "profile.png"
   name             : "Firuz Kamalov"
   pronouns         : # example: "she/her"  
-  bio              : "BA Macalester College (2004). PhD University of Nebraska (2011). Currently, Full Professor in the Department of Computer Engineering."
+  bio              : # "BA Macalester College (2004). PhD University of Nebraska (2011). Currently, Full Professor in the Department of Computer Engineering."
   location         : "Dubai, UAE"
   employer         : "Canadian University Dubai"
   uri              : # URL
