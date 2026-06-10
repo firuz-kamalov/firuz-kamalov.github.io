@@ -9,56 +9,33 @@ redirect_from:
 
 {% include base_path %}
 
-Education
-======
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
-* M.S. in Jekyll, GitHub University, 2014
-* B.S. in GitHub, GitHub University, 2012
+<a href="{{ base_path }}/files/cv2026.pdf" class="btn btn--info" target="_blank">Download CV as PDF</a>
 
-Work experience
-======
-* Spring 2024: Academic Pages Collaborator
-  * GitHub University
-  * Duties includes: Updates and improvements to template
-  * Supervisor: The Users
+## Academic Appointments
+* **Professor**, Canadian University Dubai, 2024–Present
+* **Associate Professor**, Canadian University Dubai, 2020–2024
+* **Assistant Professor**, Canadian University Dubai, 2011–2020
+* **Graduate Instructor**, University of Nebraska, 2006–2011
 
-* Fall 2015: Research Assistant
-  * GitHub University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+## Education
+* **Graduate Certificate in Data Science**, Harvard University, 2022
+* **Ph.D. in Mathematics**, University of Nebraska, 2011
+* **M.S. in Mathematics**, University of Nebraska, 2007
+* **B.A. in Mathematics and Economics** (with Honors), Macalester College, 2004
 
-* Summer 2015: Research Assistant
-  * GitHub University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
-  
-Skills
-======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+## Selected Grants & Funding
+* **Principal Investigator (PI)**, *Dementia Detection using Explainable AI*, Dubai Future Foundation (AED 1.0M), 2025–2027
+* **Co-PI**, *Numerical Computing in Math Curriculum*, UAE Ministry of Education (AED 7.5M), 2020–2023
+* **Co-PI**, *Stability of Feature Selection Methods*, American University of Sharjah (AED 253,000), 2022–2024
+* **PI**, *Medical AI*, Canadian University Dubai (AED 96,000), 2021–2023
 
-Publications
-======
-  <ul>{% for post in site.publications reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Talks
-======
-  <ul>{% for post in site.talks reversed %}
-    {% include archive-single-talk-cv.html  %}
-  {% endfor %}</ul>
-  
-Teaching
-======
-  <ul>{% for post in site.teaching reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
+## Editorial Leadership
+* **Editor-in-Chief**, *Gulf Journal of Mathematics* (2013–Present)
+* **Associate Editor**, *Journal of Intelligent & Fuzzy Systems* (2023–2025)
+
+## Selected Awards & Honors
+* **Stanford–Elsevier Top 2% Scientist**
+* **Research Excellence Award**, Canadian University Dubai (2014, 2024)
+* **Teaching Excellence Award**, Canadian University Dubai (2013)
+* **Othmer Fellowship**, University of Nebraska (2005–2008)
+* **DeWitt Wallace Scholarship**, Macalester College (2000–2004)
