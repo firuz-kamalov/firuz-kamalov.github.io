@@ -16,7 +16,7 @@ My research interests adapt to new theoretical and practical developments, with 
 ---
 
 ### A Few Accidental Milestones
-*   **Top 2% Scientist:** Recognized in the Stanford–Elsevier database of the top 2% of scientists globally [1].
-*   **150+ Publications:** Published peer-reviewed papers spanning pure mathematics, machine learning algorithms, and educational frameworks [1].
+*   **Top 2% Scientist:** Recognized in the Stanford–Elsevier database of the top 2% of scientists globally.
+*   **150+ Publications:** Published peer-reviewed papers spanning pure mathematics, machine learning algorithms, and educational frameworks.
 *   **AED 9 Million in Research Funding:** Secured competitive research grants as PI and Co-PI, with support from the Dubai Future Foundation and the UAE Ministry of Education.
-*   **Awards:** Recipient of a Teaching Excellence Award and multiple Research Excellence Awards [1].
+*   **Awards:** Recipient of a Teaching Excellence Award and multiple Research Excellence Awards.
