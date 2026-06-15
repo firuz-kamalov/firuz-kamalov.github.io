@@ -46,3 +46,19 @@ author_profile: true
 ### Comparative analysis of leading artificial intelligence chatbots in the context of entrepreneurship
 *   **Abstract:** Artificial intelligence (AI) chatbots show remarkable abilities across applications. Despite a growing literature, their capability in the field of entrepreneurship is not fully understood. The aim of this study is to empirically evaluate and compare capabilities of five major AI chatbots—GPT-3.5, GPT-4, Gemini 1.0, Llama 2, and Claude—in the context of entrepreneurship theory, using a benchmark entrepreneurship test. In particular, the performance of the chatbots on a set of multiple-choice questions, short-answer questions, and essay questions related to entrepreneurship is assessed. The results indicate that GPT-4 delivers the strongest overall performance. Meanwhile, Llama 2 offers precise responses with a significantly lower word count compared to the GPT models. Although chatbots do not always provide correct or precise answers to questions or complex prompts, they still prove to be valuable analytical tools for entrepreneurs. While the study offers compelling insights into chatbots’ grasp of entrepreneurship concepts, the findings are somewhat limited by the scarce availability of data.
 *   **Citation:** Journal of Innovation and Entrepreneurship (2025). [https://doi.org/10.1186/s13731-025-00527-3](https://doi.org/10.1186/s13731-025-00527-3).
+
+---
+
+## 4. Feature Selection
+
+### Mathematical methods in feature selection: A review
+*   **Abstract:** Feature selection is essential in machine learning and data science. Recently, there has been a growing effort to apply various mathematical methods to construct novel feature selection algorithms. In this study, we present a comprehensive state-of-the-art review of such techniques. We propose a new mathematical framework-based taxonomy to group the existing literature and provide an analysis of the research in each category from a mathematical perspective. The key frameworks discussed include variance-based methods, regularization methods, and Bayesian methods. By analyzing the strengths and limitations of each technique, we provide insights into their applicability across various domains. The review concludes with emerging trends and future research directions for mathematical methods in feature selection.
+*   **Citation:** Mathematics (2025). [https://doi.org/10.3390/math13060996](https://doi.org/10.3390/math13060996).
+
+---
+
+### Feature selection in imbalanced data
+*   **Abstract:** The traditional feature selection methods are not suitable for imbalanced data as they tend to be biased towards the majority class. This problem is particularly acute in the field of medical diagnostics and fraud detection where the class distribution is highly skewed. In this paper, we propose a novel filter approach using decision tree-based F1-score. The F1-score incorporates the accuracy with respect to the minority class data and hence is a good measure in the case of imbalanced data. In the proposed implementation, the F1-score is calculated based on a 1-dimensional decision tree classifier resulting in a fast and effective feature evaluation method. Numerical experiments confirm that the proposed method achieves robust dimensionality reduction and accuracy results. In addition, the low computational complexity of the algorithm makes it a practical choice for big data applications.
+*   **Citation:** Annals of Data Science (2023). [https://doi.org/10.1007/s40745-021-00366-5](https://doi.org/10.1007/s40745-021-00366-5).
+
+
