@@ -10,7 +10,9 @@ redirect_from:
 
 I am a Professor of Mathematics and Machine Learning at Canadian University Dubai. My background is in pure mathematics, specifically [C*-algebras](https://digitalcommons.unl.edu/dissertations/AAI3465903/), and my current work focuses on the mathematical foundations and practical applications of artificial intelligence.
 
-My research interests are constantly evolving. I am currently focused on:
+I love collaborating so feel free to reach out to me at myFirstNameAtcudDotacDotae.
+
+My research interests are continuously evolving. I am currently focused on:
 
 *   **Explainable AI (XAI):** I am working to develop integrated gradients-type methods for feature attribution [[1]](https://doi.org/10.56947/gjom.v22i1.4141), [[2]](https://doi.org/10.48550/arXiv.2509.17491).
 *   **Imbalanced Data:** I am interested in new ways to balance data (for example using KDE [[3]](https://doi.org/10.1016/j.ins.2019.10.017)). I also study the convergence of synthetically generated data to its true underlying distribution [[4]](https://doi.org/10.56947/gjom.v19i1.2639).
