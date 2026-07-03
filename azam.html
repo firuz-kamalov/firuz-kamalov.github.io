@@ -117,7 +117,6 @@
     display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;
     background:var(--chip);color:var(--ink);padding:3px 9px;border-radius:20px;letter-spacing:0.02em;
   }
-  .diff-dots{font-size:11px;color:var(--accent-ink);letter-spacing:2px;}
   .question-text{font-size:19px;line-height:1.45;font-weight:600;margin-bottom:20px;font-family:'Space Grotesk';}
   .question-text table{font-weight:500;}
   .choices{display:flex;flex-direction:column;gap:10px;}
@@ -1417,11 +1416,7 @@ function render(){
     ${content}
   `;
 }
-function diffDots(d){
-  let s='';
-  for(let i=1;i<=4;i++) s+= i<=d?'●':'○';
-  return s;
-}
+
 function renderHome(){
   const chaptersHtml=CHAPTERS.map(c=>{
     const sel=state.selectedChapters.includes(c.id);
@@ -1447,12 +1442,6 @@ function renderHome(){
     </div>
 
     ${state.mode==='choose'?`<div class="chapters">${chaptersHtml}</div>`:''}
-
-    <div class="eyebrow" style="margin-top:22px;">Difficulty (●○○○ foundation → ●●●● challenge)</div>
-    <div class="mode-toggle">
-      <div class="mode-btn ${state.difficultyPattern==='increasing'?'active':''}" onclick="setDifficultyPattern('increasing')">Increasing (easy → hard)</div>
-      <div class="mode-btn ${state.difficultyPattern==='mixed'?'active':''}" onclick="setDifficultyPattern('mixed')">Mixed random</div>
-    </div>
 
     <div class="eyebrow" style="margin-top:22px;">How many questions?</div>
     <div class="count-row">
@@ -1495,7 +1484,6 @@ function renderQuiz(){
     </div>
     <div class="topic-row">
       <span class="topic-chip">${question.topic}</span>
-      <span class="diff-dots" title="Difficulty">${diffDots(question.difficulty||1)}</span>
     </div>
     <div class="question-text">${question.text}</div>
     <div class="choices">${choicesHtml}</div>
@@ -1569,7 +1557,6 @@ function renderHistory(){
 /* ==================== Event handlers ==================== */
 function setMode(m){ state.mode=m; render(); }
 function setCount(n){ state.questionCount=n; render(); }
-function setDifficultyPattern(p){ state.difficultyPattern=p; render(); }
 function toggleChapter(id){
   if(state.selectedChapters.includes(id)) state.selectedChapters=state.selectedChapters.filter(c=>c!==id);
   else state.selectedChapters=[...state.selectedChapters,id];
@@ -1588,7 +1575,6 @@ window.shareSummary=shareSummary;
 window.copySummaryText=copySummaryText;
 window.setMode=setMode;
 window.setCount=setCount;
-window.setDifficultyPattern=setDifficultyPattern;
 window.toggleChapter=toggleChapter;
 window.goHome=goHome;
 window.goHistory=goHistory;
