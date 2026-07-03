@@ -228,12 +228,15 @@ function chartFrame(xMin,xMax,yMin,yMax,xStep,yStep,width,height){
     };
   }
   let grid='';
-  for(let gx=xMin; gx<=xMax+0.001; gx+=xStep){
+  // Aligned starting points so that 0 is always hit by the grid loop if it exists
+  const startX = Math.ceil(xMin / xStep) * xStep;
+  for(let gx=startX; gx<=xMax+0.001; gx+=xStep){
     const p=toPx(gx,yMin);
     grid+=`<line x1="${p.x}" y1="${m.top}" x2="${p.x}" y2="${m.top+ph}" stroke="#E4ECF8" stroke-width="1"/>`;
     grid+=`<text x="${p.x}" y="${m.top+ph+16}" font-size="9" fill="#5A6B8C" text-anchor="middle" font-family="IBM Plex Mono, monospace">${Math.round(gx)}</text>`;
   }
-  for(let gy=yMin; gy<=yMax+0.001; gy+=yStep){
+  const startY = Math.ceil(yMin / yStep) * yStep;
+  for(let gy=startY; gy<=yMax+0.001; gy+=yStep){
     const p=toPx(xMin,gy);
     grid+=`<line x1="${m.left}" y1="${p.y}" x2="${m.left+pw}" y2="${p.y}" stroke="#E4ECF8" stroke-width="1"/>`;
     grid+=`<text x="${m.left-6}" y="${p.y+3}" font-size="9" fill="#5A6B8C" text-anchor="end" font-family="IBM Plex Mono, monospace">${Math.round(gy)}</text>`;
@@ -1185,7 +1188,7 @@ function genProbabilityWithoutReplacement(){
   return finalize('Probability & Statistics','probabilityWithoutReplacement',text,correct,distractors,explanation);
 }
 
-/* ==================== Generator registry with difficulty ==================== */
+/* ==================== Generator registry ==================== */
 const GEN_ENTRIES=[
   {chapter:'number', sub:'roundingSigFig', diff:1, fn:genRoundingSF},
   {chapter:'number', sub:'percentagesOf', diff:1, fn:genPercentOf},
@@ -1434,7 +1437,7 @@ function renderHome(){
   <div class="page">
     <div class="eyebrow">New practice set</div>
     <div class="section-title">Ready for some practice?</div>
-    <div class="muted">Covers the Year 9 curriculum.</div>
+    <div class="muted">Covers the full Year 9 curriculum — number, algebra, graphs (including chart and graph reading), ratio, geometry, and probability & statistics — with fresh multiple-choice questions every time, from foundation level up to GCSE-style challenge questions.</div>
 
     <div class="mode-toggle">
       <div class="mode-btn ${state.mode==='full'?'active':''}" onclick="setMode('full')">Full curriculum, random</div>
