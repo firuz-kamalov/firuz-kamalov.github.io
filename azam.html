@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Year 9 Maths — Practice Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EAF1FB;
+    --grid:#CBDBF2;
+    --paper:#FFFFFF;
+    --ink:#1B2A4A;
+    --ink-soft:#5A6B8C;
+    --margin:#D9635C;
+    --accent:#F2B705;
+    --accent-ink:#5C4400;
+    --correct:#2F8F5B;
+    --correct-bg:#E4F5EC;
+    --wrong:#C1443B;
+    --wrong-bg:#FBE7E5;
+    --chip:#DCE8FA;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, var(--grid) 27px, var(--grid) 28px),
+      repeating-linear-gradient(90deg, transparent, transparent 27px, var(--grid) 27px, var(--grid) 28px),
+      var(--bg);
+    min-height:100vh;
+    padding:24px 16px 60px;
+  }
+  .wrap{max-width:720px;margin:0 auto;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;margin:0;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+  .brand{display:flex;align-items:baseline;gap:10px;}
+  .brand h1{font-size:22px;letter-spacing:-0.02em;}
+  .brand .chapter-tag{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);}
+  .iconbtn{
+    background:var(--paper);border:1px solid var(--grid);border-radius:10px;
+    width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:16px;color:var(--ink-soft);
+  }
+  .iconbtn:hover{border-color:var(--ink-soft);}
+  .page{
+    background:var(--paper);
+    border-radius:6px;
+    position:relative;
+    padding:28px 26px 28px 46px;
+    box-shadow:0 1px 2px rgba(27,42,74,0.06), 0 8px 24px rgba(27,42,74,0.06);
+    border:1px solid #E4ECF8;
+  }
+  .page::before{
+    content:'';
+    position:absolute;left:26px;top:0;bottom:0;width:1px;background:var(--margin);opacity:0.55;
+  }
+  .page::after{
+    content:'';
+    position:absolute;left:11px;top:22px;bottom:22px;width:8px;
+    background-image:radial-gradient(circle, var(--bg) 3px, transparent 3.2px);
+    background-size:8px 26px;
+    background-repeat:repeat-y;
+  }
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+  .section-title{font-size:20px;margin-bottom:4px;}
+  .muted{color:var(--ink-soft);font-size:14px;line-height:1.5;}
+  .chapters{display:flex;flex-direction:column;gap:10px;margin-top:18px;}
+  .chapter-row{
+    display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:10px;
+    border:1.5px solid var(--grid);cursor:pointer;transition:border-color .15s, background .15s;
+  }
+  .chapter-row:hover{border-color:var(--ink-soft);}
+  .chapter-row.selected{border-color:var(--ink);background:var(--chip);}
+  .chapter-num{
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;
+    width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .chapter-row.selected .chapter-num{background:var(--accent);color:var(--accent-ink);}
+  .chapter-label{font-weight:600;font-size:15px;}
+  .chapter-sub{font-size:12.5px;color:var(--ink-soft);margin-top:1px;}
+  .mode-toggle{display:flex;gap:8px;margin-top:16px;}
+  .mode-btn{
+    flex:1;padding:10px 12px;border-radius:10px;border:1.5px solid var(--grid);
+    background:var(--paper);cursor:pointer;font-family:'Inter';font-weight:600;font-size:13.5px;color:var(--ink-soft);
+    text-align:center;
+  }
+  .mode-btn.active{border-color:var(--ink);color:var(--ink);background:var(--chip);}
+  .count-row{display:flex;gap:8px;margin-top:16px;}
+  .count-btn{
+    flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--grid);background:var(--paper);
+    cursor:pointer;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;color:var(--ink-soft);
+  }
+  .count-btn.active{border-color:var(--ink);background:var(--chip);color:var(--ink);}
+  .btn-primary{
+    margin-top:22px;width:100%;padding:14px;border:none;border-radius:10px;
+    background:var(--ink);color:#fff;font-family:'Space Grotesk';font-weight:600;font-size:15px;cursor:pointer;
+  }
+  .btn-primary:hover{background:#101c33;}
+  .btn-secondary{
+    margin-top:10px;width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--grid);
+    background:var(--paper);color:var(--ink);font-weight:600;font-size:14px;cursor:pointer;font-family:'Inter';
+  }
+  .btn-secondary:hover{border-color:var(--ink-soft);}
+  .footer-links{display:flex;gap:10px;margin-top:14px;}
+  .footer-links button{flex:1;}
+  .quiz-progress{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .ruler{flex:1;height:6px;background:var(--grid);border-radius:3px;overflow:hidden;}
+  .ruler-fill{height:100%;background:var(--accent);transition:width .25s;}
+  .qnum{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);white-space:nowrap;}
+  .topic-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .topic-chip{
+    display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    background:var(--chip);color:var(--ink);padding:3px 9px;border-radius:20px;letter-spacing:0.02em;
+  }
+  .diff-dots{font-size:11px;color:var(--accent-ink);letter-spacing:2px;}
+  .question-text{font-size:19px;line-height:1.45;font-weight:600;margin-bottom:20px;font-family:'Space Grotesk';}
+  .question-text table{font-weight:500;}
+  .choices{display:flex;flex-direction:column;gap:10px;}
+  .choice{
+    display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:10px;
+    border:1.5px solid var(--grid);cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:14.5px;
+    background:var(--paper);
+  }
+  .choice:hover{border-color:var(--ink-soft);}
+  .choice .letter{
+    width:24px;height:24px;border-radius:6px;background:var(--bg);border:1px solid var(--grid);
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;color:var(--ink-soft);
+  }
+  .choice.correct{border-color:var(--correct);background:var(--correct-bg);}
+  .choice.correct .letter{background:var(--correct);color:#fff;border-color:var(--correct);}
+  .choice.wrong{border-color:var(--wrong);background:var(--wrong-bg);}
+  .choice.wrong .letter{background:var(--wrong);color:#fff;border-color:var(--wrong);}
+  .choice.disabled{cursor:default;}
+  .explain{
+    margin-top:16px;padding:12px 14px;border-radius:10px;background:var(--bg);font-size:13.5px;
+    line-height:1.5;color:var(--ink-soft);border:1px dashed var(--grid);
+  }
+  .summary-hero{text-align:center;padding:10px 0 6px;}
+  .summary-score{font-family:'Space Grotesk';font-size:52px;font-weight:700;line-height:1;}
+  .summary-pct{color:var(--ink-soft);font-size:14px;margin-top:6px;}
+  .breakdown{margin-top:22px;display:flex;flex-direction:column;gap:10px;}
+  .breakdown-row{display:flex;align-items:center;gap:10px;}
+  .breakdown-label{font-size:13px;width:150px;flex-shrink:0;color:var(--ink-soft);}
+  .breakdown-bar{flex:1;height:10px;background:var(--bg);border-radius:5px;overflow:hidden;}
+  .breakdown-fill{height:100%;background:var(--correct);}
+  .breakdown-fill.weak{background:var(--margin);}
+  .breakdown-val{font-family:'IBM Plex Mono',monospace;font-size:12px;width:40px;text-align:right;color:var(--ink-soft);}
+  .history-item{padding:12px 14px;border:1.5px solid var(--grid);border-radius:10px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+  .history-date{font-size:12.5px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;}
+  .history-score{font-family:'Space Grotesk';font-weight:700;font-size:16px;}
+  .empty-state{text-align:center;padding:30px 10px;color:var(--ink-soft);font-size:14px;}
+  .field-input{width:100%;padding:11px 12px;border-radius:8px;border:1.5px solid var(--grid);font-family:'Inter';font-size:14px;}
+  .field-input:focus{outline:none;border-color:var(--ink);}
+  a.btn-primary{display:block;text-decoration:none;text-align:center;box-sizing:border-box;}
+  @media (max-width:480px){
+    .page{padding:22px 16px 22px 36px;}
+    .summary-score{font-size:42px;}
+    .breakdown-label{width:110px;font-size:12px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+/* ==================== Utilities ==================== */
+function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function choice(arr){return arr[randInt(0,arr.length-1)];}
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=randInt(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;}
+function gcd(a,b){a=Math.abs(Math.round(a));b=Math.abs(Math.round(b));while(b){[a,b]=[b,a%b];}return a||1;}
+function lcm(a,b){return Math.abs(a*b)/gcd(a,b);}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+
+function extractNumberParts(str){
+  const m=str.match(/-?\d+(\.\d+)?/);
+  if(!m) return null;
+  return {before:str.slice(0,m.index), numStr:m[0], after:str.slice(m.index+m[0].length)};
+}
+function numericVariant(str, offset){
+  const parts=extractNumberParts(str);
+  if(!parts) return null;
+  const isDecimal=parts.numStr.includes('.');
+  const decimals=isDecimal? parts.numStr.split('.')[1].length : 0;
+  const newNum=parseFloat(parts.numStr)+offset;
+  const newNumStr= decimals>0? newNum.toFixed(decimals) : String(Math.round(newNum));
+  return parts.before+newNumStr+parts.after;
+}
+function finalize(topicLabel,subtopic,text,correctVal,distractorVals,explanation){
+  const correctStr=String(correctVal);
+  let uniq=[...new Set(distractorVals.map(String))].filter(d=>d!==correctStr);
+  let offsetTry=1, guard=0;
+  while(uniq.length<3 && guard<40){
+    guard++;
+    const sign=offsetTry%2===0?-1:1;
+    const magnitude=Math.ceil(offsetTry/2);
+    const candidate=numericVariant(correctStr, sign*magnitude);
+    offsetTry++;
+    if(candidate===null){
+      const fallback=`${correctStr} (other)`;
+      if(!uniq.includes(fallback)) uniq.push(fallback);
+      continue;
+    }
+    if(candidate!==correctStr && !uniq.includes(candidate)) uniq.push(candidate);
+  }
+  uniq=uniq.slice(0,3);
+  while(uniq.length<3) uniq.push(`${correctStr} (other)`);
+  const all=shuffle([correctStr,...uniq]);
+  const correctIndex=all.indexOf(correctStr);
+  return {topic:topicLabel,subtopic,text,choices:all,correctIndex,explanation:explanation||''};
+}
+
+/* ==================== Chart helpers (SVG) ==================== */
+function svgWrap(width,height,inner){
+  return `<svg viewBox="0 0 ${width} ${height}" width="100%" style="max-width:320px;height:auto;display:block;margin:14px auto;background:#fff;border-radius:10px;">${inner}</svg>`;
+}
+function chartFrame(xMin,xMax,yMin,yMax,xStep,yStep,width,height){
+  width=width||300; height=height||240;
+  const m={left:34,right:14,top:14,bottom:28};
+  const pw=width-m.left-m.right, ph=height-m.top-m.bottom;
+  function toPx(x,y){
+    return {
+      x: m.left + (x-xMin)/(xMax-xMin)*pw,
+      y: m.top + ph - (y-yMin)/(yMax-yMin)*ph
+    };
+  }
+  let grid='';
+  for(let gx=xMin; gx<=xMax+0.001; gx+=xStep){
+    const p=toPx(gx,yMin);
+    grid+=`<line x1="${p.x}" y1="${m.top}" x2="${p.x}" y2="${m.top+ph}" stroke="#E4ECF8" stroke-width="1"/>`;
+    grid+=`<text x="${p.x}" y="${m.top+ph+16}" font-size="9" fill="#5A6B8C" text-anchor="middle" font-family="IBM Plex Mono, monospace">${Math.round(gx)}</text>`;
+  }
+  for(let gy=yMin; gy<=yMax+0.001; gy+=yStep){
+    const p=toPx(xMin,gy);
+    grid+=`<line x1="${m.left}" y1="${p.y}" x2="${m.left+pw}" y2="${p.y}" stroke="#E4ECF8" stroke-width="1"/>`;
+    grid+=`<text x="${m.left-6}" y="${p.y+3}" font-size="9" fill="#5A6B8C" text-anchor="end" font-family="IBM Plex Mono, monospace">${Math.round(gy)}</text>`;
+  }
+  let axes='';
+  if(0>=xMin&&0<=xMax){ const px=toPx(0,yMin); axes+=`<line x1="${px.x}" y1="${m.top}" x2="${px.x}" y2="${m.top+ph}" stroke="#1B2A4A" stroke-width="1.5"/>`; }
+  if(0>=yMin&&0<=yMax){ const py=toPx(xMin,0); axes+=`<line x1="${m.left}" y1="${py.y}" x2="${m.left+pw}" y2="${py.y}" stroke="#1B2A4A" stroke-width="1.5"/>`; }
+  const border=`<rect x="${m.left}" y="${m.top}" width="${pw}" height="${ph}" fill="none" stroke="#CBDBF2" stroke-width="1"/>`;
+  return {toPx, width, height, svgBase: border+grid+axes, margin:m, plotW:pw, plotH:ph};
+}
+function polarToCartesian(cx,cy,r,angleDeg){
+  const rad=(angleDeg-90)*Math.PI/180;
+  return {x:cx+r*Math.cos(rad), y:cy+r*Math.sin(rad)};
+}
+function describeArc(cx,cy,r,startAngle,endAngle){
+  const start=polarToCartesian(cx,cy,r,endAngle);
+  const end=polarToCartesian(cx,cy,r,startAngle);
+  const largeArcFlag = endAngle-startAngle <= 180 ? "0":"1";
+  return `M ${cx} ${cy} L ${start.x} ${start.y} A ${r} ${r} 0 ${largeArcFlag} 0 ${end.x} ${end.y} Z`;
+}
+
+/* ==================== Curriculum registry ==================== */
+const CHAPTERS=[
+  {id:'number', chapter:1, label:'Number'},
+  {id:'algebra', chapter:2, label:'Algebra'},
+  {id:'graphs', chapter:3, label:'Graphs'},
+  {id:'ratio', chapter:4, label:'Ratio & Proportion'},
+  {id:'geometry', chapter:5, label:'Geometry & Measures'},
+  {id:'stats', chapter:6, label:'Probability & Statistics'}
+];
+
+/* ---------- Number ---------- */
+function genRoundingSF(){
+  const mode=choice(['dp','sf']);
+  if(mode==='dp'){
+    const raw=randInt(1000,999999)/1000;
+    const places=choice([1,2]);
+    const correct=raw.toFixed(places);
+    const distractors=[raw.toFixed(places===1?2:1), (raw+ (places===1?0.1:0.01)).toFixed(places), String(Math.floor(raw))];
+    const text=`Round ${raw} to ${places} decimal place${places>1?'s':''}.`;
+    const explanation=`Look at the digit after the ${places===1?'1st':'2nd'} decimal place to round: ${correct}.`;
+    return finalize('Number','roundingSigFig',text,correct,distractors,explanation);
+  }else{
+    const raw=randInt(1000,98765);
+    const sf=choice([1,2,3]);
+    function roundSF(n,sig){
+      if(n===0) return 0;
+      const d=Math.ceil(Math.log10(Math.abs(n))+1e-9);
+      const power=sig-d;
+      const magnitude=Math.pow(10,power);
+      return Math.round(n*magnitude)/magnitude;
+    }
+    const correct=roundSF(raw,sf);
+    const distractors=[roundSF(raw,sf+1),roundSF(raw,Math.max(1,sf-1)),raw];
+    const text=`Round ${raw} to ${sf} significant figure${sf>1?'s':''}.`;
+    const explanation=`Keep the first ${sf} significant figure${sf>1?'s':''} and round: ${correct}.`;
+    return finalize('Number','roundingSigFig',text,correct,distractors,explanation);
+  }
+}
+function genPercentOf(){
+  const base=20*randInt(1,25);
+  const p=5*randInt(1,19);
+  const amount=base*p/100;
+  const text=`What is ${p}% of ${base}?`;
+  const distractors=[base*p/10, amount+choice([-10,-5,5,10]), base-amount];
+  const explanation=`${p}% of ${base} = ${p}/100 × ${base} = ${amount}.`;
+  return finalize('Number','percentagesOf',text,amount,distractors,explanation);
+}
+function genPercentChange(){
+  const mode=choice(['increase','decrease']);
+  const base=20*randInt(1,25);
+  const p=5*randInt(1,19);
+  const amount=base*p/100;
+  const correct= mode==='increase'? base+amount : base-amount;
+  const text=`${mode==='increase'?'Increase':'Decrease'} ${base} by ${p}%.`;
+  const distractors=[amount, mode==='increase'?base-amount:base+amount, correct+choice([-10,10])];
+  const explanation=`${p}% of ${base} is ${amount}, so the new amount is ${base} ${mode==='increase'?'+':'−'} ${amount} = ${correct}.`;
+  return finalize('Number','percentagesChange',text,correct,distractors,explanation);
+}
+function genReversePercentage(){
+  const p=choice([10,20,25,15,5,40,50]);
+  const isIncrease=choice([true,false]);
+  const original=20*randInt(1,20);
+  const result= isIncrease? original*(100+p)/100 : original*(100-p)/100;
+  if(!Number.isInteger(result)) return genReversePercentage();
+  const commonMistake=Math.round(result-(result*p/100));
+  const text=`After a${isIncrease?'n increase':' decrease'} of ${p}%, a price is now £${result}. What was the original price?`;
+  const correct=`£${original}`;
+  const distractors=[`£${commonMistake}`,`£${result}`,`£${original+(isIncrease?-10:10)}`];
+  const explanation=`${result} represents ${isIncrease?100+p:100-p}% of the original. Original = £${result} ÷ ${((isIncrease?100+p:100-p)/100).toFixed(2)} = £${original}.`;
+  return finalize('Number','reversePercentage',text,correct,distractors,explanation);
+}
+function genFractions(){
+  const type=choice(['add','sub']);
+  let d1=randInt(2,9),n1=randInt(1,d1-1);
+  let d2=randInt(2,9),n2=randInt(1,d2-1);
+  const l=lcm(d1,d2);
+  let text,num;
+  if(type==='add'){
+    num=n1*(l/d1)+n2*(l/d2);
+    text=`Work out ${n1}/${d1} + ${n2}/${d2}. Give your answer in its simplest form.`;
+  }else{
+    if(n1/d1<n2/d2){[n1,d1,n2,d2]=[n2,d2,n1,d1];}
+    num=n1*(l/d1)-n2*(l/d2);
+    text=`Work out ${n1}/${d1} − ${n2}/${d2}. Give your answer in its simplest form.`;
+  }
+  const g=gcd(num,l)||1;
+  const simpN=num/g, simpD=l/g;
+  const correct=simpD===1?`${simpN}`:`${simpN}/${simpD}`;
+  const distractors=[
+    simpD!==l? `${num}/${l}` : `${num+1}/${l}`,
+    `${n1+n2}/${d1+d2}`,
+    simpD===1?`${simpN+1}`:`${simpN+1}/${simpD}`
+  ];
+  const explanation=`Common denominator ${l}: ${n1}/${d1} = ${n1*(l/d1)}/${l}, ${n2}/${d2} = ${n2*(l/d2)}/${l}. Result simplifies to ${correct}.`;
+  return finalize('Number','fractions',text,correct,distractors,explanation);
+}
+function toOrdinary(m,e){
+  if(e>=1) return String(m*Math.pow(10,e));
+  return '0.'+'0'.repeat(Math.abs(e)-1)+m;
+}
+function genStandardForm(){
+  const direction=choice(['toStandard','fromStandard']);
+  const mantissa=randInt(1,9);
+  const exp=choice([-5,-4,-3,-2,-1,1,2,3,4,5,6]);
+  const ordinary=toOrdinary(mantissa,exp);
+  const sfStr=`${mantissa} × 10^${exp}`;
+  let text,correct,distractors;
+  if(direction==='toStandard'){
+    text=`Write ${ordinary} in standard form.`;
+    correct=sfStr;
+    distractors=[`${mantissa} × 10^${-exp}`,`${mantissa} × 10^${exp+1}`,`${mantissa*10} × 10^${exp-1}`];
+  }else{
+    text=`Write ${sfStr} as an ordinary number.`;
+    correct=ordinary;
+    const altExp1=exp+1===0?exp+2:exp+1, altExp2=exp-1===0?exp-2:exp-1;
+    distractors=[toOrdinary(mantissa,-exp),toOrdinary(mantissa,altExp1),toOrdinary(mantissa,altExp2)];
+  }
+  const explanation=`${mantissa} × 10^${exp} means the digit shifts ${Math.abs(exp)} place${Math.abs(exp)===1?'':'s'} to make a ${exp>0?'larger':'smaller'} number: ${ordinary}.`;
+  return finalize('Number','standardForm',text,correct,distractors,explanation);
+}
+function genStandardFormCalc(){
+  const m1=randInt(1,9), e1=randInt(1,4)*choice([1,-1]);
+  const m2=randInt(1,9), e2=randInt(1,4)*choice([1,-1]);
+  let productMantissa=m1*m2;
+  let productExp=e1+e2;
+  if(productMantissa>=10){ productMantissa=Math.round((productMantissa/10)*100)/100; productExp+=1; }
+  const text=`Work out (${m1} × 10^${e1}) × (${m2} × 10^${e2}). Give your answer in standard form.`;
+  const correct=`${productMantissa} × 10^${productExp}`;
+  const distractors=[`${m1*m2} × 10^${e1+e2}`,`${productMantissa} × 10^${productExp+1}`,`${productMantissa} × 10^${e1*e2}`];
+  const explanation=`Multiply the mantissas (${m1}×${m2}=${m1*m2}) and add the exponents (${e1}+${e2}=${e1+e2}), renormalising if needed: ${correct}.`;
+  return finalize('Number','standardFormCalc',text,correct,distractors,explanation);
+}
+function genHCFLCM(){
+  const a=randInt(6,40), b=randInt(6,40);
+  const mode=choice(['hcf','lcm']);
+  const correct= mode==='hcf'? gcd(a,b): lcm(a,b);
+  const text=`Find the ${mode==='hcf'?'highest common factor (HCF)':'lowest common multiple (LCM)'} of ${a} and ${b}.`;
+  const distractors=[mode==='hcf'?lcm(a,b):gcd(a,b), a*b, correct+(mode==='hcf'?1:a)];
+  const explanation=mode==='hcf'?`The HCF is the largest number that divides both ${a} and ${b} exactly: ${correct}.`:`The LCM is the smallest number that both ${a} and ${b} divide into exactly: ${correct}.`;
+  return finalize('Number','primeFactorsHCFLCM',text,correct,distractors,explanation);
+}
+function genIndicesBasic(){
+  const law=choice(['mult','div','power','zero']);
+  const base=choice(['x','a','y','n']);
+  let text,correctExp;
+  if(law==='mult'){const m=randInt(2,7),n=randInt(2,7);text=`Simplify ${base}^${m} × ${base}^${n}`;correctExp=m+n;}
+  else if(law==='div'){const n=randInt(2,6),m=n+randInt(1,5);text=`Simplify ${base}^${m} ÷ ${base}^${n}`;correctExp=m-n;}
+  else if(law==='power'){const m=randInt(2,5),n=randInt(2,4);text=`Simplify (${base}^${m})^${n}`;correctExp=m*n;}
+  else{const m=randInt(2,9);text=`Simplify ${base}^${m} ÷ ${base}^${m}`;correctExp=0;}
+  const correct=correctExp===0?'1':`${base}^${correctExp}`;
+  const wrongOps=law==='mult'?[correctExp-1,correctExp+1,correctExp+2]:
+    law==='div'?[correctExp+1,correctExp+2,-correctExp]:
+    law==='power'?[correctExp+1,correctExp-1,correctExp-2]:
+    [1,-1,2];
+  const distractors=wrongOps.map(e=>e===0?'1':`${base}^${e}`);
+  const explanation=law==='mult'?`When multiplying powers of the same base, add the indices: ${correctExp}.`:
+    law==='div'?`When dividing powers of the same base, subtract the indices: ${correctExp}.`:
+    law==='power'?`A power raised to a power: multiply the indices: ${correctExp}.`:
+    `Anything divided by itself is 1 (index 0).`;
+  return finalize('Number','indicesBasic',text,correct,distractors,explanation);
+}
+function genIndicesAdvanced(){
+  const law=choice(['negative','rootSquare','rootCube']);
+  const base=choice(['x','a','y']);
+  let text,correct,distractors,explanation;
+  if(law==='negative'){
+    const n=randInt(2,5);
+    text=`Write ${base}^−${n} using a positive index.`;
+    correct=`1/${base}^${n}`;
+    distractors=[`${base}^${n}`,`−${base}^${n}`,`1/${base}^${n+1}`];
+    explanation=`A negative index means "reciprocal": ${base}^−${n} = 1/${base}^${n}.`;
+  }else if(law==='rootSquare'){
+    const sq=choice([4,9,16,25,36,49,64,81,100]);
+    const root=Math.sqrt(sq);
+    text=`Evaluate ${sq}^(1/2)`;
+    correct=String(root);
+    distractors=[String(sq/2),String(root+1),String(root-1)];
+    explanation=`A power of 1/2 means square root: √${sq} = ${root}.`;
+  }else{
+    const cb=choice([8,27,64,125]);
+    const root=Math.round(Math.cbrt(cb));
+    text=`Evaluate ${cb}^(1/3)`;
+    correct=String(root);
+    distractors=[String(cb/3),String(root+1),String(root-1)];
+    explanation=`A power of 1/3 means cube root: ∛${cb} = ${root}.`;
+  }
+  return finalize('Number','indicesAdvanced',text,correct,distractors,explanation);
+}
+
+function genIndicesFractional(){
+  const bases=[{n:8,root:2,type:'cube'},{n:27,root:3,type:'cube'},{n:64,root:4,type:'cube'},{n:1000,root:10,type:'cube'},{n:4,root:2,type:'square'},{n:9,root:3,type:'square'},{n:25,root:5,type:'square'},{n:16,root:4,type:'square'},{n:36,root:6,type:'square'}];
+  const b=choice(bases);
+  const isCube=b.type==='cube';
+  const denom=isCube?3:2;
+  const power=randInt(2,3);
+  const val=Math.pow(b.root,power);
+  const text=`Evaluate ${b.n}^(${power}/${denom})`;
+  const correct=val;
+  const distractors=[b.root,val+b.root,Math.round(b.n/denom)];
+  const explanation=`${b.n}^(${power}/${denom}) means take the ${isCube?'cube':'square'} root first (${b.root}), then raise to the power ${power}: ${b.root}^${power} = ${val}.`;
+  return finalize('Number','indicesFractional',text,correct,distractors,explanation);
+}
+function genCompoundInterest(){
+  const principal=choice([100,200,500,1000,2000]);
+  const rate=choice([5,10,20]);
+  const years=choice([2,3]);
+  const amount=Math.round(principal*Math.pow(1+rate/100,years)*100)/100;
+  const simpleInterest=Math.round((principal+principal*rate/100*years)*100)/100;
+  const oneYearLess=Math.round(principal*Math.pow(1+rate/100,years-1)*100)/100;
+  const text=`£${principal} is invested at ${rate}% compound interest per year. Find the total value after ${years} years.`;
+  const correct=`£${amount.toFixed(2)}`;
+  const distractors=[`£${simpleInterest.toFixed(2)}`,`£${oneYearLess.toFixed(2)}`,`£${(amount+10).toFixed(2)}`];
+  const explanation=`Compound interest: ${principal} × (1 + ${rate}/100)^${years} = £${amount.toFixed(2)}.`;
+  return finalize('Number','compoundInterest',text,correct,distractors,explanation);
+}
+
+/* ---------- Algebra ---------- */
+function genSolveLinear(){
+  const a=randInt(2,6);
+  const xTrue=choice([-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]);
+  const b=randInt(-10,10);
+  const c=a*xTrue+b;
+  const text=`Solve for x: ${a}x ${b>=0?'+':'−'} ${Math.abs(b)} = ${c}`;
+  const correct=xTrue;
+  const distractors=[xTrue+1,xTrue-1,-xTrue,Math.round((c+b)/a)];
+  const explanation=`${a}x = ${c} ${b>=0?'−':'+'} ${Math.abs(b)} = ${c-b}, so x = ${c-b}/${a} = ${xTrue}.`;
+  return finalize('Algebra','solveLinear',text,correct,distractors,explanation);
+}
+function genExpand(){
+  let a=randInt(-6,6);if(a===0)a=1;
+  let b=randInt(-6,6);if(b===0)b=1;
+  const sumAB=a+b, prodAB=a*b;
+  const text=`Expand and simplify (x ${a>=0?'+':'−'} ${Math.abs(a)})(x ${b>=0?'+':'−'} ${Math.abs(b)})`;
+  const fmt=(s,p)=>`x² ${s>=0?'+':'−'} ${Math.abs(s)}x ${p>=0?'+':'−'} ${Math.abs(p)}`;
+  const correct=fmt(sumAB,prodAB);
+  const distractors=[fmt(sumAB,-prodAB),fmt(a-b,prodAB),fmt(sumAB,sumAB)];
+  const explanation=`(x${a>=0?'+':'−'}${Math.abs(a)})(x${b>=0?'+':'−'}${Math.abs(b)}) = x² + (${a}+${b})x + (${a}×${b}) = ${correct}.`;
+  return finalize('Algebra','expand',text,correct,distractors,explanation);
+}
+function genFactoriseSimple(){
+  const g=randInt(2,9);
+  let a=randInt(1,9), b=randInt(1,9);
+  while(gcd(a,b)!==1){ b=randInt(1,9); }
+  const coefX=g*a, constNum=g*b;
+  const text=`Factorise fully: ${coefX}x + ${constNum}`;
+  const correct=`${g}(${a}x + ${b})`;
+  const distractors=[`${g}(${a}x − ${b})`,`${a}(${g}x + ${b})`,`${coefX}(x + ${constNum})`];
+  const explanation=`The highest common factor of ${coefX} and ${constNum} is ${g}: ${coefX}x + ${constNum} = ${g}(${a}x + ${b}).`;
+  return finalize('Algebra','factoriseSimple',text,correct,distractors,explanation);
+}
+function genSequencesLinear(){
+  const a1=randInt(-5,10);
+  const d=choice([-4,-3,-2,-1,2,3,4,5]);
+  const n=randInt(6,15);
+  const terms=[a1,a1+d,a1+2*d,a1+3*d];
+  const text=`A sequence starts ${terms.join(', ')}, ... Find the ${n}th term.`;
+  const correct=a1+(n-1)*d;
+  const distractors=[a1+n*d,a1+(n-2)*d,a1*n+d];
+  const explanation=`nth term = ${a1} + (n−1)×${d}. For n=${n}: ${a1} + ${n-1}×${d} = ${correct}.`;
+  return finalize('Algebra','sequencesLinear',text,correct,distractors,explanation);
+}
+function genSequencesQuadratic(){
+  const a=choice([1,2,3]);
+  const c=randInt(-5,5);
+  const terms=[1,2,3,4].map(n=>a*n*n+c);
+  const askN=randInt(6,10);
+  const text=`A sequence follows the rule ${a}n² ${c>=0?'+':'−'} ${Math.abs(c)} and starts ${terms.join(', ')}, ... Find the ${askN}th term.`;
+  const correct=a*askN*askN+c;
+  const distractors=[a*askN+c,a*(askN-1)*(askN-1)+c,a*askN*askN];
+  const explanation=`Substitute n = ${askN}: ${a}×${askN}² ${c>=0?'+':'−'} ${Math.abs(c)} = ${correct}.`;
+  return finalize('Algebra','sequencesQuadratic',text,correct,distractors,explanation);
+}
+function genInequalities(){
+  const a=randInt(2,6);
+  const b=randInt(-10,10);
+  const xTrue=randInt(-6,6);
+  const c=a*xTrue+b;
+  const dir=choice(['<','>','≤','≥']);
+  const flip={'<':'>','>':'<','≤':'≥','≥':'≤'};
+  const text=`Solve the inequality: ${a}x ${b>=0?'+':'−'} ${Math.abs(b)} ${dir} ${c}`;
+  const correct=`x ${dir} ${xTrue}`;
+  const distractors=[`x ${flip[dir]} ${xTrue}`,`x ${dir} ${xTrue+1}`,`x ${dir} ${xTrue-1}`];
+  const explanation=`Solve as an equation first: ${a}x = ${c-b}, so x = ${xTrue}. Dividing by a positive number keeps the direction: x ${dir} ${xTrue}.`;
+  return finalize('Algebra','inequalities',text,correct,distractors,explanation);
+}
+function genSimultaneous(){
+  let x0=randInt(-5,5); if(x0===0)x0=1;
+  let y0=randInt(-5,5); if(y0===0)y0=1;
+  const a1=randInt(1,5), b1=randInt(1,5);
+  const a2=randInt(1,5), b2=randInt(1,5);
+  if(a1*b2===a2*b1) return genSimultaneous();
+  const c1=a1*x0+b1*y0, c2=a2*x0+b2*y0;
+  const text=`Solve the simultaneous equations:<br>${a1}x + ${b1}y = ${c1}<br>${a2}x + ${b2}y = ${c2}<br>Find the value of x.`;
+  const correct=x0;
+  const distractors=[y0,x0+1,x0-1];
+  const explanation=`Solving the pair of equations gives x = ${x0}, y = ${y0}.`;
+  return finalize('Algebra','simultaneous',text,correct,distractors,explanation);
+}
+function genFactoriseQuadratic(){
+  let p=randInt(-8,8); if(p===0)p=1;
+  let q=randInt(-8,8); if(q===0)q=1;
+  const b=p+q, c=p*q;
+  const text=`Factorise: x² ${b>=0?'+':'−'} ${Math.abs(b)}x ${c>=0?'+':'−'} ${Math.abs(c)}`;
+  const fmt=(pp,qq)=>`(x ${pp>=0?'+':'−'} ${Math.abs(pp)})(x ${qq>=0?'+':'−'} ${Math.abs(qq)})`;
+  const correct=fmt(p,q);
+  const distractors=[fmt(-p,q),fmt(p,-q),fmt(p+1,q-1)];
+  const explanation=`Find two numbers that multiply to ${c} and add to ${b}: ${p} and ${q}. So x²${b>=0?'+':'−'}${Math.abs(b)}x${c>=0?'+':'−'}${Math.abs(c)} = ${correct}.`;
+  return finalize('Algebra','factoriseQuadratic',text,correct,distractors,explanation);
+}
+function genRearrangeFormula(){
+  const type=choice(['linear','divide']);
+  const a=randInt(2,9), b=randInt(-9,9);
+  let text,correct,distractors,explanation;
+  if(type==='linear'){
+    text=`Make x the subject of the formula: y = ${a}x ${b>=0?'+':'−'} ${Math.abs(b)}`;
+    correct=`x = (y ${b>=0?'−':'+'} ${Math.abs(b)}) / ${a}`;
+    distractors=[`x = (y ${b>=0?'+':'−'} ${Math.abs(b)}) / ${a}`,`x = y ${b>=0?'−':'+'} ${Math.abs(b)} / ${a}`,`x = ${a}(y ${b>=0?'−':'+'} ${Math.abs(b)})`];
+    explanation=`Subtract ${b} from both sides, then divide by ${a}: x = (y ${b>=0?'−':'+'} ${Math.abs(b)}) / ${a}.`;
+  }else{
+    text=`Make x the subject of the formula: y = x / ${a} ${b>=0?'+':'−'} ${Math.abs(b)}`;
+    correct=`x = ${a}(y ${b>=0?'−':'+'} ${Math.abs(b)})`;
+    distractors=[`x = (y ${b>=0?'−':'+'} ${Math.abs(b)}) / ${a}`,`x = ${a}y ${b>=0?'−':'+'} ${Math.abs(b)}`,`x = y/${a} ${b>=0?'+':'−'} ${Math.abs(b)}`];
+    explanation=`Subtract ${b} from both sides, then multiply by ${a}: x = ${a}(y ${b>=0?'−':'+'} ${Math.abs(b)}).`;
+  }
+  return finalize('Algebra','rearrangeFormula',text,correct,distractors,explanation);
+}
+
+function genSolveBothSides(){
+  const xTrue=choice([-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]);
+  const a=randInt(2,7);
+  let cc=randInt(1,6); if(cc===a) cc=a+1;
+  const b=randInt(-10,10);
+  const d=(a-cc)*xTrue+b;
+  const text=`Solve for x: ${a}x ${b>=0?'+':'−'} ${Math.abs(b)} = ${cc}x ${d>=0?'+':'−'} ${Math.abs(d)}`;
+  const correct=xTrue;
+  const distractors=[xTrue+1,xTrue-1,-xTrue];
+  const explanation=`Collect x terms on one side: ${a}x − ${cc}x = ${d} − ${b}, so ${a-cc}x = ${d-b}, giving x = ${xTrue}.`;
+  return finalize('Algebra','solveBothSides',text,correct,distractors,explanation);
+}
+function genQuadraticFormula(){
+  const a=1;
+  let b=randInt(-6,6); if(b===0)b=1;
+  const c=randInt(-6,-1);
+  const disc=b*b-4*a*c;
+  const sqrtDisc=Math.sqrt(disc);
+  const root1=(-b+sqrtDisc)/(2*a);
+  const root2=(-b-sqrtDisc)/(2*a);
+  const biggerRoot=Math.max(root1,root2);
+  const correct=Math.round(biggerRoot*10)/10;
+  const text=`Solve x² ${b>=0?'+':'−'} ${Math.abs(b)}x ${c>=0?'+':'−'} ${Math.abs(c)} = 0 using the quadratic formula. Give the larger solution to 1 decimal place.`;
+  const distractors=[Math.round(Math.min(root1,root2)*10)/10, Math.round((biggerRoot+1)*10)/10, Math.round((-b/(2*a))*10)/10];
+  const explanation=`x = (−b ± √(b²−4ac)) / 2a = (${-b} ± √${disc}) / 2. The larger solution ≈ ${correct}.`;
+  return finalize('Algebra','quadraticFormula',text,correct,distractors,explanation);
+}
+
+/* ---------- Graphs ---------- */
+function genGradientFromPoints(){
+  const m=choice([-3,-2,-1,1,2,3,4]);
+  const x1=randInt(-6,6), y1=randInt(-6,6);
+  const x2=x1+randInt(1,5)*choice([-1,1]);
+  const y2=y1+m*(x2-x1);
+  const text=`Find the gradient of the line through (${x1}, ${y1}) and (${x2}, ${y2}).`;
+  const recip=(y2-y1)!==0?Math.round((x2-x1)/(y2-y1)):0;
+  const correct=m;
+  const distractors=[-m,recip,m+1];
+  const explanation=`Gradient = (y₂−y₁)/(x₂−x₁) = (${y2}−${y1})/(${x2}−${x1}) = ${m}.`;
+  return finalize('Graphs','gradientFromPoints',text,correct,distractors,explanation);
+}
+function genGradientFromGraph(){
+  const m=choice([-3,-2,-1,1,2,3]);
+  const c=randInt(-4,4);
+  const xMin=-5,xMax=5;
+  const yAtMin=m*xMin+c, yAtMax=m*xMax+c;
+  const yMin=Math.floor(Math.min(yAtMin,yAtMax))-1, yMax=Math.ceil(Math.max(yAtMin,yAtMax))+1;
+  const frame=chartFrame(xMin,xMax,yMin,yMax,1,Math.max(1,Math.round((yMax-yMin)/6)),300,240);
+  const p1=frame.toPx(xMin,yAtMin), p2=frame.toPx(xMax,yAtMax);
+  const line=`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#1B2A4A" stroke-width="2.5"/>`;
+  const svg=svgWrap(300,240, frame.svgBase+line);
+  const text=`${svg}<div>Find the gradient of the line shown.</div>`;
+  const correct=m;
+  const distractors=[-m,c,m+1,m-1];
+  const explanation=`The line rises ${m} for every 1 across, so the gradient is ${m}. (Equation: y = ${m}x ${c>=0?'+':'−'} ${Math.abs(c)})`;
+  return finalize('Graphs','gradientFromGraph',text,correct,distractors,explanation);
+}
+function genReadCoordinate(){
+  const m=choice([-2,-1,1,2]);
+  const c=randInt(-3,3);
+  const xMin=-5,xMax=5;
+  const yAtMin=m*xMin+c, yAtMax=m*xMax+c;
+  const yMin=Math.floor(Math.min(yAtMin,yAtMax))-1, yMax=Math.ceil(Math.max(yAtMin,yAtMax))+1;
+  const frame=chartFrame(xMin,xMax,yMin,yMax,1,Math.max(1,Math.round((yMax-yMin)/6)),300,240);
+  const p1=frame.toPx(xMin,yAtMin), p2=frame.toPx(xMax,yAtMax);
+  const targetX=randInt(-3,3);
+  const targetY=m*targetX+c;
+  const marker=frame.toPx(targetX,targetY);
+  const line=`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#1B2A4A" stroke-width="2.5"/>`;
+  const dash=`<line x1="${marker.x}" y1="${frame.margin.top}" x2="${marker.x}" y2="${marker.y}" stroke="#D9635C" stroke-width="1.5" stroke-dasharray="4,3"/>`;
+  const svg=svgWrap(300,240, frame.svgBase+line+dash);
+  const text=`${svg}<div>Using the graph, find the value of y when x = ${targetX}.</div>`;
+  const correct=targetY;
+  const distractors=[targetY+1,targetY-1,targetX,-targetY];
+  const explanation=`Reading up from x = ${targetX} to the line gives y = ${targetY}.`;
+  return finalize('Graphs','readCoordinate',text,correct,distractors,explanation);
+}
+function genMatchEquation(){
+  const m=choice([-2,-1,1,2,3]);
+  const c=randInt(-3,3);
+  const xMin=-5,xMax=5;
+  const yAtMin=m*xMin+c, yAtMax=m*xMax+c;
+  const yMin=Math.floor(Math.min(yAtMin,yAtMax))-1, yMax=Math.ceil(Math.max(yAtMin,yAtMax))+1;
+  const frame=chartFrame(xMin,xMax,yMin,yMax,1,Math.max(1,Math.round((yMax-yMin)/6)),300,240);
+  const p1=frame.toPx(xMin,yAtMin), p2=frame.toPx(xMax,yAtMax);
+  const line=`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#1B2A4A" stroke-width="2.5"/>`;
+  const svg=svgWrap(300,240, frame.svgBase+line);
+  const text=`${svg}<div>Which equation matches the line shown?</div>`;
+  const fmt=(mm,cc)=>`y = ${mm}x ${cc>=0?'+':'−'} ${Math.abs(cc)}`;
+  const correct=fmt(m,c);
+  const distractors=[fmt(-m,c),fmt(m,-c),fmt(m+1,c)];
+  const explanation=`The line crosses the y-axis at ${c} (y-intercept) and rises ${m} for every 1 across (gradient): y = ${m}x ${c>=0?'+':'−'} ${Math.abs(c)}.`;
+  return finalize('Graphs','matchEquation',text,correct,distractors,explanation);
+}
+function genBarChart(){
+  const cats=shuffle(['Football','Tennis','Swimming','Cricket','Rugby','Netball']).slice(0,4);
+  const values=cats.map(()=>randInt(3,20));
+  const width=300,height=220;
+  const m={left:34,right:14,top:14,bottom:40};
+  const pw=width-m.left-m.right, ph=height-m.top-m.bottom;
+  const maxV=Math.max(...values);
+  const barW=pw/values.length*0.6;
+  const gap=pw/values.length;
+  let bars='';
+  values.forEach((v,i)=>{
+    const bh=(v/maxV)*ph;
+    const x=m.left+gap*i+(gap-barW)/2;
+    const y=m.top+ph-bh;
+    bars+=`<rect x="${x}" y="${y}" width="${barW}" height="${bh}" fill="#F2B705" rx="3"/>`;
+    bars+=`<text x="${x+barW/2}" y="${m.top+ph+14}" font-size="9" fill="#5A6B8C" text-anchor="middle" font-family="Inter">${cats[i]}</text>`;
+    bars+=`<text x="${x+barW/2}" y="${y-5}" font-size="10" fill="#1B2A4A" text-anchor="middle" font-family="IBM Plex Mono, monospace">${v}</text>`;
+  });
+  const axisLine=`<line x1="${m.left}" y1="${m.top+ph}" x2="${m.left+pw}" y2="${m.top+ph}" stroke="#1B2A4A" stroke-width="1.5"/>`;
+  const svg=svgWrap(width,height, axisLine+bars);
+  const askWhat=choice(['highest','total','difference']);
+  let text,correct,distractors,explanation;
+  const total=values.reduce((s,x)=>s+x,0);
+  const maxIdx=values.indexOf(maxV);
+  if(askWhat==='highest'){
+    text=`${svg}<div>The bar chart shows how many pupils in a class play each sport. Which sport is most popular?</div>`;
+    correct=cats[maxIdx];
+    distractors=cats.filter((c,i)=>i!==maxIdx);
+    explanation=`${cats[maxIdx]} has the tallest bar, with ${maxV} pupils.`;
+  }else if(askWhat==='total'){
+    text=`${svg}<div>The bar chart shows how many pupils in a class play each sport. How many pupils are there in total?</div>`;
+    correct=total;
+    distractors=[total+values[0],total-values[0],maxV];
+    explanation=`Add all the bars: ${values.join(' + ')} = ${total}.`;
+  }else{
+    const i1=0,i2=maxIdx===0?1:0;
+    const diff=Math.abs(values[i1]-values[i2]);
+    const bigger= values[i1]>=values[i2]?cats[i1]:cats[i2];
+    const smaller= values[i1]>=values[i2]?cats[i2]:cats[i1];
+    text=`${svg}<div>The bar chart shows how many pupils in a class play each sport. How many more pupils play ${bigger} than ${smaller}?</div>`;
+    correct=diff;
+    distractors=[diff+2,Math.max(0,diff-2),values[i1]+values[i2]];
+    explanation=`Difference = ${Math.max(values[i1],values[i2])} − ${Math.min(values[i1],values[i2])} = ${diff}.`;
+  }
+  return finalize('Graphs','barChartRead',text,correct,distractors,explanation);
+}
+function genPieChart(){
+  const cats=shuffle(['Walk','Bus','Car','Bike']).slice(0,3);
+  let raw=cats.map(()=>randInt(1,6));
+  const total=raw.reduce((s,x)=>s+x,0);
+  const colors=['#F2B705','#5A9BD5','#D9635C'];
+  let cum=0;
+  let paths='';
+  const cx=100,cy=100,r=80;
+  raw.forEach((v,i)=>{
+    const angleSize=v/total*360;
+    const start=cum, end=cum+angleSize;
+    paths+=`<path d="${describeArc(cx,cy,r,start,end)}" fill="${colors[i%colors.length]}" stroke="#fff" stroke-width="2"/>`;
+    cum=end;
+  });
+  const legend=cats.map((c,i)=>`<div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft);font-weight:500;"><span style="width:10px;height:10px;border-radius:3px;background:${colors[i%colors.length]};display:inline-block;"></span>${c} (${raw[i]}/${total})</div>`).join('');
+  const svg=`<svg viewBox="0 0 200 200" width="180" height="180" style="display:block;margin:14px auto 6px;">${paths}</svg><div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;">${legend}</div>`;
+  const targetIdx=randInt(0,cats.length-1);
+  const g=gcd(raw[targetIdx],total)||1;
+  const simpN=raw[targetIdx]/g, simpD=total/g;
+  const correct=simpD===1?'1':`${simpN}/${simpD}`;
+  const text=`${svg}<div>The pie chart shows how pupils travel to school. What fraction of pupils travel by ${cats[targetIdx]}?</div>`;
+  const distractors=[`${raw[targetIdx]}/${total}`,`${total-raw[targetIdx]}/${total}`,`${simpN}/${total}`];
+  const explanation=`${cats[targetIdx]}: ${raw[targetIdx]} out of ${total} pupils = ${correct} in simplest form.`;
+  return finalize('Graphs','pieChartRead',text,correct,distractors,explanation);
+}
+function genScatter(){
+  const type=choice(['positive','negative','none']);
+  const width=280,height=220;
+  const m={left:34,right:14,top:14,bottom:30};
+  const pw=width-m.left-m.right, ph=height-m.top-m.bottom;
+  let points=[];
+  for(let i=0;i<12;i++){
+    const x=randInt(0,10);
+    let y;
+    if(type==='positive') y=Math.min(10,Math.max(0, x+randInt(-2,2)));
+    else if(type==='negative') y=Math.min(10,Math.max(0, 10-x+randInt(-2,2)));
+    else y=randInt(0,10);
+    points.push([x,y]);
+  }
+  const toPx=(x,y)=>({x:m.left+(x/10)*pw, y:m.top+ph-(y/10)*ph});
+  const dots=points.map(([x,y])=>{const p=toPx(x,y);return `<circle cx="${p.x}" cy="${p.y}" r="3.5" fill="#1B2A4A"/>`;}).join('');
+  const border=`<rect x="${m.left}" y="${m.top}" width="${pw}" height="${ph}" fill="none" stroke="#CBDBF2"/>`;
+  const svg=svgWrap(width,height, border+dots);
+  const text=`${svg}<div>What type of correlation does this scatter graph show?</div>`;
+  const correct=type==='positive'?'Positive correlation':type==='negative'?'Negative correlation':'No correlation';
+  const allOptions=['Positive correlation','Negative correlation','No correlation','Weak correlation'];
+  const distractors=allOptions.filter(o=>o!==correct);
+  const explanation=type==='positive'?'As one variable increases, so does the other — a positive correlation.':type==='negative'?'As one variable increases, the other decreases — a negative correlation.':'The points are scattered with no clear pattern — no correlation.';
+  return finalize('Graphs','scatterCorrelation',text,correct,distractors,explanation);
+}
+function genDistanceTime(){
+  const t1=randInt(1,3);
+  const speed1=randInt(10,40);
+  const d1=speed1*t1;
+  const stopDur=randInt(1,2);
+  const t2=t1+stopDur;
+  const t3choice=randInt(1,3);
+  const t3=t2+t3choice;
+  const speed2=randInt(5,25);
+  const d3=d1+speed2*t3choice;
+  const xMin=0,xMax=t3+1,yMin=0,yMax=d3+10;
+  const frame=chartFrame(xMin,xMax,yMin,yMax,1,Math.ceil(yMax/6),300,240);
+  const pts=[[0,0],[t1,d1],[t2,d1],[t3,d3]].map(([x,y])=>frame.toPx(x,y));
+  const path=pts.map((p,i)=>`${i===0?'M':'L'} ${p.x} ${p.y}`).join(' ');
+  const lineSvg=`<path d="${path}" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>`+pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3" fill="#D9635C"/>`).join('');
+  const svg=svgWrap(300,240, frame.svgBase+lineSvg);
+  const askWhat=choice(['speed1','fastLeg','stopDuration']);
+  let text,correct,distractors,explanation;
+  const legALabel=`0–${t1} hrs`, legBLabel=`${t2}–${t3} hrs`;
+  if(askWhat==='stopDuration'){
+    text=`${svg}<div>The graph shows a car's distance from home over time. How long did the car stop for?</div>`;
+    correct=`${stopDur} hour${stopDur>1?'s':''}`;
+    distractors=[`${t1} hour${t1>1?'s':''}`,`${t3choice} hour${t3choice>1?'s':''}`,`${stopDur+1} hour${stopDur+1>1?'s':''}`];
+    explanation=`The distance stays flat between t = ${t1} and t = ${t2}, a stop of ${stopDur} hour${stopDur>1?'s':''}.`;
+  }else if(askWhat==='fastLeg'){
+    text=`${svg}<div>The graph shows a car's distance from home over time. During which section was the car travelling fastest?</div>`;
+    correct = speed1>=speed2? legALabel: legBLabel;
+    distractors=[speed1>=speed2?legBLabel:legALabel, `${t1}–${t2} hrs`, `0–${t3} hrs`];
+    explanation=`Speed = distance ÷ time. ${legALabel}: ${speed1} units/hr. ${legBLabel}: ${speed2} units/hr. The steeper section is faster.`;
+  }else{
+    text=`${svg}<div>The graph shows a car's distance from home over time. What was its speed during the first ${t1} hour${t1>1?'s':''}?</div>`;
+    correct=`${speed1} units/hr`;
+    distractors=[`${speed1+5} units/hr`,`${Math.max(1,speed1-5)} units/hr`,`${d1} units/hr`];
+    explanation=`Speed = distance ÷ time = ${d1} ÷ ${t1} = ${speed1} units/hr.`;
+  }
+  return finalize('Graphs','distanceTimeGraph',text,correct,distractors,explanation);
+}
+
+function genQuadraticGraph(){
+  const p=randInt(-3,3);
+  const q=randInt(-4,4);
+  const xMin=p-5, xMax=p+5;
+  const pts=[];
+  for(let x=xMin;x<=xMax+0.001;x+=0.5){ pts.push([x,(x-p)*(x-p)+q]); }
+  const yVals=pts.map(pt=>pt[1]);
+  const yMin=Math.floor(Math.min(...yVals))-1, yMax=Math.ceil(Math.max(...yVals))+1;
+  const frame=chartFrame(xMin,xMax,yMin,yMax,2,Math.max(1,Math.round((yMax-yMin)/6)),300,240);
+  const pxPts=pts.map(([x,y])=>frame.toPx(x,y));
+  const path=pxPts.map((pp,i)=>`${i===0?'M':'L'} ${pp.x} ${pp.y}`).join(' ');
+  const curve=`<path d="${path}" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>`;
+  const svg=svgWrap(300,240, frame.svgBase+curve);
+  const text=`${svg}<div>The graph shows y = (x − ${p})² ${q>=0?'+':'−'} ${Math.abs(q)}. What are the coordinates of the turning point?</div>`;
+  const correct=`(${p}, ${q})`;
+  const distractors=[`(${-p}, ${q})`,`(${p}, ${-q})`,`(${q}, ${p})`];
+  const explanation=`For y = (x − a)² + b, the turning point (minimum) is at (a, b) = (${p}, ${q}).`;
+  return finalize('Graphs','quadraticGraph',text,correct,distractors,explanation);
+}
+
+/* ---------- Ratio & Proportion ---------- */
+function genSimplifyRatio(){
+  let aa=randInt(1,9), bb=randInt(1,9);
+  while(gcd(aa,bb)!==1){ bb=randInt(1,9); }
+  const g=randInt(2,9);
+  const p=aa*g, q=bb*g;
+  const text=`Simplify the ratio ${p}:${q} to its simplest form.`;
+  const correct=`${aa}:${bb}`;
+  const distractors=[`${p}:${q}`,`${bb}:${aa}`,`${aa+1}:${bb}`];
+  const explanation=`Both parts share a common factor of ${g}: ${p}÷${g} = ${aa}, ${q}÷${g} = ${bb}, giving ${aa}:${bb}.`;
+  return finalize('Ratio & Proportion','simplifyRatio',text,correct,distractors,explanation);
+}
+function genShareRatio(){
+  const a=randInt(1,9), b=randInt(1,9);
+  const k=randInt(2,15);
+  const total=(a+b)*k;
+  const larger=Math.max(a,b)*k, smaller=Math.min(a,b)*k;
+  const text=`Share £${total} in the ratio ${a}:${b}. How much is the larger share?`;
+  const correct=`£${larger}`;
+  const distractors=[`£${smaller}`,`£${Math.round(total/2)}`,`£${larger+k}`];
+  const explanation=`Total parts = ${a}+${b} = ${a+b}. Each part = £${k}. Larger share = ${Math.max(a,b)} × £${k} = £${larger}.`;
+  return finalize('Ratio & Proportion','shareRatio',text,correct,distractors,explanation);
+}
+function genBestBuy(){
+  const item=choice(['cereal','juice','pasta','rice']);
+  const size1=randInt(2,9)*100, price1=randInt(100,400)/100;
+  let size2=randInt(2,9)*100;
+  while(size2===size1) size2=randInt(2,9)*100;
+  const price2=randInt(100,400)/100;
+  const unit1=price1/size1, unit2=price2/size2;
+  const text=`A ${size1}g box of ${item} costs £${price1.toFixed(2)}. A ${size2}g box costs £${price2.toFixed(2)}. Which is better value?`;
+  const correct=unit1<unit2? `${size1}g box`:`${size2}g box`;
+  const distractors=[unit1<unit2? `${size2}g box`:`${size1}g box`, 'Both the same value', 'Cannot tell'];
+  const explanation=`Unit price: ${size1}g box = £${unit1.toFixed(4)}/g, ${size2}g box = £${unit2.toFixed(4)}/g. The lower unit price is better value.`;
+  return finalize('Ratio & Proportion','bestBuy',text,correct,distractors,explanation);
+}
+function genDirectProportion(){
+  const ingredient=choice(['flour','sugar','butter','milk']);
+  const baseServes=randInt(2,6);
+  const baseAmount=randInt(2,10)*10;
+  const scale=randInt(2,4);
+  const targetServes=baseServes*scale;
+  const correct=baseAmount*scale;
+  const text=`A recipe for ${baseServes} people needs ${baseAmount}g of ${ingredient}. How much is needed for ${targetServes} people?`;
+  const distractors=[baseAmount*(scale-1), baseAmount+targetServes, baseAmount*targetServes];
+  const explanation=`Scale factor = ${targetServes}÷${baseServes} = ${scale}. ${baseAmount} × ${scale} = ${correct}g.`;
+  return finalize('Ratio & Proportion','directProportion',text,`${correct}g`,distractors.map(d=>`${d}g`),explanation);
+}
+function genInverseProportion(){
+  const workers1=randInt(2,10);
+  const days1=randInt(2,12);
+  const total=workers1*days1;
+  let workers2=randInt(2,10);
+  let guard=0;
+  while(total%workers2!==0 && guard<30){ workers2=randInt(2,10); guard++; }
+  if(total%workers2!==0) workers2=workers1;
+  const days2=total/workers2;
+  const text=`It takes ${workers1} workers ${days1} days to build a wall. How many days would it take ${workers2} workers, working at the same rate?`;
+  const correct=`${days2} days`;
+  const distractors=[`${days1} days`,`${Math.round(days1*(workers2/workers1))} days`,`${days2+2} days`];
+  const explanation=`Total work = ${workers1} × ${days1} = ${total} worker-days. With ${workers2} workers: ${total} ÷ ${workers2} = ${days2} days.`;
+  return finalize('Ratio & Proportion','inverseProportion',text,correct,distractors,explanation);
+}
+
+function genRatioAlgebraic(){
+  let a=randInt(2,9), b=randInt(2,9);
+  while(gcd(a,b)!==1){ b=randInt(2,9); }
+  const k=randInt(2,15);
+  const total=(a+b)*k;
+  const text=`The ratio of two numbers is ${a}:${b}. Their sum is ${total}. Find the smaller number.`;
+  const correct=Math.min(a,b)*k;
+  const distractors=[Math.max(a,b)*k, Math.round(total/2), Math.min(a,b)*k+k];
+  const explanation=`Total parts = ${a}+${b} = ${a+b}. Each part = ${total}÷${a+b} = ${k}. Smaller number = ${Math.min(a,b)} × ${k} = ${correct}.`;
+  return finalize('Ratio & Proportion','ratioAlgebraic',text,correct,distractors,explanation);
+}
+
+/* ---------- Geometry & Measures ---------- */
+function genAngles(depth){
+  depth=depth||0;
+  const scenario=choice(['line','point','triangle']);
+  let total,known,text;
+  if(scenario==='line'){total=180;known=[randInt(20,140)];text=`Two angles lie on a straight line. One is ${known[0]}°. Find the other angle.`;}
+  else if(scenario==='point'){total=360;const k1=randInt(40,150),k2=randInt(40,150);known=[k1,k2];text=`Three angles meet at a point. Two of them are ${k1}° and ${k2}°. Find the third angle.`;}
+  else{total=180;const k1=randInt(30,90),k2=randInt(30,90);known=[k1,k2];text=`In a triangle, two angles are ${k1}° and ${k2}°. Find the third angle.`;}
+  const sumKnown=known.reduce((s,x)=>s+x,0);
+  const correctVal=total-sumKnown;
+  if(correctVal<=0 && depth<10) return genAngles(depth+1);
+  const wrongTotal=total===180?360:180;
+  const distractors=[wrongTotal-sumKnown,sumKnown,correctVal+10].filter(v=>v>0);
+  const explanation=`Angles ${scenario==='line'?'on a straight line sum to 180°':scenario==='point'?'around a point sum to 360°':'in a triangle sum to 180°'}. ${total} − ${sumKnown} = ${correctVal}.`;
+  return finalize('Geometry & Measures','angles',text,`${correctVal}°`,distractors.map(v=>`${v}°`),explanation);
+}
+function genPolygonAngles(){
+  const n=choice([5,6,8,9,10,12]);
+  const mode=choice(['interior','exterior']);
+  const exterior=360/n;
+  const interior=180-exterior;
+  const text=`Find the ${mode} angle of a regular ${n}-sided polygon.`;
+  const correct= mode==='interior'? `${interior}°` : `${exterior}°`;
+  const distractors=[mode==='interior'?`${exterior}°`:`${interior}°`, `${Math.round(180/n)}°`, `${interior+10}°`];
+  const explanation=`Exterior angle = 360÷${n} = ${exterior}°. Interior angle = 180 − exterior = ${interior}°.`;
+  return finalize('Geometry & Measures','polygonAngles',text,correct,distractors,explanation);
+}
+function genArea(){
+  const shape=choice(['rectangle','triangle','parallelogram']);
+  const b=randInt(3,20), h=randInt(3,20);
+  let text,correctVal;
+  if(shape==='rectangle'){text=`Find the area of a rectangle with length ${b} cm and width ${h} cm.`;correctVal=b*h;}
+  else if(shape==='triangle'){text=`Find the area of a triangle with base ${b} cm and height ${h} cm.`;correctVal=0.5*b*h;}
+  else{text=`Find the area of a parallelogram with base ${b} cm and height ${h} cm.`;correctVal=b*h;}
+  const correct=`${correctVal} cm²`;
+  const distractors=[`${b+h} cm²`,`${shape==='triangle'?b*h:Math.round(0.5*b*h)} cm²`,`${2*(b+h)} cm²`];
+  const explanation=shape==='triangle'?`Area of a triangle = ½ × base × height = ½ × ${b} × ${h} = ${correctVal} cm².`:`Area = base × height = ${b} × ${h} = ${correctVal} cm².`;
+  return finalize('Geometry & Measures','area',text,correct,distractors,explanation);
+}
+function genVolume(){
+  const shape=choice(['cuboid','cylinder','triangularPrism']);
+  let text,correctVal;
+  if(shape==='cuboid'){
+    const l=randInt(2,12),w=randInt(2,12),h=randInt(2,12);
+    text=`Find the volume of a cuboid with length ${l} cm, width ${w} cm, and height ${h} cm.`;
+    correctVal=l*w*h;
+  }else if(shape==='cylinder'){
+    const r=randInt(2,8),h=randInt(2,15);
+    correctVal=Math.round(3.14*r*r*h*10)/10;
+    text=`Find the volume of a cylinder with radius ${r} cm and height ${h} cm. Use π ≈ 3.14 and round to 1 decimal place.`;
+  }else{
+    const b=randInt(3,12),h=randInt(3,12),len=randInt(3,15);
+    correctVal=Math.round(0.5*b*h*len*10)/10;
+    text=`Find the volume of a triangular prism. The triangular cross-section has base ${b} cm and height ${h} cm; the prism length is ${len} cm.`;
+  }
+  const correct=`${correctVal} cm³`;
+  const distractors=[`${Math.round(correctVal*1.5*10)/10} cm³`,`${Math.round(correctVal*0.5*10)/10} cm³`,`${Math.round((correctVal+10)*10)/10} cm³`];
+  const explanation=shape==='cuboid'?`Volume = length × width × height = ${correctVal} cm³.`:shape==='cylinder'?`Volume = πr²h ≈ ${correctVal} cm³.`:`Volume = (½ × base × height) × length = ${correctVal} cm³.`;
+  return finalize('Geometry & Measures','volume',text,correct,distractors,explanation);
+}
+function genPythagoras(){
+  const triples=[[3,4,5],[5,12,13],[6,8,10],[8,15,17],[7,24,25],[9,12,15],[20,21,29]];
+  const [p,q,r]=choice(triples);
+  const scale=randInt(1,3);
+  const a=p*scale,b=q*scale,c=r*scale;
+  const findHyp=Math.random()<0.6;
+  let text,correctVal;
+  if(findHyp){text=`A right-angled triangle has two shorter sides of ${a} cm and ${b} cm. Find the length of the hypotenuse.`;correctVal=c;}
+  else{text=`A right-angled triangle has a hypotenuse of ${c} cm and one other side of ${a} cm. Find the length of the missing side.`;correctVal=b;}
+  const correct=`${correctVal} cm`;
+  const distractors=[`${a+b} cm`,`${Math.round(Math.sqrt(a+b))} cm`,`${correctVal+1} cm`];
+  const explanation=findHyp?`c² = a² + b² = ${a}² + ${b}² = ${a*a+b*b}, so c = ${correctVal} cm.`:`b² = c² − a² = ${c}² − ${a}² = ${c*c-a*a}, so b = ${correctVal} cm.`;
+  return finalize('Geometry & Measures','pythagoras',text,correct,distractors,explanation);
+}
+function genCircle(){
+  const r=randInt(2,15);
+  const mode=choice(['area','circumference']);
+  const pi=3.14159;
+  const unit=mode==='area'?' cm²':' cm';
+  let text,correctVal;
+  if(mode==='area'){text=`Find the area of a circle with radius ${r} cm. Use π ≈ 3.14 and round to 1 decimal place.`;correctVal=Math.round(pi*r*r*10)/10;}
+  else{text=`Find the circumference of a circle with radius ${r} cm. Use π ≈ 3.14 and round to 1 decimal place.`;correctVal=Math.round(2*pi*r*10)/10;}
+  const correct=`${correctVal}${unit}`;
+  const altUsingDiameter=mode==='area'?Math.round(pi*(2*r)*(2*r)*10)/10:Math.round(2*pi*(2*r)*10)/10;
+  const swapFormula=mode==='area'?Math.round(2*pi*r*10)/10:Math.round(pi*r*r*10)/10;
+  const distractors=[`${altUsingDiameter}${unit}`,`${swapFormula}${unit}`,`${Math.round((correctVal+5)*10)/10}${unit}`];
+  const explanation=mode==='area'?`Area = πr² = 3.14 × ${r}² ≈ ${correct}.`:`Circumference = 2πr = 2 × 3.14 × ${r} ≈ ${correct}.`;
+  return finalize('Geometry & Measures','circle',text,correct,distractors,explanation);
+}
+function genTransformations(){
+  const type=choice(['translate','reflectX','reflectY']);
+  const px=randInt(-4,4), py=randInt(-4,4);
+  let qx,qy,text;
+  const width=220,height=220;
+  const frame=chartFrame(-6,6,-6,6,2,2,width,height);
+  const origPt=frame.toPx(px,py);
+  if(type==='translate'){
+    let vx=randInt(-3,3); if(vx===0)vx=1;
+    let vy=randInt(-3,3); if(vy===0)vy=1;
+    qx=px+vx; qy=py+vy;
+    text=`Point A is at (${px}, ${py}). It is translated by the vector (${vx}, ${vy}). What are the coordinates of the image point?`;
+  }else if(type==='reflectX'){
+    qx=px; qy=-py;
+    text=`Point A is at (${px}, ${py}). It is reflected in the x-axis. What are the coordinates of the image point?`;
+  }else{
+    qx=-px; qy=py;
+    text=`Point A is at (${px}, ${py}). It is reflected in the y-axis. What are the coordinates of the image point?`;
+  }
+  const dots=`<circle cx="${origPt.x}" cy="${origPt.y}" r="4" fill="#1B2A4A"/><text x="${origPt.x+6}" y="${origPt.y-6}" font-size="10" font-family="Inter">A</text>`;
+  const svg=svgWrap(width,height, frame.svgBase+dots);
+  const correct=`(${qx}, ${qy})`;
+  const distractors=[`(${qy}, ${qx})`,`(${-qx}, ${qy})`,`(${qx}, ${-qy})`];
+  const explanation=type==='translate'?`Add the translation vector to the coordinates of A to get (${qx}, ${qy}).`:type==='reflectX'?`Reflecting in the x-axis keeps x the same and flips the sign of y: (${qx}, ${qy}).`:`Reflecting in the y-axis keeps y the same and flips the sign of x: (${qx}, ${qy}).`;
+  return finalize('Geometry & Measures','transformations',text,correct,distractors,explanation);
+}
+function genTrig(){
+  const angle=choice([30,45,60]);
+  const funcs={30:{sin:0.5,cos:0.866,tan:0.577},45:{sin:0.707,cos:0.707,tan:1},60:{sin:0.866,cos:0.5,tan:1.732}};
+  const ratio=choice(['sin','cos','tan']);
+  const known=randInt(5,20);
+  const val=funcs[angle][ratio];
+  let text;
+  if(ratio==='sin') text=`In a right-angled triangle, one angle is ${angle}° and the hypotenuse is ${known} cm. Find the length of the opposite side. Round to 1 decimal place.`;
+  else if(ratio==='cos') text=`In a right-angled triangle, one angle is ${angle}° and the hypotenuse is ${known} cm. Find the length of the adjacent side. Round to 1 decimal place.`;
+  else text=`In a right-angled triangle, one angle is ${angle}° and the adjacent side is ${known} cm. Find the length of the opposite side. Round to 1 decimal place.`;
+  const correctVal=Math.round(known*val*10)/10;
+  const correct=`${correctVal} cm`;
+  const distractors=[`${Math.round(known*(1-val)*10)/10} cm`,`${known} cm`,`${Math.round(correctVal*1.3*10)/10} cm`];
+  const explanation=ratio==='sin'?`sin(${angle}°) = opposite/hypotenuse, so opposite = ${known} × sin(${angle}°) ≈ ${correct}.`:ratio==='cos'?`cos(${angle}°) = adjacent/hypotenuse, so adjacent = ${known} × cos(${angle}°) ≈ ${correct}.`:`tan(${angle}°) = opposite/adjacent, so opposite = ${known} × tan(${angle}°) ≈ ${correct}.`;
+  return finalize('Geometry & Measures','trigonometry',text,correct,distractors,explanation);
+}
+
+function genTrigFindAngle(){
+  const opp=randInt(3,15), adj=randInt(3,15);
+  const angle=Math.atan(opp/adj)*180/Math.PI;
+  const correct=Math.round(angle*10)/10;
+  const text=`In a right-angled triangle, the opposite side is ${opp} cm and the adjacent side is ${adj} cm. Find the angle between the hypotenuse and the adjacent side, to 1 decimal place.`;
+  const distractors=[Math.round((90-angle)*10)/10, Math.round((angle+10)*10)/10, Math.round((angle-10)*10)/10];
+  const explanation=`tan(angle) = opposite/adjacent = ${opp}/${adj}. angle = tan⁻¹(${(opp/adj).toFixed(3)}) ≈ ${correct}°.`;
+  return finalize('Geometry & Measures','trigFindAngle',text,`${correct}°`,distractors.map(d=>`${d}°`),explanation);
+}
+function genCircleSector(){
+  const r=randInt(4,12);
+  const angle=choice([30,45,60,90,120,150]);
+  const pi=3.14159;
+  const mode=choice(['area','arc']);
+  let text,correctVal,unit;
+  if(mode==='area'){
+    correctVal=Math.round(pi*r*r*(angle/360)*10)/10;
+    unit=' cm²';
+    text=`Find the area of a sector with radius ${r} cm and angle ${angle}°. Use π ≈ 3.14 and round to 1 decimal place.`;
+  }else{
+    correctVal=Math.round(2*pi*r*(angle/360)*10)/10;
+    unit=' cm';
+    text=`Find the arc length of a sector with radius ${r} cm and angle ${angle}°. Use π ≈ 3.14 and round to 1 decimal place.`;
+  }
+  const correct=`${correctVal}${unit}`;
+  const fullCircleVal= mode==='area'? Math.round(pi*r*r*10)/10 : Math.round(2*pi*r*10)/10;
+  const distractors=[`${fullCircleVal}${unit}`,`${Math.round(correctVal*2*10)/10}${unit}`,`${Math.round((correctVal+5)*10)/10}${unit}`];
+  const explanation= mode==='area'? `Sector area = (angle/360) × πr² = (${angle}/360) × 3.14 × ${r}² ≈ ${correct}.` : `Arc length = (angle/360) × 2πr = (${angle}/360) × 2 × 3.14 × ${r} ≈ ${correct}.`;
+  return finalize('Geometry & Measures','circleSector',text,correct,distractors,explanation);
+}
+function genSurfaceArea(){
+  const shape=choice(['cuboid','cylinder']);
+  let text,correctVal;
+  if(shape==='cuboid'){
+    const l=randInt(2,10),w=randInt(2,10),h=randInt(2,10);
+    correctVal=2*(l*w+l*h+w*h);
+    text=`Find the surface area of a cuboid with length ${l} cm, width ${w} cm, and height ${h} cm.`;
+  }else{
+    const r=randInt(2,8),h=randInt(3,15);
+    correctVal=Math.round((2*3.14*r*r+2*3.14*r*h)*10)/10;
+    text=`Find the total surface area of a cylinder with radius ${r} cm and height ${h} cm. Use π ≈ 3.14 and round to 1 decimal place.`;
+  }
+  const correct=`${correctVal} cm²`;
+  const distractors=[`${Math.round(correctVal*0.5*10)/10} cm²`,`${Math.round(correctVal*1.5*10)/10} cm²`,`${Math.round((correctVal+20)*10)/10} cm²`];
+  const explanation=shape==='cuboid'?`Surface area = 2(lw+lh+wh) = ${correctVal} cm².`:`Surface area = 2πr² + 2πrh ≈ ${correctVal} cm².`;
+  return finalize('Geometry & Measures','surfaceArea',text,correct,distractors,explanation);
+}
+
+/* ---------- Probability & Statistics ---------- */
+function genProbability(){
+  const colors=shuffle(['red','blue','green','yellow','white']);
+  const numColors=choice([2,3]);
+  const chosenColors=colors.slice(0,numColors);
+  const counts=chosenColors.map(()=>randInt(2,10));
+  const total=counts.reduce((s,x)=>s+x,0);
+  const targetIdx=randInt(0,numColors-1);
+  const target=chosenColors[targetIdx];
+  const desc=chosenColors.map((c,i)=>`${counts[i]} ${c}`).join(', ');
+  const text=`A bag contains ${desc} balls. One ball is picked at random. Find the probability it is ${target}.`;
+  const g=gcd(counts[targetIdx],total)||1;
+  const simpN=counts[targetIdx]/g, simpD=total/g;
+  const correct=simpD===1?'1':`${simpN}/${simpD}`;
+  const distractors=[`${counts[targetIdx]}/${total}`,`${total-counts[targetIdx]}/${total}`,`${simpN}/${total}`];
+  const explanation=`P(${target}) = ${counts[targetIdx]}/${total} = ${correct} in simplest form.`;
+  return finalize('Probability & Statistics','probability',text,correct,distractors,explanation);
+}
+function genAverages(depth){
+  depth=depth||0;
+  const stat=choice(['mean','median','range','mode']);
+  const n=choice([5,7]);
+  let data=Array.from({length:n},()=>randInt(1,30));
+  const sorted=[...data].sort((a,b)=>a-b);
+  if(stat==='mean'){
+    const sum=data.reduce((s,x)=>s+x,0);
+    if(sum%n!==0 && depth<10) return genAverages(depth+1);
+    const correctVal=sum/n;
+    const text=`Find the mean of this set of data: ${data.join(', ')}`;
+    const distractors=[sorted[(n-1)>>1],sorted[n-1]-sorted[0],correctVal+1];
+    return finalize('Probability & Statistics','averages',text,correctVal,distractors,`Mean = sum ÷ count = ${sum} ÷ ${n} = ${correctVal}.`);
+  }
+  if(stat==='median'){
+    const correctVal=sorted[(n-1)/2];
+    const text=`Find the median of this set of data: ${data.join(', ')}`;
+    const distractors=[sorted[n-1]-sorted[0],sorted[0],sorted[n-1]];
+    return finalize('Probability & Statistics','averages',text,correctVal,distractors,`Arrange in order: ${sorted.join(', ')}. The middle value is ${correctVal}.`);
+  }
+  if(stat==='range'){
+    const correctVal=sorted[n-1]-sorted[0];
+    const text=`Find the range of this set of data: ${data.join(', ')}`;
+    const distractors=[sorted[n-1],sorted[0],correctVal+2];
+    return finalize('Probability & Statistics','averages',text,correctVal,distractors,`Range = largest − smallest = ${sorted[n-1]} − ${sorted[0]} = ${correctVal}.`);
+  }
+  data[n-1]=data[0];
+  const sorted2=[...data].sort((a,b)=>a-b);
+  const correctVal=data[0];
+  const text=`Find the mode of this set of data: ${data.join(', ')}`;
+  const distractors=[sorted2[sorted2.length-1],sorted2[0],correctVal+1];
+  return finalize('Probability & Statistics','averages',text,correctVal,distractors,`The mode is the most frequently occurring value: ${correctVal}.`);
+}
+function genCombinedProbability(){
+  const p1n=randInt(1,4), p1d=randInt(p1n+1,8);
+  const p2n=randInt(1,4), p2d=randInt(p2n+1,8);
+  const text=`Event A has probability ${p1n}/${p1d}. Independent event B has probability ${p2n}/${p2d}. Find P(A and B).`;
+  const numCorrect=p1n*p2n, denCorrect=p1d*p2d;
+  const g=gcd(numCorrect,denCorrect)||1;
+  const simpN=numCorrect/g, simpD=denCorrect/g;
+  const correct=simpD===1?'1':`${simpN}/${simpD}`;
+  const distractors=[`${numCorrect}/${denCorrect}`,`${p1n+p2n}/${p1d+p2d}`,`${simpN}/${denCorrect}`];
+  const explanation=`For independent events, P(A and B) = P(A) × P(B) = ${p1n}/${p1d} × ${p2n}/${p2d} = ${correct}.`;
+  return finalize('Probability & Statistics','combinedProbability',text,correct,distractors,explanation);
+}
+function genFrequencyTable(depth){
+  depth=depth||0;
+  const values=[1,2,3,4,5];
+  const freqs=values.map(()=>randInt(1,8));
+  const totalFreq=freqs.reduce((s,x)=>s+x,0);
+  const totalSum=values.reduce((s,v,i)=>s+v*freqs[i],0);
+  if(totalSum%totalFreq!==0 && depth<15) return genFrequencyTable(depth+1);
+  const mean= totalSum%totalFreq===0? totalSum/totalFreq : Math.round((totalSum/totalFreq)*10)/10;
+  const rows=values.map((v,i)=>`<tr><td style="padding:4px 10px;border:1px solid #CBDBF2;">${v}</td><td style="padding:4px 10px;border:1px solid #CBDBF2;">${freqs[i]}</td></tr>`).join('');
+  const table=`<table style="border-collapse:collapse;margin:12px auto;font-family:'IBM Plex Mono',monospace;font-size:13px;"><tr><th style="padding:4px 10px;border:1px solid #CBDBF2;background:var(--bg);">Value</th><th style="padding:4px 10px;border:1px solid #CBDBF2;background:var(--bg);">Frequency</th></tr>${rows}</table>`;
+  const text=`${table}<div>Find the mean of the data shown in the frequency table.</div>`;
+  const distractors=[Math.round(totalSum/values.length),Math.round((mean+1)*10)/10,totalFreq];
+  const explanation=`Mean = (sum of value × frequency) ÷ total frequency = ${totalSum} ÷ ${totalFreq} = ${mean}.`;
+  return finalize('Probability & Statistics','frequencyTableAverage',text,mean,distractors,explanation);
+}
+
+function genProbabilityWithoutReplacement(){
+  const colorsAll=shuffle(['red','blue','green','yellow']);
+  const numColors=choice([2,3]);
+  const chosenColors=colorsAll.slice(0,numColors);
+  const counts=chosenColors.map(()=>randInt(3,8));
+  const total=counts.reduce((s,x)=>s+x,0);
+  const targetIdx=randInt(0,numColors-1);
+  const target=chosenColors[targetIdx];
+  const desc=chosenColors.map((c,i)=>`${counts[i]} ${c}`).join(', ');
+  const text=`A bag contains ${desc} balls. Two balls are picked at random without replacement. Find the probability that both are ${target}.`;
+  const n=counts[targetIdx];
+  const numCorrect=n*(n-1), denCorrect=total*(total-1);
+  const g=gcd(numCorrect,denCorrect)||1;
+  const simpN=numCorrect/g, simpD=denCorrect/g;
+  const correct=simpD===1?'1':`${simpN}/${simpD}`;
+  const distractors=[`${n*n}/${total*total}`,`${numCorrect}/${denCorrect}`,`${n}/${total}`];
+  const explanation=`P(1st ${target}) = ${n}/${total}. Without replacement, P(2nd ${target}) = ${n-1}/${total-1}. Multiply: ${n}/${total} × ${n-1}/${total-1} = ${correct}.`;
+  return finalize('Probability & Statistics','probabilityWithoutReplacement',text,correct,distractors,explanation);
+}
+
+/* ==================== Generator registry with difficulty ==================== */
+const GEN_ENTRIES=[
+  {chapter:'number', sub:'roundingSigFig', diff:1, fn:genRoundingSF},
+  {chapter:'number', sub:'percentagesOf', diff:1, fn:genPercentOf},
+  {chapter:'number', sub:'fractions', diff:2, fn:genFractions},
+  {chapter:'number', sub:'percentagesChange', diff:2, fn:genPercentChange},
+  {chapter:'number', sub:'standardForm', diff:2, fn:genStandardForm},
+  {chapter:'number', sub:'primeFactorsHCFLCM', diff:2, fn:genHCFLCM},
+  {chapter:'number', sub:'indicesBasic', diff:2, fn:genIndicesBasic},
+  {chapter:'number', sub:'indicesAdvanced', diff:3, fn:genIndicesAdvanced},
+  {chapter:'number', sub:'reversePercentage', diff:3, fn:genReversePercentage},
+  {chapter:'number', sub:'standardFormCalc', diff:3, fn:genStandardFormCalc},
+  {chapter:'number', sub:'indicesFractional', diff:4, fn:genIndicesFractional},
+  {chapter:'number', sub:'compoundInterest', diff:4, fn:genCompoundInterest},
+
+  {chapter:'algebra', sub:'solveLinear', diff:1, fn:genSolveLinear},
+  {chapter:'algebra', sub:'expand', diff:2, fn:genExpand},
+  {chapter:'algebra', sub:'factoriseSimple', diff:2, fn:genFactoriseSimple},
+  {chapter:'algebra', sub:'sequencesLinear', diff:2, fn:genSequencesLinear},
+  {chapter:'algebra', sub:'inequalities', diff:3, fn:genInequalities},
+  {chapter:'algebra', sub:'simultaneous', diff:3, fn:genSimultaneous},
+  {chapter:'algebra', sub:'factoriseQuadratic', diff:3, fn:genFactoriseQuadratic},
+  {chapter:'algebra', sub:'rearrangeFormula', diff:3, fn:genRearrangeFormula},
+  {chapter:'algebra', sub:'sequencesQuadratic', diff:3, fn:genSequencesQuadratic},
+  {chapter:'algebra', sub:'solveBothSides', diff:4, fn:genSolveBothSides},
+  {chapter:'algebra', sub:'quadraticFormula', diff:4, fn:genQuadraticFormula},
+
+  {chapter:'graphs', sub:'readCoordinate', diff:1, fn:genReadCoordinate},
+  {chapter:'graphs', sub:'barChartRead', diff:1, fn:genBarChart},
+  {chapter:'graphs', sub:'scatterCorrelation', diff:1, fn:genScatter},
+  {chapter:'graphs', sub:'gradientFromPoints', diff:2, fn:genGradientFromPoints},
+  {chapter:'graphs', sub:'gradientFromGraph', diff:2, fn:genGradientFromGraph},
+  {chapter:'graphs', sub:'matchEquation', diff:2, fn:genMatchEquation},
+  {chapter:'graphs', sub:'pieChartRead', diff:2, fn:genPieChart},
+  {chapter:'graphs', sub:'distanceTimeGraph', diff:3, fn:genDistanceTime},
+  {chapter:'graphs', sub:'quadraticGraph', diff:4, fn:genQuadraticGraph},
+
+  {chapter:'ratio', sub:'simplifyRatio', diff:1, fn:genSimplifyRatio},
+  {chapter:'ratio', sub:'shareRatio', diff:2, fn:genShareRatio},
+  {chapter:'ratio', sub:'bestBuy', diff:2, fn:genBestBuy},
+  {chapter:'ratio', sub:'directProportion', diff:2, fn:genDirectProportion},
+  {chapter:'ratio', sub:'inverseProportion', diff:3, fn:genInverseProportion},
+  {chapter:'ratio', sub:'ratioAlgebraic', diff:4, fn:genRatioAlgebraic},
+
+  {chapter:'geometry', sub:'angles', diff:1, fn:()=>genAngles(0)},
+  {chapter:'geometry', sub:'area', diff:1, fn:genArea},
+  {chapter:'geometry', sub:'polygonAngles', diff:2, fn:genPolygonAngles},
+  {chapter:'geometry', sub:'circle', diff:2, fn:genCircle},
+  {chapter:'geometry', sub:'volume', diff:2, fn:genVolume},
+  {chapter:'geometry', sub:'pythagoras', diff:2, fn:genPythagoras},
+  {chapter:'geometry', sub:'transformations', diff:2, fn:genTransformations},
+  {chapter:'geometry', sub:'trigonometry', diff:3, fn:genTrig},
+  {chapter:'geometry', sub:'trigFindAngle', diff:4, fn:genTrigFindAngle},
+  {chapter:'geometry', sub:'circleSector', diff:4, fn:genCircleSector},
+  {chapter:'geometry', sub:'surfaceArea', diff:4, fn:genSurfaceArea},
+
+  {chapter:'stats', sub:'probability', diff:1, fn:genProbability},
+  {chapter:'stats', sub:'averages', diff:1, fn:()=>genAverages(0)},
+  {chapter:'stats', sub:'combinedProbability', diff:3, fn:genCombinedProbability},
+  {chapter:'stats', sub:'frequencyTableAverage', diff:3, fn:()=>genFrequencyTable(0)},
+  {chapter:'stats', sub:'probabilityWithoutReplacement', diff:4, fn:genProbabilityWithoutReplacement}
+];
+
+function pickEntry(pool,targetDiff){
+  let candidates=pool.filter(e=>e.diff===targetDiff);
+  if(candidates.length===0){
+    const diffs=[...new Set(pool.map(e=>e.diff))];
+    diffs.sort((a,b)=>Math.abs(a-targetDiff)-Math.abs(b-targetDiff));
+    candidates=pool.filter(e=>e.diff===diffs[0]);
+  }
+  return choice(candidates);
+}
+function buildDifficultySequence(n,pattern){
+  if(pattern==='mixed') return Array.from({length:n},()=>choice([1,2,3,4]));
+  const seq=[];
+  for(let i=0;i<n;i++){
+    const frac= n>1? i/(n-1) : 0;
+    let d;
+    if(frac<0.25) d=1; else if(frac<0.55) d=2; else if(frac<0.8) d=3; else d=4;
+    seq.push(d);
+  }
+  return seq;
+}
+
+/* ==================== State ==================== */
+const state={
+  screen:'loading',
+  mode:'full',
+  selectedChapters:CHAPTERS.map(c=>c.id),
+  questionCount:10,
+  difficultyPattern:'increasing',
+  quiz:null,
+  history:[],
+  lastEntry:null
+};
+
+async function loadInitial(){
+  state.screen='home';
+  render();
+
+  try{
+    const items=[];
+    for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('history:')) {
+            try { 
+                const v = localStorage.getItem(k);
+                if(v) items.push(JSON.parse(v)); 
+            } catch(e){}
+        }
+    }
+    items.sort((a,b)=>b.ts-a.ts);
+    state.history=items;
+  }catch(e){ state.history=[]; }
+
+  if(state.screen==='home') render();
+}
+
+async function saveHistoryEntry(entry){
+  state.history.unshift(entry);
+  try{ localStorage.setItem('history:'+entry.id, JSON.stringify(entry)); }catch(e){}
+}
+
+async function clearHistory(){
+  const items=state.history;
+  state.history=[];
+  render();
+  for(const item of items){
+    try{ localStorage.removeItem('history:'+item.id); }catch(e){}
+  }
+}
+
+/* ==================== Quiz flow ==================== */
+function startQuiz(){
+  const chapters=state.mode==='full'?CHAPTERS.map(c=>c.id):state.selectedChapters;
+  if(chapters.length===0){ alert('Pick at least one chapter to practise.'); return; }
+  const pool=GEN_ENTRIES.filter(e=>chapters.includes(e.chapter));
+  if(pool.length===0){ alert('No question types available for this selection.'); return; }
+  const diffSeq=buildDifficultySequence(state.questionCount,state.difficultyPattern);
+  const questions=diffSeq.map(d=>{
+    const entry=pickEntry(pool,d);
+    const q=entry.fn();
+    q.difficulty=entry.diff;
+    return q;
+  });
+  state.quiz={questions,index:0,correctCount:0,answered:null,breakdown:{}};
+  state.screen='quiz';
+  render();
+}
+function answerQuestion(choiceIdx){
+  const q=state.quiz;
+  if(q.answered!==null) return;
+  q.answered=choiceIdx;
+  const question=q.questions[q.index];
+  const isCorrect=choiceIdx===question.correctIndex;
+  if(isCorrect) q.correctCount++;
+  if(!q.breakdown[question.topic]) q.breakdown[question.topic]={correct:0,total:0};
+  q.breakdown[question.topic].total++;
+  if(isCorrect) q.breakdown[question.topic].correct++;
+  render();
+}
+function nextQuestion(){
+  const q=state.quiz;
+  if(q.index+1<q.questions.length){ q.index++; q.answered=null; render(); }
+  else{ finishQuiz(); }
+}
+async function finishQuiz(){
+  const q=state.quiz;
+  const entry={
+    id:uid(), ts:Date.now(), date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),
+    total:q.questions.length, correct:q.correctCount, breakdown:q.breakdown,
+    mode:state.mode==='full'?'Full curriculum':state.selectedChapters.map(id=>CHAPTERS.find(c=>c.id===id).label).join(', ')
+  };
+  await saveHistoryEntry(entry);
+  state.screen='summary';
+  state.lastEntry=entry;
+  render();
+}
+function buildSummaryText(entry){
+  const pct=Math.round(entry.correct/entry.total*100);
+  const lines=[`Maths practice summary — ${entry.date}`,'',`Score: ${entry.correct}/${entry.total} (${pct}%)`,`Topics: ${entry.mode}`,'','Breakdown by topic:'];
+  Object.entries(entry.breakdown).forEach(([topic,st])=>{ lines.push(`  ${topic}: ${st.correct}/${st.total}`); });
+  return {subject:`Maths practice summary – ${entry.date} (${pct}%)`, body:lines.join('\n')};
+}
+async function shareSummary(entry){
+  const {subject,body}=buildSummaryText(entry);
+  if(navigator.share){
+    try{ await navigator.share({title:subject, text:body}); }
+    catch(e){ /* user cancelled the native share sheet — not an error */ }
+  }
+}
+function copySummaryText(btn){
+  const ta=document.getElementById('summary-textarea');
+  if(!ta) return;
+  ta.focus();
+  ta.select();
+  ta.setSelectionRange(0,999999);
+  let copied=false;
+  try{ copied=document.execCommand('copy'); }catch(e){}
+  if(!copied && navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(ta.value).then(()=>{}).catch(()=>{});
+    copied=true;
+  }
+  if(btn){
+    const original=btn.textContent;
+    btn.textContent=copied?'Copied ✓':'Now press copy';
+    setTimeout(()=>{ btn.textContent=original; },1600);
+  }
+}
+
+/* ==================== Rendering ==================== */
+function render(){
+  const app=document.getElementById('app');
+  if(state.screen==='loading'){ app.innerHTML=`<div class="empty-state">Loading your practice book…</div>`; return; }
+
+  let content='';
+  if(state.screen==='home') content=renderHome();
+  else if(state.screen==='quiz') content=renderQuiz();
+  else if(state.screen==='summary') content=renderSummary();
+  else if(state.screen==='history') content=renderHistory();
+
+  app.innerHTML=`
+    <div class="topbar">
+      <div class="brand"><h1>Year 9 Maths</h1><span class="chapter-tag">practice book</span></div>
+      <div style="display:flex;gap:8px;">
+        <div class="iconbtn" onclick="goHistory()" title="History">☷</div>
+      </div>
+    </div>
+    ${content}
+  `;
+}
+function diffDots(d){
+  let s='';
+  for(let i=1;i<=4;i++) s+= i<=d?'●':'○';
+  return s;
+}
+function renderHome(){
+  const chaptersHtml=CHAPTERS.map(c=>{
+    const sel=state.selectedChapters.includes(c.id);
+    const count=GEN_ENTRIES.filter(e=>e.chapter===c.id).length;
+    return `<div class="chapter-row ${state.mode==='choose'&&sel?'selected':''}" onclick="toggleChapter('${c.id}')">
+      <div class="chapter-num">0${c.chapter}</div>
+      <div>
+        <div class="chapter-label">${c.label}</div>
+        <div class="chapter-sub">${count} question types</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="page">
+    <div class="eyebrow">New practice set</div>
+    <div class="section-title">Ready for some practice?</div>
+    <div class="muted">Covers the full Year 9 curriculum — number, algebra, graphs (including chart and graph reading), ratio, geometry, and probability & statistics — with fresh multiple-choice questions every time, from foundation level up to GCSE-style challenge questions.</div>
+
+    <div class="mode-toggle">
+      <div class="mode-btn ${state.mode==='full'?'active':''}" onclick="setMode('full')">Full curriculum, random</div>
+      <div class="mode-btn ${state.mode==='choose'?'active':''}" onclick="setMode('choose')">Choose chapters</div>
+    </div>
+
+    ${state.mode==='choose'?`<div class="chapters">${chaptersHtml}</div>`:''}
+
+    <div class="eyebrow" style="margin-top:22px;">Difficulty (●○○○ foundation → ●●●● challenge)</div>
+    <div class="mode-toggle">
+      <div class="mode-btn ${state.difficultyPattern==='increasing'?'active':''}" onclick="setDifficultyPattern('increasing')">Increasing (easy → hard)</div>
+      <div class="mode-btn ${state.difficultyPattern==='mixed'?'active':''}" onclick="setDifficultyPattern('mixed')">Mixed random</div>
+    </div>
+
+    <div class="eyebrow" style="margin-top:22px;">How many questions?</div>
+    <div class="count-row">
+      ${[5,10,15].map(n=>`<div class="count-btn ${state.questionCount===n?'active':''}" onclick="setCount(${n})">${n}</div>`).join('')}
+    </div>
+
+    <button class="btn-primary" onclick="startQuiz()">Start practice →</button>
+  </div>
+  ${state.history.length?renderRecentStrip():''}
+  `;
+}
+function renderRecentStrip(){
+  const last=state.history[0];
+  const pct=Math.round(last.correct/last.total*100);
+  return `<div class="muted" style="margin-top:16px;text-align:center;">Last set: ${last.correct}/${last.total} (${pct}%) on ${last.date} — <a href="#" onclick="goHistory();return false;" style="color:var(--ink);">view history</a></div>`;
+}
+function renderQuiz(){
+  const q=state.quiz;
+  const question=q.questions[q.index];
+  const pct=Math.round(((q.index)/q.questions.length)*100);
+  const choicesHtml=question.choices.map((c,i)=>{
+    let cls='choice';
+    if(q.answered!==null){
+      cls+=' disabled';
+      if(i===question.correctIndex) cls+=' correct';
+      else if(i===q.answered) cls+=' wrong';
+    }
+    return `<div class="${cls}" onclick="answerQuestion(${i})">
+      <div class="letter">${String.fromCharCode(65+i)}</div>
+      <div>${c}</div>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="page">
+    <div class="quiz-progress">
+      <span class="qnum">Q${q.index+1} / ${q.questions.length}</span>
+      <div class="ruler"><div class="ruler-fill" style="width:${pct}%"></div></div>
+      <span class="qnum">${q.correctCount} correct</span>
+    </div>
+    <div class="topic-row">
+      <span class="topic-chip">${question.topic}</span>
+      <span class="diff-dots" title="Difficulty">${diffDots(question.difficulty||1)}</span>
+    </div>
+    <div class="question-text">${question.text}</div>
+    <div class="choices">${choicesHtml}</div>
+    ${q.answered!==null?`<div class="explain">${question.explanation}</div><button class="btn-primary" onclick="nextQuestion()">${q.index+1<q.questions.length?'Next question →':'See summary →'}</button>`:''}
+  </div>
+  `;
+}
+function renderSummary(){
+  const entry=state.lastEntry;
+  const pct=Math.round(entry.correct/entry.total*100);
+  const rows=Object.entries(entry.breakdown).map(([topic,st])=>{
+    const p=Math.round(st.correct/st.total*100);
+    return `<div class="breakdown-row">
+      <div class="breakdown-label">${topic}</div>
+      <div class="breakdown-bar"><div class="breakdown-fill ${p<60?'weak':''}" style="width:${p}%"></div></div>
+      <div class="breakdown-val">${st.correct}/${st.total}</div>
+    </div>`;
+  }).join('');
+
+  const {subject,body}=buildSummaryText(entry);
+  const fullText=`Subject: ${subject}\n\n${body}`;
+  const canShare= typeof navigator!=='undefined' && !!navigator.share;
+
+  const primaryAction= canShare
+    ? `<button class="btn-primary" onclick="shareSummary(state.lastEntry)">Share summary →</button>`
+    : '';
+
+  return `
+  <div class="page">
+    <div class="eyebrow">Set complete</div>
+    <div class="summary-hero">
+      <div class="summary-score">${entry.correct}/${entry.total}</div>
+      <div class="summary-pct">${pct}% correct · ${entry.mode}</div>
+    </div>
+    <div class="breakdown">${rows}</div>
+
+    <div class="eyebrow" style="margin-top:22px;">Share your results</div>
+    ${primaryAction}
+    <div class="muted" style="margin-top:12px;">Copy the summary and paste it anywhere — Messages, WhatsApp, notes, email, and more:</div>
+    <textarea class="field-input" id="summary-textarea" readonly style="height:120px;margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;resize:vertical;">${fullText}</textarea>
+    <button class="btn-secondary" onclick="copySummaryText(this)">Copy summary text</button>
+
+    <div class="footer-links">
+      <button class="btn-secondary" onclick="goHome()">Practice again</button>
+      <button class="btn-secondary" onclick="goHistory()">View history</button>
+    </div>
+  </div>
+  `;
+}
+function renderHistory(){
+  const items=state.history.length?state.history.map(h=>{
+    const pct=Math.round(h.correct/h.total*100);
+    return `<div class="history-item">
+      <div>
+        <div class="history-score">${h.correct}/${h.total} <span style="color:var(--ink-soft);font-weight:500;font-size:13px;">(${pct}%)</span></div>
+        <div class="history-date">${h.date} · ${h.mode}</div>
+      </div>
+    </div>`;
+  }).join(''):`<div class="empty-state">No practice sets yet — finish one and it'll show up here.</div>`;
+
+  return `
+  <div class="page">
+    <div class="eyebrow">Progress</div>
+    <div class="section-title">Practice history</div>
+    <div style="margin-top:18px;">${items}</div>
+    ${state.history.length?'<button class="btn-secondary" onclick="confirmClearHistory()">Clear history</button>':''}
+    <button class="btn-secondary" onclick="goHome()">Back home</button>
+  </div>
+  `;
+}
+/* ==================== Event handlers ==================== */
+function setMode(m){ state.mode=m; render(); }
+function setCount(n){ state.questionCount=n; render(); }
+function setDifficultyPattern(p){ state.difficultyPattern=p; render(); }
+function toggleChapter(id){
+  if(state.selectedChapters.includes(id)) state.selectedChapters=state.selectedChapters.filter(c=>c!==id);
+  else state.selectedChapters=[...state.selectedChapters,id];
+  render();
+}
+function goHome(){ state.screen='home'; render(); }
+function goHistory(){ state.screen='history'; render(); }
+function confirmClearHistory(){
+  if(confirm('Clear all saved practice history? This cannot be undone.')) clearHistory();
+}
+
+window.startQuiz=startQuiz;
+window.answerQuestion=answerQuestion;
+window.nextQuestion=nextQuestion;
+window.shareSummary=shareSummary;
+window.copySummaryText=copySummaryText;
+window.setMode=setMode;
+window.setCount=setCount;
+window.setDifficultyPattern=setDifficultyPattern;
+window.toggleChapter=toggleChapter;
+window.goHome=goHome;
+window.goHistory=goHistory;
+window.confirmClearHistory=confirmClearHistory;
+window.state=state;
+
+try{ loadInitial(); }catch(e){ state.screen='home'; render(); }
+setTimeout(()=>{ if(state.screen==='loading'){ state.screen='home'; render(); } }, 3000);
+</script>
+</body>
+</html>
