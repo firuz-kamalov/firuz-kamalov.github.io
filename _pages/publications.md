@@ -7,7 +7,15 @@ author_profile: true
 
 {% include base_path %}
 
-## 1. Explainable AI (XAI)
+### Topics
+1. [Explainable AI (XAI)](#xai)
+2. [Imbalanced Data](#imbalanced-data)
+3. [AI in Education](#ai-in-education)
+4. [Feature Selection](#feature-selection)
+
+---
+
+## <a name="xai"></a>1. Explainable AI (XAI)
 
 ### Path-sampled integrated gradients
 *   **Abstract:** We introduce path-sampled integrated gradients (PS-IG), a framework that generalizes feature attribution by computing the expected value over baselines sampled along the linear interpolation path. We prove that PS-IG is mathematically equivalent to path-weighted integrated gradients, provided the weighting function matches the cumulative distribution function of the sampling density. This equivalence allows the stochastic expectation to be evaluated via a deterministic Riemann sum, improving the error convergence rate from O(m-1/2) to O(m-1) for smooth models. Furthermore, we demonstrate analytically that PS-IG functions as a variance-reducing filter against gradient noise---strictly lowering attribution variance by a factor of 1/3 under uniform sampling - while preserving key axiomatic properties such as linearity and implementation invariance.
@@ -21,7 +29,7 @@ author_profile: true
 
 ---
 
-## 2. Imbalanced Data
+## <a name="imbalanced-data"></a>2. Imbalanced Data
 
 ### Kernel density estimation based sampling for imbalanced class distribution
 *   **Abstract:** Imbalanced response variable distribution is a common occurrence in data science. In fields such as fraud detection, medical diagnostics, system intrusion detection and many others where abnormal behavior is rarely observed the data under study often features disproportionate target class distribution. One common way to combat class imbalance is through resampling of the minority class to achieve a more balanced distribution. In this paper, we investigate the performance of the sampling method based on kernel density estimation (KDE). We believe that KDE offers a more natural way to generate new instances of minority class that is less prone to overfitting than other standard sampling techniques. It is based on a well established theory of nonparametric statistical estimation. Numerical experiments show that KDE can outperform other sampling techniques on a range of real life datasets as measured by F1-score and G-mean. The results remain consistent across a number of classification algorithms used in the experiments. Furthermore, the proposed method outperforms the benchmark methods irregardless of the class distribution ratio. We conclude, based on the solid theoretical foundation and strong experimental results, that the proposed method would be a valuable tool in problems involving imbalanced class distribution.
@@ -35,7 +43,7 @@ author_profile: true
 
 ---
 
-## 3. AI in Education
+## <a name="ai-in-education"></a>3. AI in Education
 
 ### Evolution of AI in Education: Agentic Workflows
 *   **Abstract:** The primary goal of this study is to analyze agentic workflows in education according to the proposed four major technological paradigms: reflection, planning, tool use, and multi-agent collaboration. We critically examine the role of AI agents in education through these key design paradigms, exploring their advantages, applications, and challenges. Second, to illustrate the practical potential of agentic systems, we present a proof-of-concept application: a multi-agent framework for automated essay scoring. Preliminary results suggest this agentic approach may offer improved consistency compared to stand-alone LLMs. Our findings highlight the transformative potential of AI agents in educational settings while underscoring the need for further research into their interpretability and trustworthiness.
@@ -49,7 +57,7 @@ author_profile: true
 
 ---
 
-## 4. Feature Selection
+## <a name="feature-selection"></a>4. Feature Selection
 
 ### Mathematical methods in feature selection: A review
 *   **Abstract:** Feature selection is essential in machine learning and data science. Recently, there has been a growing effort to apply various mathematical methods to construct novel feature selection algorithms. In this study, we present a comprehensive state-of-the-art review of such techniques. We propose a new mathematical framework-based taxonomy to group the existing literature and provide an analysis of the research in each category from a mathematical perspective. The key frameworks discussed include variance-based methods, regularization methods, and Bayesian methods. By analyzing the strengths and limitations of each technique, we provide insights into their applicability across various domains. The review concludes with emerging trends and future research directions for mathematical methods in feature selection.
@@ -60,5 +68,3 @@ author_profile: true
 ### Feature selection in imbalanced data
 *   **Abstract:** The traditional feature selection methods are not suitable for imbalanced data as they tend to be biased towards the majority class. This problem is particularly acute in the field of medical diagnostics and fraud detection where the class distribution is highly skewed. In this paper, we propose a novel filter approach using decision tree-based F1-score. The F1-score incorporates the accuracy with respect to the minority class data and hence is a good measure in the case of imbalanced data. In the proposed implementation, the F1-score is calculated based on a 1-dimensional decision tree classifier resulting in a fast and effective feature evaluation method. Numerical experiments confirm that the proposed method achieves robust dimensionality reduction and accuracy results. In addition, the low computational complexity of the algorithm makes it a practical choice for big data applications.
 *   **Citation:** Annals of Data Science (2023). [https://doi.org/10.1007/s40745-021-00366-5](https://doi.org/10.1007/s40745-021-00366-5).
-
-
