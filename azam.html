@@ -150,6 +150,14 @@
   .breakdown-fill.weak{background:var(--margin);}
   .breakdown-val{font-family:'IBM Plex Mono',monospace;font-size:12px;width:40px;text-align:right;color:var(--ink-soft);}
   .history-item{padding:12px 14px;border:1.5px solid var(--grid);border-radius:10px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+  .review-list{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+  .review-link{
+    display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:10px;
+    border:1.5px solid var(--grid);text-decoration:none;color:var(--ink);font-size:13.5px;
+    transition:border-color .15s;
+  }
+  .review-link:hover{border-color:var(--ink-soft);}
+  .review-q{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .history-date{font-size:12.5px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;}
   .history-score{font-family:'Space Grotesk';font-weight:700;font-size:16px;}
   .empty-state{text-align:center;padding:30px 10px;color:var(--ink-soft);font-size:14px;}
@@ -217,35 +225,84 @@ function finalize(topicLabel,subtopic,text,correctVal,distractorVals,explanation
 function svgWrap(width,height,inner){
   return `<svg viewBox="0 0 ${width} ${height}" width="100%" style="max-width:320px;height:auto;display:block;margin:14px auto;background:#fff;border-radius:10px;">${inner}</svg>`;
 }
-function chartFrame(xMin,xMax,yMin,yMax,xStep,yStep,width,height){
+function pickNiceStep(range, targetLines){
+  // Rounds a raw "step size" up to a friendly grid interval (1, 2, 5, 10, 20, 50 ...).
+  const raw = range / Math.max(1, targetLines);
+  const mag = Math.pow(10, Math.floor(Math.log10(raw || 1)));
+  const norm = raw / mag;
+  const niceNorm = norm < 1.5 ? 1 : norm < 3 ? 2 : norm < 7 ? 5 : 10;
+  return niceNorm * mag;
+}
+function chartFrame(xMin,xMax,yMin,yMax,xStep,yStep,width,height,equalScale){
   width=width||300; height=height||240;
+  // Bounds so a chart never gets absurdly tall/narrow when a data range is extreme.
+  const MAX_HEIGHT=360, MIN_PLOT_W=140;
   const m={left:34,right:14,top:14,bottom:28};
-  const pw=width-m.left-m.right, ph=height-m.top-m.bottom;
+  const availW=width-m.left-m.right, availH0=height-m.top-m.bottom;
+  const xRange=xMax-xMin, yRange=yMax-yMin;
+  equalScale = equalScale!==false;
+
+  let scale, scaleX, scaleY, pw, ph, finalWidth, finalHeight;
+  if(equalScale){
+    // Use the SAME pixel-per-unit scale on both axes. If the x and y axes were
+    // scaled differently (as before), a line's on-screen angle no longer matches
+    // its true gradient — e.g. a slope of 2 could be drawn looking flatter than a
+    // slope of 1. Solving for one shared scale keeps every grid square a true
+    // square, so gradients and shapes are always drawn to true scale.
+    scale=availW/xRange;
+    finalHeight=Math.round(yRange*scale+m.top+m.bottom);
+    if(finalHeight>MAX_HEIGHT){
+      scale=(MAX_HEIGHT-m.top-m.bottom)/yRange;
+      finalHeight=MAX_HEIGHT;
+    }
+    pw=xRange*scale;
+    if(pw<MIN_PLOT_W){
+      scale=MIN_PLOT_W/xRange;
+      pw=MIN_PLOT_W;
+      finalHeight=Math.round(yRange*scale+m.top+m.bottom);
+    }
+    ph=yRange*scale;
+    finalWidth=Math.round(pw+m.left+m.right);
+    scaleX=scale; scaleY=scale;
+  }else{
+    // Axes represent different kinds of quantity (e.g. time vs. distance), so
+    // there's no "true" shared scale to preserve — size each axis to fill the
+    // box independently, same as a normal chart.
+    pw=availW; ph=availH0;
+    scaleX=pw/xRange; scaleY=ph/yRange;
+    finalWidth=width; finalHeight=height;
+  }
+
   function toPx(x,y){
     return {
-      x: m.left + (x-xMin)/(xMax-xMin)*pw,
-      y: m.top + ph - (y-yMin)/(yMax-yMin)*ph
+      x: m.left + (x-xMin)*scaleX,
+      y: m.top + ph - (y-yMin)*scaleY
     };
   }
+  // Grid-line spacing still adapts per axis (so labels never overlap), but
+  // when equalScale is on, the underlying scale above is shared, so every
+  // 1x1 unit cell is a true square regardless of how many lines get drawn.
+  const autoXStep = xStep || pickNiceStep(xRange, Math.max(2, pw/48));
+  const autoYStep = yStep || pickNiceStep(yRange, Math.max(2, ph/34));
+
   let grid='';
-  // Aligned starting points so that 0 is always hit by the grid loop if it exists
-  const startX = Math.ceil(xMin / xStep) * xStep;
-  for(let gx=startX; gx<=xMax+0.001; gx+=xStep){
+  const startX = Math.ceil(xMin / autoXStep) * autoXStep;
+  for(let gx=startX; gx<=xMax+1e-6; gx+=autoXStep){
     const p=toPx(gx,yMin);
     grid+=`<line x1="${p.x}" y1="${m.top}" x2="${p.x}" y2="${m.top+ph}" stroke="#E4ECF8" stroke-width="1"/>`;
-    grid+=`<text x="${p.x}" y="${m.top+ph+16}" font-size="9" fill="#5A6B8C" text-anchor="middle" font-family="IBM Plex Mono, monospace">${Math.round(gx)}</text>`;
+    grid+=`<text x="${p.x}" y="${m.top+ph+16}" font-size="9" fill="#5A6B8C" text-anchor="middle" font-family="IBM Plex Mono, monospace">${Math.round(gx*100)/100}</text>`;
   }
-  const startY = Math.ceil(yMin / yStep) * yStep;
-  for(let gy=startY; gy<=yMax+0.001; gy+=yStep){
+  const startY = Math.ceil(yMin / autoYStep) * autoYStep;
+  for(let gy=startY; gy<=yMax+1e-6; gy+=autoYStep){
     const p=toPx(xMin,gy);
     grid+=`<line x1="${m.left}" y1="${p.y}" x2="${m.left+pw}" y2="${p.y}" stroke="#E4ECF8" stroke-width="1"/>`;
-    grid+=`<text x="${m.left-6}" y="${p.y+3}" font-size="9" fill="#5A6B8C" text-anchor="end" font-family="IBM Plex Mono, monospace">${Math.round(gy)}</text>`;
+    grid+=`<text x="${m.left-6}" y="${p.y+3}" font-size="9" fill="#5A6B8C" text-anchor="end" font-family="IBM Plex Mono, monospace">${Math.round(gy*100)/100}</text>`;
   }
   let axes='';
   if(0>=xMin&&0<=xMax){ const px=toPx(0,yMin); axes+=`<line x1="${px.x}" y1="${m.top}" x2="${px.x}" y2="${m.top+ph}" stroke="#1B2A4A" stroke-width="1.5"/>`; }
   if(0>=yMin&&0<=yMax){ const py=toPx(xMin,0); axes+=`<line x1="${m.left}" y1="${py.y}" x2="${m.left+pw}" y2="${py.y}" stroke="#1B2A4A" stroke-width="1.5"/>`; }
   const border=`<rect x="${m.left}" y="${m.top}" width="${pw}" height="${ph}" fill="none" stroke="#CBDBF2" stroke-width="1"/>`;
-  return {toPx, width, height, svgBase: border+grid+axes, margin:m, plotW:pw, plotH:ph};
+  return {toPx, width:finalWidth, height:finalHeight, svgBase: border+grid+axes, margin:m, plotW:pw, plotH:ph, scaleX, scaleY};
 }
 function polarToCartesian(cx,cy,r,angleDeg){
   const rad=(angleDeg-90)*Math.PI/180;
@@ -353,6 +410,38 @@ function genFractions(){
   ];
   const explanation=`Common denominator ${l}: ${n1}/${d1} = ${n1*(l/d1)}/${l}, ${n2}/${d2} = ${n2*(l/d2)}/${l}. Result simplifies to ${correct}.`;
   return finalize('Number','fractions',text,correct,distractors,explanation);
+}
+function genFractionsMultiply(){
+  const d1=randInt(2,9), n1=randInt(1,d1-1);
+  const d2=randInt(2,9), n2=randInt(1,d2-1);
+  const rawNum=n1*n2, rawDen=d1*d2;
+  const g=gcd(rawNum,rawDen)||1;
+  const simpN=rawNum/g, simpD=rawDen/g;
+  const correct= simpD===1? `${simpN}` : `${simpN}/${simpD}`;
+  const text=`Work out ${n1}/${d1} × ${n2}/${d2}. Give your answer in its simplest form.`;
+  const distractors=[
+    simpD!==rawDen? `${rawNum}/${rawDen}` : `${rawNum+1}/${rawDen}`,
+    `${n1+n2}/${d1+d2}`,
+    `${n1*d2}/${d1*n2}`
+  ];
+  const explanation=`Multiply the numerators and denominators: (${n1}×${n2})/(${d1}×${d2}) = ${rawNum}/${rawDen}, which simplifies to ${correct}.`;
+  return finalize('Number','fractionsMultiply',text,correct,distractors,explanation);
+}
+function genFractionsDivide(){
+  const d1=randInt(2,9), n1=randInt(1,d1-1);
+  const d2=randInt(2,9), n2=randInt(1,d2-1);
+  const rawNum=n1*d2, rawDen=d1*n2;
+  const g=gcd(rawNum,rawDen)||1;
+  const simpN=rawNum/g, simpD=rawDen/g;
+  const correct= simpD===1? `${simpN}` : `${simpN}/${simpD}`;
+  const text=`Work out ${n1}/${d1} ÷ ${n2}/${d2}. Give your answer in its simplest form.`;
+  const distractors=[
+    simpD!==rawDen? `${rawNum}/${rawDen}` : `${rawNum+1}/${rawDen}`,
+    `${rawDen}/${rawNum}`,
+    `${n1*n2}/${d1*d2}`
+  ];
+  const explanation=`Dividing by a fraction means multiplying by its reciprocal: ${n1}/${d1} × ${d2}/${n2} = (${n1}×${d2})/(${d1}×${n2}) = ${rawNum}/${rawDen}, which simplifies to ${correct}.`;
+  return finalize('Number','fractionsDivide',text,correct,distractors,explanation);
 }
 function toOrdinary(m,e){
   if(e>=1) return String(m*Math.pow(10,e));
@@ -627,15 +716,15 @@ function genGradientFromPoints(){
   return finalize('Graphs','gradientFromPoints',text,correct,distractors,explanation);
 }
 function genGradientFromGraph(){
-  const m=choice([-3,-2,-1,1,2,3]);
+  const m=choice([-2,-1,1,2]);
   const c=randInt(-4,4);
   const xMin=-5,xMax=5;
   const yAtMin=m*xMin+c, yAtMax=m*xMax+c;
   const yMin=Math.floor(Math.min(yAtMin,yAtMax))-1, yMax=Math.ceil(Math.max(yAtMin,yAtMax))+1;
-  const frame=chartFrame(xMin,xMax,yMin,yMax,1,Math.max(1,Math.round((yMax-yMin)/6)),300,240);
+  const frame=chartFrame(xMin,xMax,yMin,yMax,null,null,300,240);
   const p1=frame.toPx(xMin,yAtMin), p2=frame.toPx(xMax,yAtMax);
   const line=`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#1B2A4A" stroke-width="2.5"/>`;
-  const svg=svgWrap(300,240, frame.svgBase+line);
+  const svg=svgWrap(frame.width,frame.height, frame.svgBase+line);
   const text=`${svg}<div>Find the gradient of the line shown.</div>`;
   const correct=m;
   const distractors=[-m,c,m+1,m-1];
@@ -648,14 +737,14 @@ function genReadCoordinate(){
   const xMin=-5,xMax=5;
   const yAtMin=m*xMin+c, yAtMax=m*xMax+c;
   const yMin=Math.floor(Math.min(yAtMin,yAtMax))-1, yMax=Math.ceil(Math.max(yAtMin,yAtMax))+1;
-  const frame=chartFrame(xMin,xMax,yMin,yMax,1,Math.max(1,Math.round((yMax-yMin)/6)),300,240);
+  const frame=chartFrame(xMin,xMax,yMin,yMax,null,null,300,240);
   const p1=frame.toPx(xMin,yAtMin), p2=frame.toPx(xMax,yAtMax);
   const targetX=randInt(-3,3);
   const targetY=m*targetX+c;
   const marker=frame.toPx(targetX,targetY);
   const line=`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#1B2A4A" stroke-width="2.5"/>`;
   const dash=`<line x1="${marker.x}" y1="${frame.margin.top}" x2="${marker.x}" y2="${marker.y}" stroke="#D9635C" stroke-width="1.5" stroke-dasharray="4,3"/>`;
-  const svg=svgWrap(300,240, frame.svgBase+line+dash);
+  const svg=svgWrap(frame.width,frame.height, frame.svgBase+line+dash);
   const text=`${svg}<div>Using the graph, find the value of y when x = ${targetX}.</div>`;
   const correct=targetY;
   const distractors=[targetY+1,targetY-1,targetX,-targetY];
@@ -663,15 +752,15 @@ function genReadCoordinate(){
   return finalize('Graphs','readCoordinate',text,correct,distractors,explanation);
 }
 function genMatchEquation(){
-  const m=choice([-2,-1,1,2,3]);
+  const m=choice([-2,-1,1,2]);
   const c=randInt(-3,3);
   const xMin=-5,xMax=5;
   const yAtMin=m*xMin+c, yAtMax=m*xMax+c;
   const yMin=Math.floor(Math.min(yAtMin,yAtMax))-1, yMax=Math.ceil(Math.max(yAtMin,yAtMax))+1;
-  const frame=chartFrame(xMin,xMax,yMin,yMax,1,Math.max(1,Math.round((yMax-yMin)/6)),300,240);
+  const frame=chartFrame(xMin,xMax,yMin,yMax,null,null,300,240);
   const p1=frame.toPx(xMin,yAtMin), p2=frame.toPx(xMax,yAtMax);
   const line=`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#1B2A4A" stroke-width="2.5"/>`;
-  const svg=svgWrap(300,240, frame.svgBase+line);
+  const svg=svgWrap(frame.width,frame.height, frame.svgBase+line);
   const text=`${svg}<div>Which equation matches the line shown?</div>`;
   const fmt=(mm,cc)=>`y = ${mm}x ${cc>=0?'+':'−'} ${Math.abs(cc)}`;
   const correct=fmt(m,c);
@@ -786,11 +875,13 @@ function genDistanceTime(){
   const speed2=randInt(5,25);
   const d3=d1+speed2*t3choice;
   const xMin=0,xMax=t3+1,yMin=0,yMax=d3+10;
-  const frame=chartFrame(xMin,xMax,yMin,yMax,1,Math.ceil(yMax/6),300,240);
+  // Time (hours) and distance (units) are different quantities, so this chart
+  // uses independent axis scales rather than the equal-scale coordinate grid.
+  const frame=chartFrame(xMin,xMax,yMin,yMax,1,Math.ceil(yMax/6),300,240,false);
   const pts=[[0,0],[t1,d1],[t2,d1],[t3,d3]].map(([x,y])=>frame.toPx(x,y));
   const path=pts.map((p,i)=>`${i===0?'M':'L'} ${p.x} ${p.y}`).join(' ');
   const lineSvg=`<path d="${path}" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>`+pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3" fill="#D9635C"/>`).join('');
-  const svg=svgWrap(300,240, frame.svgBase+lineSvg);
+  const svg=svgWrap(frame.width,frame.height, frame.svgBase+lineSvg);
   const askWhat=choice(['speed1','fastLeg','stopDuration']);
   let text,correct,distractors,explanation;
   const legALabel=`0–${t1} hrs`, legBLabel=`${t2}–${t3} hrs`;
@@ -821,11 +912,11 @@ function genQuadraticGraph(){
   for(let x=xMin;x<=xMax+0.001;x+=0.5){ pts.push([x,(x-p)*(x-p)+q]); }
   const yVals=pts.map(pt=>pt[1]);
   const yMin=Math.floor(Math.min(...yVals))-1, yMax=Math.ceil(Math.max(...yVals))+1;
-  const frame=chartFrame(xMin,xMax,yMin,yMax,2,Math.max(1,Math.round((yMax-yMin)/6)),300,240);
+  const frame=chartFrame(xMin,xMax,yMin,yMax,null,null,300,240);
   const pxPts=pts.map(([x,y])=>frame.toPx(x,y));
   const path=pxPts.map((pp,i)=>`${i===0?'M':'L'} ${pp.x} ${pp.y}`).join(' ');
   const curve=`<path d="${path}" fill="none" stroke="#1B2A4A" stroke-width="2.5"/>`;
-  const svg=svgWrap(300,240, frame.svgBase+curve);
+  const svg=svgWrap(frame.width,frame.height, frame.svgBase+curve);
   const text=`${svg}<div>The graph shows y = (x − ${p})² ${q>=0?'+':'−'} ${Math.abs(q)}. What are the coordinates of the turning point?</div>`;
   const correct=`(${p}, ${q})`;
   const distractors=[`(${-p}, ${q})`,`(${p}, ${-q})`,`(${q}, ${p})`];
@@ -1001,24 +1092,24 @@ function genCircle(){
 function genTransformations(){
   const type=choice(['translate','reflectX','reflectY']);
   const px=randInt(-4,4), py=randInt(-4,4);
-  let qx,qy,text;
-  const width=220,height=220;
-  const frame=chartFrame(-6,6,-6,6,2,2,width,height);
+  let qx,qy,question;
+  const frame=chartFrame(-6,6,-6,6,2,2,220,220);
   const origPt=frame.toPx(px,py);
   if(type==='translate'){
     let vx=randInt(-3,3); if(vx===0)vx=1;
     let vy=randInt(-3,3); if(vy===0)vy=1;
     qx=px+vx; qy=py+vy;
-    text=`Point A is at (${px}, ${py}). It is translated by the vector (${vx}, ${vy}). What are the coordinates of the image point?`;
+    question=`Point A is at (${px}, ${py}). It is translated by the vector (${vx}, ${vy}). What are the coordinates of the image point?`;
   }else if(type==='reflectX'){
     qx=px; qy=-py;
-    text=`Point A is at (${px}, ${py}). It is reflected in the x-axis. What are the coordinates of the image point?`;
+    question=`Point A is at (${px}, ${py}). It is reflected in the x-axis. What are the coordinates of the image point?`;
   }else{
     qx=-px; qy=py;
-    text=`Point A is at (${px}, ${py}). It is reflected in the y-axis. What are the coordinates of the image point?`;
+    question=`Point A is at (${px}, ${py}). It is reflected in the y-axis. What are the coordinates of the image point?`;
   }
   const dots=`<circle cx="${origPt.x}" cy="${origPt.y}" r="4" fill="#1B2A4A"/><text x="${origPt.x+6}" y="${origPt.y-6}" font-size="10" font-family="Inter">A</text>`;
-  const svg=svgWrap(width,height, frame.svgBase+dots);
+  const svg=svgWrap(frame.width,frame.height, frame.svgBase+dots);
+  const text=`${svg}<div>${question}</div>`;
   const correct=`(${qx}, ${qy})`;
   const distractors=[`(${qy}, ${qx})`,`(${-qx}, ${qy})`,`(${qx}, ${-qy})`];
   const explanation=type==='translate'?`Add the translation vector to the coordinates of A to get (${qx}, ${qy}).`:type==='reflectX'?`Reflecting in the x-axis keeps x the same and flips the sign of y: (${qx}, ${qy}).`:`Reflecting in the y-axis keeps y the same and flips the sign of x: (${qx}, ${qy}).`;
@@ -1193,6 +1284,8 @@ const GEN_ENTRIES=[
   {chapter:'number', sub:'roundingSigFig', diff:1, fn:genRoundingSF},
   {chapter:'number', sub:'percentagesOf', diff:1, fn:genPercentOf},
   {chapter:'number', sub:'fractions', diff:2, fn:genFractions},
+  {chapter:'number', sub:'fractionsMultiply', diff:2, fn:genFractionsMultiply},
+  {chapter:'number', sub:'fractionsDivide', diff:2, fn:genFractionsDivide},
   {chapter:'number', sub:'percentagesChange', diff:2, fn:genPercentChange},
   {chapter:'number', sub:'standardForm', diff:2, fn:genStandardForm},
   {chapter:'number', sub:'primeFactorsHCFLCM', diff:2, fn:genHCFLCM},
@@ -1281,7 +1374,8 @@ const state={
   difficultyPattern:'increasing',
   quiz:null,
   history:[],
-  lastEntry:null
+  lastEntry:null,
+  reviewIndex:null
 };
 
 async function loadInitial(){
@@ -1333,7 +1427,7 @@ function startQuiz(){
     q.difficulty=entry.diff;
     return q;
   });
-  state.quiz={questions,index:0,correctCount:0,answered:null,breakdown:{}};
+  state.quiz={questions,index:0,correctCount:0,answered:null,breakdown:{},answers:new Array(questions.length).fill(null)};
   state.screen='quiz';
   render();
 }
@@ -1341,6 +1435,7 @@ function answerQuestion(choiceIdx){
   const q=state.quiz;
   if(q.answered!==null) return;
   q.answered=choiceIdx;
+  q.answers[q.index]=choiceIdx;
   const question=q.questions[q.index];
   const isCorrect=choiceIdx===question.correctIndex;
   if(isCorrect) q.correctCount++;
@@ -1356,8 +1451,10 @@ function nextQuestion(){
 }
 async function finishQuiz(){
   const q=state.quiz;
+  const now=new Date();
   const entry={
-    id:uid(), ts:Date.now(), date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),
+    id:uid(), ts:now.getTime(), date:now.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),
+    time:now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}),
     total:q.questions.length, correct:q.correctCount, breakdown:q.breakdown,
     mode:state.mode==='full'?'Full curriculum':state.selectedChapters.map(id=>CHAPTERS.find(c=>c.id===id).label).join(', ')
   };
@@ -1398,6 +1495,15 @@ function copySummaryText(btn){
   }
 }
 
+function questionPreviewText(html){
+  let t=String(html||'').replace(/<svg[\s\S]*?<\/svg>/g,'');
+  t=t.replace(/<br\s*\/?>/gi,' ');
+  t=t.replace(/<[^>]+>/g,' ');
+  t=t.replace(/\s+/g,' ').trim();
+  if(t.length>90) t=t.slice(0,87)+'…';
+  return t;
+}
+
 /* ==================== Rendering ==================== */
 function render(){
   const app=document.getElementById('app');
@@ -1407,6 +1513,7 @@ function render(){
   if(state.screen==='home') content=renderHome();
   else if(state.screen==='quiz') content=renderQuiz();
   else if(state.screen==='summary') content=renderSummary();
+  else if(state.screen==='review') content=renderReview();
   else if(state.screen==='history') content=renderHistory();
 
   app.innerHTML=`
@@ -1437,7 +1544,7 @@ function renderHome(){
   <div class="page">
     <div class="eyebrow">New practice set</div>
     <div class="section-title">Ready for some practice?</div>
-    <div class="muted">Covers the full Year 9 curriculum — number, algebra, graphs (including chart and graph reading), ratio, geometry, and probability & statistics — with fresh multiple-choice questions every time, from foundation level up to GCSE-style challenge questions.</div>
+    <div class="muted">genius is 1% talent and 99% hard work</div>
 
     <div class="mode-toggle">
       <div class="mode-btn ${state.mode==='full'?'active':''}" onclick="setMode('full')">Full curriculum, random</div>
@@ -1448,7 +1555,7 @@ function renderHome(){
 
     <div class="eyebrow" style="margin-top:22px;">How many questions?</div>
     <div class="count-row">
-      ${[5,10,15].map(n=>`<div class="count-btn ${state.questionCount===n?'active':''}" onclick="setCount(${n})">${n}</div>`).join('')}
+      ${[5,10,30].map(n=>`<div class="count-btn ${state.questionCount===n?'active':''}" onclick="setCount(${n})">${n}</div>`).join('')}
     </div>
 
     <button class="btn-primary" onclick="startQuiz()">Start practice →</button>
@@ -1514,6 +1621,21 @@ function renderSummary(){
     ? `<button class="btn-primary" onclick="shareSummary(state.lastEntry)">Share summary →</button>`
     : '';
 
+  const quiz=state.quiz;
+  const wrongIdxs= quiz? quiz.questions.map((qq,i)=>i).filter(i=>quiz.answers[i]!==quiz.questions[i].correctIndex) : [];
+  const reviewHtml= wrongIdxs.length
+    ? `<div class="eyebrow" style="margin-top:22px;">Questions to review (${wrongIdxs.length})</div>
+       <div class="review-list">
+         ${wrongIdxs.map(i=>{
+           const qq=quiz.questions[i];
+           return `<a href="#" class="review-link" onclick="reviewQuestion(${i});return false;">
+             <span class="topic-chip">${qq.topic}</span>
+             <span class="review-q">Q${i+1}: ${questionPreviewText(qq.text)}</span>
+           </a>`;
+         }).join('')}
+       </div>`
+    : `<div class="eyebrow" style="margin-top:22px;">Questions to review</div><div class="muted">Nice work — every question was answered correctly!</div>`;
+
   return `
   <div class="page">
     <div class="eyebrow">Set complete</div>
@@ -1522,6 +1644,8 @@ function renderSummary(){
       <div class="summary-pct">${pct}% correct · ${entry.mode}</div>
     </div>
     <div class="breakdown">${rows}</div>
+
+    ${reviewHtml}
 
     <div class="eyebrow" style="margin-top:22px;">Share your results</div>
     ${primaryAction}
@@ -1536,13 +1660,41 @@ function renderSummary(){
   </div>
   `;
 }
+function renderReview(){
+  const quiz=state.quiz;
+  const idx=state.reviewIndex;
+  const question=quiz.questions[idx];
+  const answered=quiz.answers[idx];
+  const choicesHtml=question.choices.map((c,i)=>{
+    let cls='choice disabled';
+    if(i===question.correctIndex) cls+=' correct';
+    else if(i===answered) cls+=' wrong';
+    return `<div class="${cls}">
+      <div class="letter">${String.fromCharCode(65+i)}</div>
+      <div>${c}</div>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="page">
+    <div class="eyebrow">Reviewing question ${idx+1} of ${quiz.questions.length}</div>
+    <div class="topic-row">
+      <span class="topic-chip">${question.topic}</span>
+    </div>
+    <div class="question-text">${question.text}</div>
+    <div class="choices">${choicesHtml}</div>
+    <div class="explain">${question.explanation}</div>
+    <button class="btn-primary" onclick="backToSummary()">← Back to summary</button>
+  </div>
+  `;
+}
 function renderHistory(){
   const items=state.history.length?state.history.map(h=>{
     const pct=Math.round(h.correct/h.total*100);
     return `<div class="history-item">
       <div>
         <div class="history-score">${h.correct}/${h.total} <span style="color:var(--ink-soft);font-weight:500;font-size:13px;">(${pct}%)</span></div>
-        <div class="history-date">${h.date} · ${h.mode}</div>
+        <div class="history-date">${h.date}${h.time?' · '+h.time:''} · ${h.mode}</div>
       </div>
     </div>`;
   }).join(''):`<div class="empty-state">No practice sets yet — finish one and it'll show up here.</div>`;
@@ -1570,6 +1722,8 @@ function goHistory(){ state.screen='history'; render(); }
 function confirmClearHistory(){
   if(confirm('Clear all saved practice history? This cannot be undone.')) clearHistory();
 }
+function reviewQuestion(idx){ state.reviewIndex=idx; state.screen='review'; render(); }
+function backToSummary(){ state.screen='summary'; render(); }
 
 window.startQuiz=startQuiz;
 window.answerQuestion=answerQuestion;
@@ -1582,6 +1736,8 @@ window.toggleChapter=toggleChapter;
 window.goHome=goHome;
 window.goHistory=goHistory;
 window.confirmClearHistory=confirmClearHistory;
+window.reviewQuestion=reviewQuestion;
+window.backToSummary=backToSummary;
 window.state=state;
 
 try{ loadInitial(); }catch(e){ state.screen='home'; render(); }
