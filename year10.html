@@ -1,0 +1,2605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Year 10 Math — GCSE Practice Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EEF3EC;
+    --grid:#D2E0CE;
+    --paper:#FFFFFF;
+    --ink:#1F2E28;
+    --ink-soft:#5E7169;
+    --margin:#C25E4E;
+    --accent:#2F7A5B;
+    --accent-soft:#E3F1EA;
+    --correct:#2F8F5B;
+    --correct-bg:#E4F5EC;
+    --wrong:#C1443B;
+    --wrong-bg:#FBE7E5;
+    --chip:#E1EBDD;
+    --line:#E2EBE0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, var(--grid) 27px, var(--grid) 28px),
+      repeating-linear-gradient(90deg, transparent, transparent 27px, var(--grid) 27px, var(--grid) 28px),
+      var(--bg);
+    min-height:100vh;
+    padding:24px 16px 60px;
+    -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:720px;margin:0 auto;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;margin:0;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px;}
+  .brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .brand h1{font-size:22px;letter-spacing:-0.02em;}
+  .brand .chapter-tag{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);}
+  .iconbtn{
+    background:var(--paper);border:1px solid var(--grid);border-radius:10px;
+    min-width:38px;height:38px;padding:0 10px;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:15px;color:var(--ink-soft);user-select:none;
+  }
+  .iconbtn:hover{border-color:var(--ink-soft);}
+  .page{
+    background:var(--paper);
+    border-radius:6px;
+    position:relative;
+    padding:28px 26px 28px 46px;
+    box-shadow:0 1px 2px rgba(31,46,40,0.06), 0 8px 24px rgba(31,46,40,0.07);
+    border:1px solid var(--line);
+  }
+  .page::before{content:'';position:absolute;left:26px;top:0;bottom:0;width:1px;background:var(--margin);opacity:0.5;}
+  .page::after{
+    content:'';position:absolute;left:11px;top:22px;bottom:22px;width:8px;
+    background-image:radial-gradient(circle, var(--bg) 3px, transparent 3.2px);
+    background-size:8px 26px;background-repeat:repeat-y;
+  }
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+  .section-title{font-size:20px;margin-bottom:4px;letter-spacing:-0.01em;}
+  .muted{color:var(--ink-soft);font-size:14px;line-height:1.55;}
+  .seg{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+  .seg-btn{
+    flex:1 1 auto;min-width:120px;text-align:center;padding:10px 12px;border-radius:10px;
+    border:1.5px solid var(--grid);cursor:pointer;font-size:13px;font-weight:600;color:var(--ink-soft);
+    background:var(--paper);transition:border-color .15s, background .15s, color .15s;user-select:none;
+  }
+  .seg-btn:hover{border-color:var(--ink-soft);}
+  .seg-btn.active{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);}
+  .seg-btn .sub{display:block;font-weight:500;font-size:11px;opacity:.8;margin-top:2px;font-family:'IBM Plex Mono',monospace;}
+  .chapters{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+  .chapter-row{
+    display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:10px;
+    border:1.5px solid var(--grid);cursor:pointer;transition:border-color .15s, background .15s;user-select:none;
+  }
+  .chapter-row:hover{border-color:var(--ink-soft);}
+  .chapter-row.selected{border-color:var(--accent);background:var(--accent-soft);}
+  .chapter-row.empty{opacity:.42;cursor:not-allowed;}
+  .chapter-num{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-soft);width:24px;flex:none;}
+  .chapter-label{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;}
+  .chapter-sub{font-size:12px;color:var(--ink-soft);margin-top:1px;}
+  .count-row{display:flex;gap:8px;margin-top:8px;}
+  .count-btn{
+    flex:1;text-align:center;padding:11px 0;border-radius:10px;border:1.5px solid var(--grid);
+    cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--ink-soft);user-select:none;
+  }
+  .count-btn.active{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);}
+  .btn-primary{
+    width:100%;margin-top:22px;padding:14px;border:none;border-radius:10px;background:var(--accent);
+    color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;cursor:pointer;
+  }
+  .btn-primary:hover{filter:brightness(1.06);}
+  .btn-ghost{
+    width:100%;margin-top:10px;padding:12px;border:1.5px solid var(--grid);border-radius:10px;background:var(--paper);
+    color:var(--ink-soft);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;cursor:pointer;
+  }
+  .btn-ghost:hover{border-color:var(--ink-soft);}
+  .quiz-progress{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .qnum{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);white-space:nowrap;}
+  .ruler{flex:1;height:6px;background:var(--chip);border-radius:99px;overflow:hidden;}
+  .ruler-fill{height:100%;background:var(--accent);transition:width .25s;}
+  .topic-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+  .topic-chip{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--chip);color:var(--ink-soft);
+    padding:4px 9px;border-radius:99px;letter-spacing:.02em;
+  }
+  .topic-chip.only{background:#FBEFD9;color:#7A5A12;}
+  .question-text{font-size:17px;line-height:1.6;margin-bottom:16px;}
+  .question-text .num{font-family:'IBM Plex Mono',monospace;}
+  .choices{display:flex;flex-direction:column;gap:9px;}
+  .choice{
+    display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;
+    border:1.5px solid var(--grid);cursor:pointer;font-size:15px;transition:border-color .12s, background .12s;
+  }
+  .choice:hover{border-color:var(--ink-soft);}
+  .choice .letter{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);
+    width:24px;height:24px;flex:none;border-radius:6px;background:var(--chip);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .choice.disabled{cursor:default;}
+  .choice.disabled:hover{border-color:var(--grid);}
+  .choice.correct{border-color:var(--correct);background:var(--correct-bg);}
+  .choice.correct .letter{background:var(--correct);color:#fff;}
+  .choice.wrong{border-color:var(--wrong);background:var(--wrong-bg);}
+  .choice.wrong .letter{background:var(--wrong);color:#fff;}
+  .explain{
+    margin-top:16px;padding:14px 16px;border-radius:10px;background:var(--accent-soft);
+    font-size:14px;line-height:1.6;border-left:3px solid var(--accent);
+  }
+  .explain b{font-weight:600;}
+  .breakdown-row{display:flex;align-items:center;gap:10px;margin-top:9px;}
+  .breakdown-label{font-size:13px;width:150px;flex:none;color:var(--ink-soft);}
+  .breakdown-bar{flex:1;height:8px;background:var(--chip);border-radius:99px;overflow:hidden;}
+  .breakdown-fill{height:100%;background:var(--correct);}
+  .breakdown-fill.weak{background:var(--margin);}
+  .breakdown-val{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);width:42px;text-align:right;flex:none;}
+  .score-big{font-family:'Space Grotesk',sans-serif;font-size:44px;letter-spacing:-0.03em;}
+  .score-sub{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-soft);}
+  .review-item{border-top:1px solid var(--line);padding:14px 0;}
+  .review-item:first-of-type{border-top:none;}
+  .review-q{font-size:14px;line-height:1.55;margin-bottom:6px;}
+  .review-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border-radius:99px;}
+  .review-tag.ok{background:var(--correct-bg);color:var(--correct);}
+  .review-tag.no{background:var(--wrong-bg);color:var(--wrong);}
+  .review-ans{font-size:13px;color:var(--ink-soft);line-height:1.6;}
+  .history-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);}
+  .history-row:first-of-type{border-top:none;}
+  .empty-state{text-align:center;color:var(--ink-soft);padding:40px 0;font-size:14px;}
+  table.qtable{border-collapse:collapse;margin:14px 0;font-family:'IBM Plex Mono',monospace;font-size:13px;}
+  table.qtable th,table.qtable td{border:1px solid var(--grid);padding:6px 10px;text-align:center;}
+  table.qtable th{background:var(--chip);font-weight:600;}
+  .scroll-x{overflow-x:auto;}
+  sup{font-size:.72em;}
+  .note{font-size:12px;color:var(--ink-soft);margin-top:14px;line-height:1.5;}
+  a{color:var(--accent);}
+
+  /* ---- typed answers ---- */
+  .type-row{display:flex;gap:8px;margin-top:4px;}
+  .type-input{
+    flex:1;padding:13px 14px;border-radius:10px;border:1.5px solid var(--grid);
+    font-family:'IBM Plex Mono',monospace;font-size:16px;background:var(--paper);color:var(--ink);
+  }
+  .type-input:focus{outline:none;border-color:var(--accent);}
+  .type-input.ok{border-color:var(--correct);background:var(--correct-bg);}
+  .type-input.no{border-color:var(--wrong);background:var(--wrong-bg);}
+  .btn-check{
+    padding:0 20px;border:none;border-radius:10px;background:var(--accent);color:#fff;
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;cursor:pointer;
+  }
+  .verdict{margin-top:10px;font-size:14px;font-weight:600;}
+  .verdict.ok{color:var(--correct);}
+  .verdict.no{color:var(--wrong);}
+
+  /* ---- dark theme ---- */
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#151A18; --grid:#232B27; --paper:#1C2320; --ink:#E8EFE9; --ink-soft:#93A79C;
+      --margin:#8C4A3E; --accent:#5FBF8F; --accent-soft:#1F3A2E;
+      --correct:#5FBF8F; --correct-bg:#1E3A2C; --wrong:#E4796F; --wrong-bg:#3A2320;
+      --chip:#26302B; --line:#2A332E;
+    }
+    :root:not([data-theme="light"]) .btn-primary,
+    :root:not([data-theme="light"]) .btn-check{color:#10201A;}
+    :root:not([data-theme="light"]) .page svg{background:#F7FAF7 !important;border-radius:10px;}
+  }
+  :root[data-theme="dark"]{
+    --bg:#151A18;
+    --grid:#232B27;
+    --paper:#1C2320;
+    --ink:#E8EFE9;
+    --ink-soft:#93A79C;
+    --margin:#8C4A3E;
+    --accent:#5FBF8F;
+    --accent-soft:#1F3A2E;
+    --correct:#5FBF8F;
+    --correct-bg:#1E3A2C;
+    --wrong:#E4796F;
+    --wrong-bg:#3A2320;
+    --chip:#26302B;
+    --line:#2A332E;
+  }
+  :root[data-theme="dark"] .btn-primary,:root[data-theme="dark"] .btn-check{color:#10201A;}
+  :root[data-theme="dark"] svg{filter:invert(0);}
+  :root[data-theme="dark"] .page svg{background:#F7FAF7 !important;border-radius:10px;}
+
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+/* ==================== Utilities ==================== */
+function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function choice(arr){return arr[randInt(0,arr.length-1)];}
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=randInt(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;}
+function gcd(a,b){a=Math.abs(Math.round(a));b=Math.abs(Math.round(b));while(b){[a,b]=[b,a%b];}return a||1;}
+function lcm(a,b){return Math.abs(a*b)/gcd(a,b);}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+function nonZero(min,max){let v=0;while(v===0)v=randInt(min,max);return v;}
+function round(x,dp){const f=Math.pow(10,dp);return Math.round(x*f)/f;}
+function fmt(x,dp){ if(dp===undefined) dp=2; const r=round(x,dp); return String(r); }
+function sgn(n){return n<0?'− '+Math.abs(n):'+ '+n;}
+function coef(n,v){ if(n===1) return v; if(n===-1) return '−'+v; return (n<0?'−'+Math.abs(n):String(n))+v; }
+function term(n,v){ if(n===0) return ''; if(v==='') return constTerm(n); return (n>0?' + ':' − ')+(Math.abs(n)===1?v:Math.abs(n)+v); }
+function constTerm(n){ if(n===0) return ''; return (n>0?' + ':' − ')+Math.abs(n); }
+function poly(a,b,c,v){
+  v=v||'x';
+  let s=coef(a,v+'<sup>2</sup>');
+  s+=term(b,v);
+  if(c!==0) s+=(c>0?' + ':' − ')+Math.abs(c);
+  return s;
+}
+function neg(n){return n<0?'('+n+')':String(n);}
+function frac(n,d){const g=gcd(n,d);let nn=n/g,dd=d/g;if(dd<0){nn=-nn;dd=-dd;}return dd===1?String(nn):nn+'/'+dd;}
+function simplifyFrac(n,d){const g=gcd(n,d);let nn=n/g,dd=d/g;if(dd<0){nn=-nn;dd=-dd;}return [nn,dd];}
+
+/* Builds the multiple-choice object. Pads to four distinct options by nudging the
+   correct value, so a generator never has to invent filler distractors itself. */
+function extractNumberParts(str){
+  const m=String(str).match(/-?\d+(\.\d+)?/);
+  if(!m) return null;
+  return {before:String(str).slice(0,m.index), numStr:m[0], after:String(str).slice(m.index+m[0].length)};
+}
+function numericVariant(str, offset){
+  const parts=extractNumberParts(str);
+  if(!parts) return null;
+  const isDecimal=parts.numStr.includes('.');
+  const decimals=isDecimal? parts.numStr.split('.')[1].length : 0;
+  const newNum=parseFloat(parts.numStr)+offset;
+  const newNumStr= decimals>0? newNum.toFixed(decimals) : String(Math.round(newNum));
+  return parts.before+newNumStr+parts.after;
+}
+/* Canonical value of an answer string, used to guarantee that no distractor is
+   mathematically EQUAL to the correct answer (the classic "1/2 vs 2/4" bug).
+   Returns a comparable key: numbers compare by value, fractions by value,
+   coordinate pairs and root-lists by their sorted numeric contents, and anything
+   else by a whitespace/symbol-normalised string. */
+function stripMarkup(s){
+  return String(s)
+    .replace(/<sup>([^<]*)<\/sup>/g,'^$1')
+    .replace(/<sub>([^<]*)<\/sub>/g,'_$1')
+    .replace(/<[^>]*>/g,'')
+    .replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/&nbsp;/g,' ')
+    .replace(/[−–—]/g,'-')
+    .replace(/×/g,'*').replace(/÷/g,'/')
+    .trim();
+}
+function normText(s){ return stripMarkup(s).toLowerCase().replace(/\s+/g,''); }
+function parseNumeric(tok){
+  const t=String(tok).replace(/\s+/g,'');
+  let m=t.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return null; return parseFloat(m[1])/d; }
+  m=t.match(/^-?\d+(?:\.\d+)?$/);
+  if(m) return parseFloat(t);
+  return null;
+}
+function canonicalKey(str){
+  const s=stripMarkup(str);
+  const compact=s.replace(/\s+/g,'');
+  /* coordinate pair, e.g. (2, -5) */
+  let m=compact.match(/^\((-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)\)$/);
+  if(m) return 'pt:'+parseFloat(m[1]).toFixed(6)+','+parseFloat(m[2]).toFixed(6);
+  /* one or more "x = value" answers, in any order */
+  const eqs=[...compact.matchAll(/([a-z](?:\^-?1)?)=(-?\d+(?:\.\d+)?(?:\/-?\d+(?:\.\d+)?)?)/g)];
+  if(eqs.length && eqs.length*2>=compact.replace(/[^=]/g,'').length){
+    const vals=eqs.map(e=>{ const v=parseNumeric(e[2]); return v===null?e[2]:v.toFixed(6); }).sort();
+    return 'eq:'+eqs[0][1]+':'+vals.join('|');
+  }
+  /* bare value, optionally wrapped in a currency/unit label */
+  const numMatch=compact.match(/^([^\d\-]*)(-?\d+(?:\.\d+)?(?:\/-?\d+(?:\.\d+)?)?)([^\d]*)$/);
+  if(numMatch){
+    const v=parseNumeric(numMatch[2]);
+    if(v!==null){
+      const unit=(numMatch[1]+numMatch[3]).toLowerCase().replace(/[^a-z%^0-9]/g,'');
+      return 'num:'+unit+':'+v.toFixed(6);
+    }
+  }
+  /* surd forms: k*sqrt(m) written as "6√2" */
+  m=compact.match(/^(-?\d*)√(\d+)$/);
+  if(m){
+    const k=m[1]===''||m[1]==='-'? (m[1]+'1') : m[1];
+    return 'surd:'+(parseFloat(k)*Math.sqrt(parseFloat(m[2]))).toFixed(6);
+  }
+  return 'str:'+compact.toLowerCase();
+}
+function finalize(topicLabel,subtopic,text,correctVal,distractorVals,explanation){
+  const correctStr=String(correctVal);
+  const correctKey=canonicalKey(correctStr);
+  const seen=new Set([correctKey]);
+  const uniq=[];
+  (distractorVals||[]).forEach(d=>{
+    const s=String(d);
+    if(s===''||s==='NaN'||s==='undefined'||s==='null'||/NaN|undefined|Infinity/.test(s)) return;
+    const k=canonicalKey(s);
+    if(seen.has(k)) return;      /* equal in value to the answer, or to another option */
+    seen.add(k); uniq.push(s);
+  });
+  /* Pad with value-shifted variants of the answer, still checking for collisions. */
+  let offsetTry=1, guard=0;
+  while(uniq.length<3 && guard<80){
+    guard++;
+    const sign=offsetTry%2===0?-1:1;
+    const magnitude=Math.ceil(offsetTry/2);
+    offsetTry++;
+    let candidate=numericVariant(correctStr, sign*magnitude);
+    if(candidate===null) continue;
+    const fm=candidate.match(/^(-?\d+)\/(\d+)$/);          /* keep padded fractions in lowest terms */
+    if(fm) candidate=frac(parseInt(fm[1],10),parseInt(fm[2],10));
+    const k=canonicalKey(candidate);
+    if(seen.has(k)||/NaN|undefined/.test(candidate)) continue;
+    seen.add(k); uniq.push(candidate);
+  }
+  while(uniq.length<3){ const filler=correctStr+' '+'′'.repeat(uniq.length+1); uniq.push(filler); }
+  const all=shuffle([correctStr,...uniq.slice(0,3)]);
+  return {topic:topicLabel,subtopic,text,choices:all,correctIndex:all.indexOf(correctStr),explanation:explanation||''};
+}
+
+/* ==================== Diagram helpers (inline SVG) ==================== */
+const SVG_INK='#1F2E28', SVG_SOFT='#5E7169', SVG_GRID='#E2EBE0', SVG_ACCENT='#2F7A5B', SVG_MARK='#C25E4E';
+function svgWrap(width,height,inner,maxW){
+  return '<svg viewBox="0 0 '+width+' '+height+'" width="100%" style="max-width:'+(maxW||330)+'px;height:auto;display:block;margin:14px auto;background:#fff;border-radius:10px;" xmlns="http://www.w3.org/2000/svg">'+inner+'</svg>';
+}
+function txt(x,y,s,opts){
+  opts=opts||{};
+  return '<text x="'+x+'" y="'+y+'" font-size="'+(opts.size||11)+'" fill="'+(opts.fill||SVG_SOFT)+'" text-anchor="'+(opts.anchor||'middle')+'" font-family="IBM Plex Mono, monospace">'+s+'</text>';
+}
+function pickNiceStep(range, targetLines){
+  const raw = range / Math.max(1, targetLines);
+  const mag = Math.pow(10, Math.floor(Math.log10(raw || 1)));
+  const norm = raw / mag;
+  const niceNorm = norm < 1.5 ? 1 : norm < 3 ? 2 : norm < 7 ? 5 : 10;
+  return niceNorm * mag;
+}
+/* Uses one shared pixels-per-unit scale on both axes when equalScale is on, so a
+   drawn gradient matches its true gradient and squares stay square. */
+function chartFrame(xMin,xMax,yMin,yMax,xStep,yStep,width,height,equalScale){
+  width=width||320; height=height||250;
+  const MAX_HEIGHT=330, MIN_PLOT_W=150;
+  const m={left:34,right:14,top:14,bottom:28};
+  const availW=width-m.left-m.right, availH0=height-m.top-m.bottom;
+  const xRange=xMax-xMin, yRange=yMax-yMin;
+  equalScale = equalScale!==false;
+  let scaleX,scaleY,pw,ph,finalWidth,finalHeight,scale;
+  if(equalScale){
+    scale=availW/xRange;
+    finalHeight=Math.round(yRange*scale+m.top+m.bottom);
+    if(finalHeight>MAX_HEIGHT){ scale=(MAX_HEIGHT-m.top-m.bottom)/yRange; finalHeight=MAX_HEIGHT; }
+    pw=xRange*scale;
+    if(pw<MIN_PLOT_W){ scale=MIN_PLOT_W/xRange; pw=MIN_PLOT_W; finalHeight=Math.round(yRange*scale+m.top+m.bottom); }
+    ph=yRange*scale; finalWidth=Math.round(pw+m.left+m.right); scaleX=scale; scaleY=scale;
+  }else{
+    pw=availW; ph=availH0; scaleX=pw/xRange; scaleY=ph/yRange; finalWidth=width; finalHeight=height;
+  }
+  function toPx(x,y){ return {x:m.left+(x-xMin)*scaleX, y:m.top+ph-(y-yMin)*scaleY}; }
+  const autoXStep = xStep || pickNiceStep(xRange, Math.max(2, pw/48));
+  const autoYStep = yStep || pickNiceStep(yRange, Math.max(2, ph/34));
+  let grid='';
+  for(let gx=Math.ceil(xMin/autoXStep)*autoXStep; gx<=xMax+1e-6; gx+=autoXStep){
+    const p=toPx(gx,yMin);
+    grid+='<line x1="'+p.x+'" y1="'+m.top+'" x2="'+p.x+'" y2="'+(m.top+ph)+'" stroke="'+SVG_GRID+'" stroke-width="1"/>';
+    grid+=txt(p.x, m.top+ph+16, Math.round(gx*100)/100, {size:9});
+  }
+  for(let gy=Math.ceil(yMin/autoYStep)*autoYStep; gy<=yMax+1e-6; gy+=autoYStep){
+    const p=toPx(xMin,gy);
+    grid+='<line x1="'+m.left+'" y1="'+p.y+'" x2="'+(m.left+pw)+'" y2="'+p.y+'" stroke="'+SVG_GRID+'" stroke-width="1"/>';
+    grid+=txt(m.left-6, p.y+3, Math.round(gy*100)/100, {size:9, anchor:'end'});
+  }
+  let axes='';
+  if(0>=xMin&&0<=xMax){ const px=toPx(0,yMin); axes+='<line x1="'+px.x+'" y1="'+m.top+'" x2="'+px.x+'" y2="'+(m.top+ph)+'" stroke="'+SVG_INK+'" stroke-width="1.5"/>'; }
+  if(0>=yMin&&0<=yMax){ const py=toPx(xMin,0); axes+='<line x1="'+m.left+'" y1="'+py.y+'" x2="'+(m.left+pw)+'" y2="'+py.y+'" stroke="'+SVG_INK+'" stroke-width="1.5"/>'; }
+  const border='<rect x="'+m.left+'" y="'+m.top+'" width="'+pw+'" height="'+ph+'" fill="none" stroke="'+SVG_GRID+'" stroke-width="1"/>';
+  return {toPx, width:finalWidth, height:finalHeight, svgBase:border+grid+axes, margin:m, plotW:pw, plotH:ph, scaleX, scaleY};
+}
+/* Draws y = fn(x) as an SVG path, breaking the path wherever the curve leaves the
+   plotted window. Without the break, an off-screen section gets joined by a straight
+   line and the drawn graph no longer matches its equation. */
+function plotCurve(f,fn,xMin,xMax,yMin,yMax,step){
+  step=step||(xMax-xMin)/200;
+  let d='', pen=false;
+  for(let x=xMin; x<=xMax+1e-9; x+=step){
+    const y=fn(x);
+    if(!isFinite(y)||y<yMin||y>yMax){ pen=false; continue; }
+    const p=f.toPx(x,y);
+    d+=(pen?'L ':'M ')+p.x.toFixed(2)+' '+p.y.toFixed(2)+' ';
+    pen=true;
+  }
+  return d;
+}
+function polarToCartesian(cx,cy,r,angleDeg){
+  const rad=(angleDeg-90)*Math.PI/180;
+  return {x:cx+r*Math.cos(rad), y:cy+r*Math.sin(rad)};
+}
+function describeArc(cx,cy,r,startAngle,endAngle){
+  const start=polarToCartesian(cx,cy,r,endAngle);
+  const end=polarToCartesian(cx,cy,r,startAngle);
+  const largeArcFlag = endAngle-startAngle <= 180 ? '0':'1';
+  return 'M '+cx+' '+cy+' L '+start.x+' '+start.y+' A '+r+' '+r+' 0 '+largeArcFlag+' 0 '+end.x+' '+end.y+' Z';
+}
+function rightTriangleSVG(labels){
+  /* labels: {base, height, hyp, angle} — any may be a string or null.
+     Right angle at the bottom-left; the marked angle (if any) is at the
+     bottom-right vertex, which is the angle the trig labels refer to. */
+  const x0=54,y0=168,w=186,h=112;
+  let s='<polygon points="'+x0+','+y0+' '+(x0+w)+','+y0+' '+x0+','+(y0-h)+'" fill="#F4F9F3" stroke="'+SVG_INK+'" stroke-width="1.6"/>';
+  s+='<path d="M '+(x0+13)+' '+y0+' L '+(x0+13)+' '+(y0-13)+' L '+x0+' '+(y0-13)+'" fill="none" stroke="'+SVG_SOFT+'" stroke-width="1.2"/>';
+  if(labels.base) s+=txt(x0+w/2, y0+19, labels.base, {fill:SVG_INK});
+  if(labels.height) s+=txt(x0-9, y0-h/2+4, labels.height, {fill:SVG_INK, anchor:'end'});
+  /* the hypotenuse label sits just outside the sloped side, not inside the shape */
+  if(labels.hyp) s+=txt(x0+w/2+30, y0-h/2-14, labels.hyp, {fill:SVG_INK});
+  if(labels.angle){
+    const vx=x0+w, vy=y0, r=30;
+    const ax=Math.atan2(h,w);                      /* the sloped side rises to the left */
+    s+='<path d="M '+(vx-r)+' '+vy+' A '+r+' '+r+' 0 0 1 '+(vx-r*Math.cos(ax))+' '+(vy-r*Math.sin(ax))+'" fill="none" stroke="'+SVG_MARK+'" stroke-width="1.4"/>';
+    s+=txt(vx-46, vy-11, labels.angle, {fill:SVG_MARK});
+  }
+  return svgWrap(292,198,s,300);
+}
+function barChartSVG(cats,vals,ylabel){
+  const W=320,H=210,left=38,bottom=34,top=14,right=10;
+  const max=Math.max(...vals), step=pickNiceStep(max,4);
+  const yMax=Math.ceil(max/step)*step;
+  const pw=W-left-right, ph=H-top-bottom;
+  let s='';
+  for(let g=0; g<=yMax+1e-9; g+=step){
+    const y=top+ph-(g/yMax)*ph;
+    s+='<line x1="'+left+'" y1="'+y+'" x2="'+(left+pw)+'" y2="'+y+'" stroke="'+SVG_GRID+'"/>'+txt(left-6,y+3,g,{size:9,anchor:'end'});
+  }
+  const bw=pw/cats.length;
+  cats.forEach((c,i)=>{
+    const bh=(vals[i]/yMax)*ph;
+    s+='<rect x="'+(left+i*bw+bw*0.18)+'" y="'+(top+ph-bh)+'" width="'+(bw*0.64)+'" height="'+bh+'" fill="'+SVG_ACCENT+'" opacity="0.8"/>';
+    s+=txt(left+i*bw+bw/2, top+ph+15, c, {size:9});
+  });
+  s+='<line x1="'+left+'" y1="'+(top+ph)+'" x2="'+(left+pw)+'" y2="'+(top+ph)+'" stroke="'+SVG_INK+'" stroke-width="1.4"/>';
+  s+='<line x1="'+left+'" y1="'+top+'" x2="'+left+'" y2="'+(top+ph)+'" stroke="'+SVG_INK+'" stroke-width="1.4"/>';
+  if(ylabel) s+=txt(left,top-3,ylabel,{size:9,anchor:'start'});
+  return svgWrap(W,H,s);
+}
+
+/* ==================== 1. Number ==================== */
+function genRoundingSF(){
+  const mode=choice(['dp','sf']);
+  if(mode==='dp'){
+    /* the raw value must have more decimals than we round to, or there is nothing to do */
+    let thousandths=randInt(1000,999999);
+    if(thousandths%10===0) thousandths+=randInt(1,9);
+    const raw=thousandths/1000;
+    const places=choice([1,2]);
+    const correct=raw.toFixed(places);
+    const distractors=[raw.toFixed(places===1?2:1),(raw+(places===1?0.1:0.01)).toFixed(places),String(Math.floor(raw))];
+    return finalize('Number','roundingSigFig','Round <span class="num">'+raw+'</span> to '+places+' decimal place'+(places>1?'s':'')+'.',correct,distractors,
+      'Look at the digit in the next decimal place. If it is 5 or more, round up. Answer: <b>'+correct+'</b>.');
+  }
+  const raw=randInt(1000,98765);
+  const sf=choice([1,2,3]);
+  function roundSF(n,sig){ if(n===0)return 0; const d=Math.ceil(Math.log10(Math.abs(n))+1e-9); const p=Math.pow(10,sig-d); return Math.round(n*p)/p; }
+  const correct=roundSF(raw,sf);
+  if(correct===raw) return genRoundingSF();   /* already at that many significant figures */
+  return finalize('Number','roundingSigFig','Round <span class="num">'+raw+'</span> to '+sf+' significant figure'+(sf>1?'s':'')+'.',correct,
+    [roundSF(raw,sf+1),roundSF(raw,Math.max(1,sf-1)),raw],
+    'Count '+sf+' significant figure'+(sf>1?'s':'')+' from the first non-zero digit, then round and fill with zeros: <b>'+correct+'</b>.');
+}
+function genEstimation(){
+  const a=randInt(21,89)*10+randInt(1,9);
+  const b=randInt(11,49);
+  const a1=Number(a.toPrecision(1)), b1=Number(b.toPrecision(1));
+  const correct=a1*b1;
+  return finalize('Number','estimation','Estimate the value of <span class="num">'+a+' × '+b+'</span> by rounding each number to 1 significant figure.',correct,
+    [a*b, a1*b, Number((a*b).toPrecision(1))],
+    a+' ≈ '+a1+' and '+b+' ≈ '+b1+', so the estimate is '+a1+' × '+b1+' = <b>'+correct+'</b>.');
+}
+function genHCFLCM(){
+  const primes=[2,3,5,7];
+  const shared=choice(primes)*choice([1,choice(primes)]);
+  const p=shuffle(primes);
+  const a=shared*p[0], b=shared*p[1];
+  if(a===b) return genHCFLCM();
+  const want=choice(['HCF','LCM']);
+  const correct= want==='HCF'? gcd(a,b) : lcm(a,b);
+  const other= want==='HCF'? lcm(a,b) : gcd(a,b);
+  return finalize('Number','primeFactorsHCFLCM','Find the '+want+' of <span class="num">'+a+'</span> and <span class="num">'+b+'</span>.',correct,
+    [other,a*b,Math.abs(a-b)],
+    'Write each as a product of primes. HCF = '+gcd(a,b)+', LCM = '+lcm(a,b)+'. The '+want+' is <b>'+correct+'</b>.');
+}
+function genIndicesLaws(){
+  const type=choice(['mul','div','pow']);
+  const c1=randInt(2,6), c2=randInt(2,6);
+  const a=randInt(2,7), b=randInt(2,5);
+  if(type==='mul'){
+    const correct=(c1*c2)+'x<sup>'+(a+b)+'</sup>';
+    return finalize('Number','indicesLaws','Simplify <span class="num">'+c1+'x<sup>'+a+'</sup> × '+c2+'x<sup>'+b+'</sup></span>.',correct,
+      [(c1*c2)+'x<sup>'+(a*b)+'</sup>',(c1+c2)+'x<sup>'+(a+b)+'</sup>',(c1*c2)+'x<sup>'+Math.abs(a-b)+'</sup>'],
+      'Multiply the numbers and <b>add</b> the powers: '+c1+'×'+c2+' = '+(c1*c2)+' and x<sup>'+a+'</sup>×x<sup>'+b+'</sup> = x<sup>'+(a+b)+'</sup>.');
+  }
+  if(type==='div'){
+    const big=Math.max(a,b)+b, small=b;
+    const n1=c1*c2, n2=c2;
+    const correct=(n1/n2)+'x<sup>'+(big-small)+'</sup>';
+    return finalize('Number','indicesLaws','Simplify <span class="num">'+n1+'x<sup>'+big+'</sup> ÷ '+n2+'x<sup>'+small+'</sup></span>.',correct,
+      [(n1/n2)+'x<sup>'+(big+small)+'</sup>',(n1-n2)+'x<sup>'+(big-small)+'</sup>',(n1/n2)+'x<sup>'+Math.round(big/small)+'</sup>'],
+      'Divide the numbers and <b>subtract</b> the powers: '+n1+'÷'+n2+' = '+(n1/n2)+' and x<sup>'+big+'</sup>÷x<sup>'+small+'</sup> = x<sup>'+(big-small)+'</sup>.');
+  }
+  const correct=Math.pow(c1,b)+'x<sup>'+(a*b)+'</sup>';
+  return finalize('Number','indicesLaws','Simplify <span class="num">('+c1+'x<sup>'+a+'</sup>)<sup>'+b+'</sup></span>.',correct,
+    [(c1*b)+'x<sup>'+(a*b)+'</sup>',Math.pow(c1,b)+'x<sup>'+(a+b)+'</sup>',c1+'x<sup>'+(a*b)+'</sup>'],
+    'Raise <i>everything</i> inside the bracket to the power '+b+': '+c1+'<sup>'+b+'</sup> = '+Math.pow(c1,b)+' and x<sup>'+a+'×'+b+'</sup> = x<sup>'+(a*b)+'</sup>.');
+}
+function genIndicesNegFrac(){
+  const r=choice([2,3]);
+  const m= r===2? randInt(2,6) : randInt(2,4);
+  const base=Math.pow(m,r);
+  const p=randInt(1,3);
+  const negative=choice([true,false]);
+  const val=Math.pow(m,p);
+  const correct= negative? '1/'+val : String(val);
+  const expText=(negative?'−':'')+p+'/'+r;
+  return finalize('Number','indicesNegFrac','Work out <span class="num">'+base+'<sup>'+expText+'</sup></span>.',correct,
+    [String(negative?val:'1/'+val), String(round(base*p/r,2)), String(m*p)],
+    'The denominator '+r+' means take the '+(r===2?'square':'cube')+' root: '+base+'<sup>1/'+r+'</sup> = '+m+'. Then raise to the power '+p+': '+m+'<sup>'+p+'</sup> = '+val+'.'+
+    (negative?' The minus sign means take the reciprocal, giving <b>1/'+val+'</b>.':' Answer: <b>'+val+'</b>.'));
+}
+function genStandardFormConvert(){
+  const dir=choice(['to','from']);
+  const digits=randInt(1,9)+randInt(1,99)/100;
+  const power=choice([3,4,5,6,-3,-4,-5]);
+  const ordinary=digits*Math.pow(10,power);
+  const ordStr= power>0? String(Math.round(ordinary)) : ordinary.toPrecision(3).replace(/0+$/,'');
+  const sfStr=digits+' × 10<sup>'+power+'</sup>';
+  if(dir==='to'){
+    return finalize('Number','standardForm','Write <span class="num">'+ordStr+'</span> in standard form.',sfStr,
+      [digits+' × 10<sup>'+(power+1)+'</sup>',digits+' × 10<sup>'+(-power)+'</sup>',(digits*10)+' × 10<sup>'+(power-1)+'</sup>'],
+      'Standard form is a × 10<sup>n</sup> with 1 ≤ a &lt; 10. Here a = '+digits+' and the decimal point moves '+Math.abs(power)+' place'+(Math.abs(power)>1?'s':'')+', so n = '+power+'.');
+  }
+  return finalize('Number','standardForm','Write <span class="num">'+sfStr+'</span> as an ordinary number.',ordStr,
+    [String(digits*Math.pow(10,Math.abs(power))),String(digits*Math.pow(10,power+1)),String(digits)+'0'.repeat(Math.abs(power))],
+    'Move the decimal point '+Math.abs(power)+' place'+(Math.abs(power)>1?'s':'')+' to the '+(power>0?'right':'left')+': <b>'+ordStr+'</b>.');
+}
+function genStandardFormCalc(){
+  const a=randInt(2,9), b=randInt(2,9);
+  const m=choice([3,4,5,6]), n=choice([2,3,4,-2,-3]);
+  const op=choice(['mul','div']);
+  let mant, pow;
+  if(op==='mul'){ mant=a*b; pow=m+n; } else { mant=a*b/b; mant=a/b; pow=m-n; }
+  if(op==='div'){ mant=a/b; }
+  let mStr, pStr=pow;
+  if(op==='mul'){
+    if(mant>=10){ mant=mant/10; pStr=pow+1; }
+    mStr=String(round(mant,2));
+  }else{
+    if(mant<1){ mant=mant*10; pStr=pow-1; }
+    mStr=String(round(mant,3));
+  }
+  const correct=mStr+' × 10<sup>'+pStr+'</sup>';
+  const symbol= op==='mul'?'×':'÷';
+  return finalize('Number','standardFormCalc','Work out <span class="num">('+a+' × 10<sup>'+m+'</sup>) '+symbol+' ('+b+' × 10<sup>'+n+'</sup>)</span>. Give your answer in standard form.',correct,
+    [mStr+' × 10<sup>'+(op==='mul'?m+n:m+n)+'</sup>', (op==='mul'?a*b:round(a/b,3))+' × 10<sup>'+(op==='mul'?m+n:m-n)+'</sup>', mStr+' × 10<sup>'+(pStr+1)+'</sup>'],
+    (op==='mul'?'Multiply the front numbers and add the powers':'Divide the front numbers and subtract the powers')+', then adjust so the front number is between 1 and 10: <b>'+correct+'</b>.');
+}
+function genSurdSimplify(){
+  const k=choice([2,3,4,5,6]);
+  const m=choice([2,3,5,6,7,10]);
+  const n=k*k*m;
+  const correct= k===1? '√'+m : k+'√'+m;
+  return finalize('Number','surdSimplify','Simplify <span class="num">√'+n+'</span>.',correct,
+    [(k*m)+'√'+k, k+'√'+(m*k), (k*k)+'√'+m],
+    '√'+n+' = √'+(k*k)+' × √'+m+' = '+k+'√'+m+', because '+(k*k)+' is the largest square factor of '+n+'.');
+}
+function genSurdRationalize(){
+  const b=choice([2,3,5,7]);
+  const k=randInt(2,9);
+  const num=k*b;
+  const correct=k+'√'+b;
+  return finalize('Number','surdRationalize','Rationalize the denominator and simplify: <span class="num">'+num+' / √'+b+'</span>.',correct,
+    [num+'√'+b, k+'√'+(b*b), (num/b)+'/'+b],
+    'Multiply top and bottom by √'+b+': ('+num+'√'+b+')/'+b+' = <b>'+k+'√'+b+'</b>.');
+}
+function genFractionArith(){
+  const type=choice(['add','sub','mul','div']);
+  let d1=randInt(2,9), n1=randInt(1,d1-1);
+  let d2=randInt(2,9), n2=randInt(1,d2-1);
+  let num,den,text,working,wrong;
+  if(type==='add'||type==='sub'){
+    const l=lcm(d1,d2);
+    num= type==='add'? n1*(l/d1)+n2*(l/d2) : n1*(l/d1)-n2*(l/d2);
+    if(type==='sub'&&num<=0) return genFractionArith();
+    den=l;
+    text='Work out <span class="num">'+n1+'/'+d1+' '+(type==='add'?'+':'−')+' '+n2+'/'+d2+'</span>. Give your answer in its simplest form.';
+    working='Use a common denominator of '+l+': '+(n1*(l/d1))+'/'+l+' '+(type==='add'?'+':'−')+' '+(n2*(l/d2))+'/'+l+' = '+num+'/'+l+'.';
+    /* classic error: add or subtract tops and bottoms separately */
+    wrong=[frac(type==='add'?n1+n2:Math.abs(n1-n2), type==='add'?d1+d2:Math.abs(d1-d2)||1), frac(num+1,den), frac(n1*n2,d1*d2)];
+  }else if(type==='mul'){
+    num=n1*n2; den=d1*d2;
+    text='Work out <span class="num">'+n1+'/'+d1+' × '+n2+'/'+d2+'</span>. Give your answer in its simplest form.';
+    working='Multiply the numerators and the denominators: '+num+'/'+den+'.';
+    /* classic error: cross-multiply, or add instead */
+    wrong=[frac(n1*d2,d1*n2), frac(n1+n2,d1+d2), frac(num+1,den)];
+  }else{
+    num=n1*d2; den=d1*n2;
+    text='Work out <span class="num">'+n1+'/'+d1+' ÷ '+n2+'/'+d2+'</span>. Give your answer in its simplest form.';
+    working='Turn the second fraction upside down and multiply: '+n1+'/'+d1+' × '+d2+'/'+n2+' = '+num+'/'+den+'.';
+    /* classic error: forget to flip */
+    wrong=[frac(n1*n2,d1*d2), frac(d1*n2,n1*d2), frac(num+1,den)];
+  }
+  const correct=frac(num,den);
+  return finalize('Number','fractions',text,correct,wrong,
+    working+' In its simplest form that is <b>'+correct+'</b>.');
+}
+function genPercentOf(){
+  const base=20*randInt(1,25), p=5*randInt(1,19);
+  const amount=base*p/100;
+  return finalize('Number','percentagesOf','What is <span class="num">'+p+'%</span> of <span class="num">'+base+'</span>?',amount,
+    [base*p/10, amount+choice([-10,-5,5,10]), base-amount],
+    p+'% of '+base+' = '+p+'/100 × '+base+' = <b>'+amount+'</b>.');
+}
+function genPercentChange(){
+  const mode=choice(['increase','decrease']);
+  const base=20*randInt(1,25), p=5*randInt(1,19);
+  const amount=base*p/100;
+  const correct= mode==='increase'? base+amount : base-amount;
+  const mult=(mode==='increase'?100+p:100-p)/100;
+  return finalize('Number','percentagesChange',(mode==='increase'?'Increase':'Decrease')+' <span class="num">'+base+'</span> by <span class="num">'+p+'%</span>.',correct,
+    [amount, mode==='increase'?base-amount:base+amount, correct+choice([-10,10])],
+    'The quickest way is a multiplier: × '+mult+'. So '+base+' × '+mult+' = <b>'+correct+'</b>.');
+}
+function genReversePercentage(){
+  const p=choice([10,20,25,15,5,40,50,8]);
+  const isIncrease=choice([true,false]);
+  const original=20*randInt(1,20);
+  const result= isIncrease? original*(100+p)/100 : original*(100-p)/100;
+  if(!Number.isInteger(result)) return genReversePercentage();
+  const mult=(isIncrease?100+p:100-p)/100;
+  return finalize('Number','reversePercentage',
+    'After a'+(isIncrease?'n increase':' decrease')+' of <span class="num">'+p+'%</span>, a price is now <span class="num">AED '+result+'</span>. What was the original price?',
+    'AED '+original,
+    ['AED '+Math.round(result-(result*p/100)),'AED '+Math.round(result*(isIncrease?1+p/100:1-p/100)),'AED '+result],
+    'AED '+result+' represents '+(isIncrease?100+p:100-p)+'% of the original, so divide by the multiplier: '+result+' ÷ '+mult+' = <b>AED '+original+'</b>. (Do <i>not</i> just take '+p+'% off.)');
+}
+function genCompoundGrowth(){
+  const kind=choice(['interest','depreciation','population']);
+  const principal=choice([1000,2000,2500,4000,5000,8000,10000]);
+  const rate=choice([2,3,4,5,8,10]);
+  const years=randInt(2,5);
+  const mult= kind==='depreciation'? 1-rate/100 : 1+rate/100;
+  const exact=principal*Math.pow(mult,years);
+  const correct='AED '+exact.toFixed(2);
+  const simple= kind==='depreciation'? principal-principal*rate/100*years : principal+principal*rate/100*years;
+  const story= kind==='interest'? 'AED '+principal+' is invested at <span class="num">'+rate+'%</span> compound interest per year.'
+    : kind==='depreciation'? 'A car worth AED '+principal+' loses <span class="num">'+rate+'%</span> of its value each year.'
+    : 'An investment of AED '+principal+' grows by <span class="num">'+rate+'%</span> each year.';
+  return finalize('Number','compoundGrowth',story+' What is it worth after <span class="num">'+years+' years</span>? Give your answer to 2 decimal places.',correct,
+    ['AED '+simple.toFixed(2),'AED '+(principal*mult).toFixed(2),'AED '+(principal*Math.pow(mult,years+1)).toFixed(2)],
+    'Use the multiplier '+mult+' once per year: '+principal+' × '+mult+'<sup>'+years+'</sup> = <b>'+correct+'</b>. Simple interest would give a different (wrong) answer here.');
+}
+function genRecurringDecimal(){
+  const twoDigit=choice([true,false]);
+  let n,d,shown;
+  if(twoDigit){
+    n=randInt(10,98); if(n%11===0) n++;
+    d=99; shown='0.<span style="text-decoration:overline">'+n+'</span>';
+  }else{
+    n=randInt(1,8); d=9; shown='0.<span style="text-decoration:overline">'+n+'</span>';
+  }
+  const correct=frac(n,d);
+  return finalize('Number','recurringDecimal','Write <span class="num">'+shown+'</span> as a fraction in its simplest form.',correct,
+    [n+'/'+d, frac(n,d===9?10:100), frac(n+1,d)],
+    'Let x = the decimal. Multiplying by '+(d===9?'10':'100')+' and subtracting gives '+(d===9?'9':'99')+'x = '+n+', so x = '+n+'/'+d+' = <b>'+correct+'</b>.');
+}
+function genErrorInterval(){
+  const dp=choice([0,1]);
+  const val= dp===0? randInt(12,89) : randInt(120,890)/10;
+  const half= dp===0? 0.5 : 0.05;
+  const lo=round(val-half,3), hi=round(val+half,3);
+  const correct=lo+' ≤ x &lt; '+hi;
+  const unitTxt= dp===0? 'the nearest whole number' : '1 decimal place';
+  return finalize('Number','errorInterval','A number <span class="num">x</span> is <span class="num">'+val+'</span> rounded to '+unitTxt+'. Write down the error interval for x.',correct,
+    [lo+' ≤ x ≤ '+hi, (val-half*2)+' ≤ x &lt; '+(val+half*2), lo+' &lt; x ≤ '+hi],
+    'The value could be up to '+half+' either side. The lower bound is included but the upper bound is not: <b>'+correct+'</b>.');
+}
+function genBoundsCalc(){
+  const L=randInt(6,19), W=randInt(3,9);
+  const which=choice(['upper','lower']);
+  const lb=(x)=>x-0.5, ub=(x)=>x+0.5;
+  const correct= which==='upper'? round(ub(L)*ub(W),2) : round(lb(L)*lb(W),2);
+  return finalize('Number','bounds',
+    'A rectangle measures <span class="num">'+L+' cm</span> by <span class="num">'+W+' cm</span>, each to the nearest cm. Find the '+which+' bound of its area, in cm<sup>2</sup>.',correct,
+    [L*W, round(which==='upper'?lb(L)*lb(W):ub(L)*ub(W),2), round((L+0.5)*W,2)],
+    'The '+which+' bound of the area uses the '+which+' bound of each length: '+(which==='upper'?ub(L)+' × '+ub(W):lb(L)+' × '+lb(W))+' = <b>'+correct+' cm<sup>2</sup></b>.');
+}
+function genProductRuleCounting(){
+  const a=randInt(3,6), b=randInt(3,7), c=randInt(2,4);
+  const correct=a*b*c;
+  return finalize('Number','productRule',
+    'A restaurant menu offers <span class="num">'+a+'</span> starters, <span class="num">'+b+'</span> main courses and <span class="num">'+c+'</span> desserts. How many different three-course meals are possible?',correct,
+    [a+b+c, a*b, (a*b*c)+choice([-2,2])],
+    'Multiply the number of choices at each stage: '+a+' × '+b+' × '+c+' = <b>'+correct+'</b>.');
+}
+
+/* ==================== 2. Algebra ==================== */
+function brk(p,v){ v=v||'x'; return p>=0? '('+v+' + '+p+')' : '('+v+' − '+Math.abs(p)+')'; }
+function brkA(a,p,v){ v=v||'x'; const lead=(a===1?v:a+v); return p>=0? '('+lead+' + '+p+')' : '('+lead+' − '+Math.abs(p)+')'; }
+function genSimplifyExpr(){
+  const a=randInt(2,9), b=randInt(2,9), c=randInt(2,7), d=randInt(2,7);
+  const x=a+b, y=c-d;
+  if(y===0) return genSimplifyExpr();
+  const correct=coef(x,'a')+term(y,'b');
+  return finalize('Algebra','simplify','Simplify <span class="num">'+a+'a + '+c+'b + '+b+'a − '+d+'b</span>.',correct,
+    [coef(a+b+c-d,'a'),coef(x,'a')+term(-y,'b'),coef(x,'ab')],
+    'Collect like terms: '+a+'a + '+b+'a = '+x+'a, and '+c+'b − '+d+'b = '+y+'b. Answer: <b>'+correct+'</b>.');
+}
+function genSubstitution(){
+  const a=randInt(2,6), b=nonZero(-6,6), x=nonZero(-5,6);
+  const correct=a*x*x+b*x;
+  return finalize('Algebra','substitution','If <span class="num">y = '+a+'x<sup>2</sup> '+sgn(b)+'x</span>, work out the value of y when <span class="num">x = '+x+'</span>.',correct,
+    [a*x*2+b*x, Math.pow(a*x,2)+b*x, a*x*x-b*x],
+    'Square first, then multiply: '+a+'×('+x+')<sup>2</sup> = '+(a*x*x)+', and '+b+'×('+x+') = '+(b*x)+'. Total = <b>'+correct+'</b>.');
+}
+function genExpandSingle(){
+  const k=randInt(2,8), a=randInt(2,9), b=nonZero(-9,9);
+  const correct=coef(k*a,'x')+term(k*b,'');
+  const corr=(k*a)+'x'+(k*b>0?' + '+(k*b):' − '+Math.abs(k*b));
+  return finalize('Algebra','expandSingle','Expand <span class="num">'+k+'('+a+'x '+sgn(b)+')</span>.',corr,
+    [(k*a)+'x '+sgn(b), (a)+'x '+sgn(k*b), (k*a)+'x '+sgn(-k*b)],
+    'Multiply <i>both</i> terms by '+k+': '+k+'×'+a+'x = '+(k*a)+'x and '+k+'×'+neg(b)+' = '+(k*b)+'.');
+}
+function genExpandDouble(){
+  const p=nonZero(-7,7), q=nonZero(-7,7);
+  const b=p+q, c=p*q;
+  const correct=poly(1,b,c,'x');
+  return finalize('Algebra','expandDouble','Expand and simplify <span class="num">'+brk(p)+brk(q)+'</span>.',correct,
+    [poly(1,p*q,p+q,'x'), poly(1,b,-c,'x'), poly(1,0,c,'x')],
+    'Use FOIL: x<sup>2</sup> '+sgn(q)+'x '+sgn(p)+'x + ('+p+'×'+neg(q)+') = <b>'+correct+'</b>.');
+}
+function genExpandTriple(){
+  const p=nonZero(-4,4), q=nonZero(-4,4), r=nonZero(-4,4);
+  const b=p+q+r, c=p*q+p*r+q*r, d=p*q*r;
+  let correct='x<sup>3</sup>'+term(b,'x<sup>2</sup>')+term(c,'x');
+  if(d!==0) correct+=(d>0?' + ':' − ')+Math.abs(d);
+  return finalize('Algebra','expandTriple','Expand and simplify <span class="num">'+brk(p)+brk(q)+brk(r)+'</span>.',correct,
+    ['x<sup>3</sup>'+term(b,'x<sup>2</sup>')+term(c,'x')+(d>0?' − ':' + ')+Math.abs(d),
+     'x<sup>3</sup>'+term(c,'x<sup>2</sup>')+term(b,'x')+(d>0?' + ':' − ')+Math.abs(d),
+     'x<sup>3</sup>'+term(b,'x<sup>2</sup>')+(d>0?' + ':' − ')+Math.abs(d)],
+    'Expand two brackets first, then multiply by the third and collect like terms: <b>'+correct+'</b>.');
+}
+function genFactorizeCommon(){
+  const k=randInt(2,8), a=randInt(2,7), b=randInt(2,9);
+  /* a and b must be coprime, or k x is not the HCF and the answer is not "fully" factorized */
+  if(gcd(a,b)!==1) return genFactorizeCommon();
+  const correct=k+'x('+a+'x + '+b+')';
+  return finalize('Algebra','factorizeCommon','Factorize fully <span class="num">'+(k*a)+'x<sup>2</sup> + '+(k*b)+'x</span>.',correct,
+    ['x('+(k*a)+'x + '+(k*b)+')', k+'('+a+'x<sup>2</sup> + '+b+'x)', 'x('+(k*a)+'x + '+b+')'],
+    'The highest common factor of '+(k*a)+'x<sup>2</sup> and '+(k*b)+'x is '+k+'x. Taking it out gives <b>'+correct+'</b>.');
+}
+function genFactorizeQuadratic(){
+  const p=nonZero(-8,8), q=nonZero(-8,8);
+  const b=p+q, c=p*q;
+  const correct=brk(p)+brk(q);
+  return finalize('Algebra','factorizeQuadratic','Factorize <span class="num">'+poly(1,b,c,'x')+'</span>.',correct,
+    [brk(-p)+brk(-q), brk(b)+brk(c), brk(p)+brk(-q)],
+    'Find two numbers that multiply to '+c+' and add to '+b+': '+p+' and '+q+'. So the answer is <b>'+correct+'</b>.');
+}
+function genFactorizeQuadraticHard(){
+  const a=choice([2,3,5]);
+  const p=nonZero(-5,5), q=nonZero(-5,5);
+  /* (a x + p)(x + q) = a x^2 + (aq + p) x + pq */
+  const b=a*q+p, c=p*q;
+  const correct=brkA(a,p)+brk(q);
+  return finalize('Algebra','factorizeQuadraticHard','Factorize <span class="num">'+poly(a,b,c,'x')+'</span>.',correct,
+    [brkA(a,q)+brk(p), brkA(a,-p)+brk(-q), brk(p)+brk(q)],
+    'Find two numbers multiplying to '+(a*c)+' and adding to '+b+', split the middle term, then factorize in pairs. Answer: <b>'+correct+'</b>.');
+}
+function genDOTS(){
+  const a=choice([1,2,3,4,5]), b=randInt(2,9);
+  /* a common factor would mean the answer is not fully factorized, e.g. 4x^2 - 36 */
+  if(gcd(a,b)!==1) return genDOTS();
+  const correct= a===1? '(x + '+b+')(x − '+b+')' : '('+a+'x + '+b+')('+a+'x − '+b+')';
+  const lead= a===1? 'x<sup>2</sup>' : (a*a)+'x<sup>2</sup>';
+  return finalize('Algebra','differenceOfSquares','Factorize <span class="num">'+lead+' − '+(b*b)+'</span>.',correct,
+    [(a===1?'(x − '+b+')<sup>2</sup>':'('+a+'x − '+b+')<sup>2</sup>'),
+     (a===1?'(x + '+b+')<sup>2</sup>':'('+a+'x + '+b+')<sup>2</sup>'),
+     (a===1?'(x + '+(b*b)+')(x − 1)':'('+a+'x + '+(b*b)+')(x − 1)')],
+    'This is the difference of two squares: '+lead+' − '+(b*b)+' = <b>'+correct+'</b>.');
+}
+function genSolveLinear(){
+  const a=randInt(2,9), x=nonZero(-9,12), b=nonZero(-20,20);
+  const rhs=a*x+b;
+  return finalize('Algebra','solveLinear','Solve <span class="num">'+a+'x '+sgn(b)+' = '+rhs+'</span>.','x = '+x,
+    ['x = '+round(rhs/a,2),'x = '+(rhs+b),'x = '+(x+1)],
+    (b>0?'Subtract '+b:'Add '+Math.abs(b))+' from both sides to get '+a+'x = '+(a*x)+', then divide by '+a+': <b>x = '+x+'</b>.');
+}
+function genSolveBothSides(){
+  const x=nonZero(-8,9);
+  const a=randInt(3,9), b=randInt(2,a-1), c=nonZero(-15,15);
+  const d=(a-b)*x+c;
+  return finalize('Algebra','solveBothSides','Solve <span class="num">'+a+'x '+sgn(c)+' = '+b+'x + '+d+'</span>.','x = '+x,
+    ['x = '+round(d/(a-b),2),'x = '+(-x),'x = '+round((d+c)/(a+b),2)],
+    'Subtract '+b+'x from both sides: '+(a-b)+'x '+sgn(c)+' = '+d+'. Then solve: <b>x = '+x+'</b>.');
+}
+function genInequalities(){
+  const a=randInt(2,7), b=nonZero(-12,12), x=nonZero(-6,9);
+  const rhs=a*x+b;
+  const sym=choice(['&lt;','&gt;','≤','≥']);
+  const correct='x '+sym+' '+x;
+  const flip= sym==='&lt;'?'&gt;': sym==='&gt;'?'&lt;': sym==='≤'?'≥':'≤';
+  return finalize('Algebra','inequalities','Solve the inequality <span class="num">'+a+'x '+sgn(b)+' '+sym+' '+rhs+'</span>.',correct,
+    ['x '+flip+' '+x,'x '+sym+' '+round(rhs/a,2),'x '+sym+' '+(x+1)],
+    'Solve it exactly like an equation: '+a+'x '+sym+' '+(a*x)+', so <b>'+correct+'</b>. (The sign only flips if you multiply or divide by a negative.)');
+}
+function genRearrangeFormula(){
+  const type=choice(['linear','root','divide']);
+  if(type==='linear'){
+    const a=randInt(2,7), b=randInt(2,9);
+    return finalize('Algebra','rearrange','Make <span class="num">x</span> the subject of <span class="num">y = '+a+'x + '+b+'</span>.','x = (y − '+b+') / '+a,
+      ['x = y/'+a+' − '+b,'x = (y + '+b+') / '+a,'x = '+a+'y − '+b],
+      'Subtract '+b+' from both sides, then divide by '+a+': <b>x = (y − '+b+')/'+a+'</b>.');
+  }
+  if(type==='root'){
+    const a=randInt(2,6);
+    return finalize('Algebra','rearrange','Make <span class="num">r</span> the subject of <span class="num">A = '+a+'πr<sup>2</sup></span>.','r = √(A / '+a+'π)',
+      ['r = A / '+a+'π','r = √(A) / '+a+'π','r = '+a+'π / √A'],
+      'Divide both sides by '+a+'π, then take the square root: <b>r = √(A/'+a+'π)</b>.');
+  }
+  const a=randInt(2,7), b=randInt(2,9);
+  return finalize('Algebra','rearrange','Make <span class="num">x</span> the subject of <span class="num">y = (x + '+b+') / '+a+'</span>.','x = '+a+'y − '+b,
+    ['x = '+a+'y + '+b,'x = (y − '+b+')/'+a,'x = y/'+a+' − '+b],
+    'Multiply both sides by '+a+' first: '+a+'y = x + '+b+'. Then subtract '+b+': <b>x = '+a+'y − '+b+'</b>.');
+}
+function genRearrangeTwice(){
+  const a=randInt(2,5), b=randInt(2,7);
+  return finalize('Algebra','rearrangeTwice','Make <span class="num">x</span> the subject of <span class="num">y = ('+a+'x + '+b+') / (x − 1)</span>.',
+    'x = (y + '+b+') / (y − '+a+')',
+    ['x = (y − '+b+') / (y + '+a+')','x = (y + '+b+') / (y + '+a+')','x = ('+a+' − y) / (y + '+b+')'],
+    'Multiply out: y(x − 1) = '+a+'x + '+b+', so yx − y = '+a+'x + '+b+'. Collect the x terms on one side: x(y − '+a+') = y + '+b+'. Then divide: <b>x = (y + '+b+')/(y − '+a+')</b>.');
+}
+function genSimultaneous(){
+  const x=nonZero(-6,8), y=nonZero(-6,8);
+  const a=randInt(1,5), b=randInt(1,5), c=randInt(1,5), d=nonZero(-5,5);
+  if(a*d-b*c===0) return genSimultaneous();
+  const e=a*x+b*y, f=c*x+d*y;
+  const eq1=coef(a,'x')+term(b,'y')+' = '+e;
+  const eq2=coef(c,'x')+term(d,'y')+' = '+f;
+  return finalize('Algebra','simultaneous','Solve the simultaneous equations:<br><span class="num">'+eq1+'</span><br><span class="num">'+eq2+'</span>','x = '+x+', y = '+y,
+    ['x = '+y+', y = '+x,'x = '+(x+1)+', y = '+(y-1),'x = '+(-x)+', y = '+(-y)],
+    'Multiply the equations so one variable matches, then add or subtract to eliminate it. Solution: <b>x = '+x+', y = '+y+'</b>. Check both equations to be sure.');
+}
+function genSolveQuadFactorize(){
+  const p=nonZero(-8,8), q=nonZero(-8,8);
+  if(p===q) return genSolveQuadFactorize();
+  const b=p+q, c=p*q;
+  const roots=[-p,-q].sort((m,n)=>m-n);
+  const correct='x = '+roots[0]+' or x = '+roots[1];
+  return finalize('Algebra','solveQuadratic','Solve <span class="num">'+poly(1,b,c,'x')+' = 0</span>.',correct,
+    ['x = '+p+' or x = '+q,'x = '+roots[0]+' or x = '+(roots[1]+1),'x = '+(-roots[0])+' or x = '+roots[1]],
+    'Factorize to '+brk(p)+brk(q)+' = 0. Each bracket can be zero, so <b>'+correct+'</b>. (Watch the signs — the roots are the <i>opposite</i> of the numbers in the brackets.)');
+}
+function genQuadraticFormula(){
+  const a=choice([1,1,2]), b=nonZero(-9,9), c=nonZero(-9,9);
+  const disc=b*b-4*a*c;
+  if(disc<=0 || Number.isInteger(Math.sqrt(disc))) return genQuadraticFormula();
+  const r1=(-b+Math.sqrt(disc))/(2*a);
+  const correct=r1.toFixed(2);
+  return finalize('Algebra','quadraticFormula',
+    'Solve <span class="num">'+poly(a,b,c,'x')+' = 0</span> using the quadratic formula. Give the <b>larger</b> root to 2 decimal places.',correct,
+    [((-b-Math.sqrt(disc))/(2*a)).toFixed(2), ((-b+Math.sqrt(disc))/a).toFixed(2), ((b+Math.sqrt(disc))/(2*a)).toFixed(2)],
+    'x = (−b ± √(b<sup>2</sup> − 4ac)) / 2a with a = '+a+', b = '+b+', c = '+c+'. The discriminant is '+disc+', so the larger root is <b>'+correct+'</b>.');
+}
+function genCompleteSquare(){
+  const h=nonZero(-7,7);
+  const b=2*h, c=nonZero(-12,12);
+  const k=c-h*h;
+  const correct=brk(h)+'<sup>2</sup> '+(k>=0?'+ '+k:'− '+Math.abs(k));
+  return finalize('Algebra','completeSquare','Write <span class="num">'+poly(1,b,c,'x')+'</span> in the form (x + a)<sup>2</sup> + b.',correct,
+    [brk(h)+'<sup>2</sup> '+(k>=0?'− '+k:'+ '+Math.abs(k)), brk(b)+'<sup>2</sup> '+(k>=0?'+ '+k:'− '+Math.abs(k)), brk(h)+'<sup>2</sup> '+(c>=0?'+ '+c:'− '+Math.abs(c))],
+    'Halve the x-coefficient: '+b+' ÷ 2 = '+h+'. Then '+brk(h)+'<sup>2</sup> = x<sup>2</sup> '+sgn(b)+'x + '+(h*h)+', so you must adjust by '+c+' − '+(h*h)+' = '+k+'. Answer: <b>'+correct+'</b>. (The minimum point is at ('+(-h)+', '+k+').)');
+}
+function genSequencesLinear(){
+  const a=nonZero(-6,9), d=nonZero(-7,9);
+  const terms=[0,1,2,3,4].map(i=>a+d*i);
+  const correct=coef(d,'n')+(a-d===0?'':(a-d>0?' + '+(a-d):' − '+Math.abs(a-d)));
+  return finalize('Algebra','sequencesLinear','Find the nth term of the sequence <span class="num">'+terms.join(', ')+', …</span>',correct,
+    [coef(a,'n')+constTerm(d), coef(-d,'n')+constTerm(a-d), coef(d,'n')+constTerm(a-d+1), coef(d,'n')+constTerm(a-d-1), coef(d+1,'n')+constTerm(a-d)],
+    'The common difference is '+d+', so the nth term starts '+d+'n. Since '+d+'×1 = '+d+' but the first term is '+a+', adjust by '+(a-d)+'. Answer: <b>'+correct+'</b>.');
+}
+function genSequencesQuadratic(){
+  const a=choice([1,2,3]), b=nonZero(-4,5), c=nonZero(-6,8);
+  const terms=[1,2,3,4,5].map(n=>a*n*n+b*n+c);
+  let correct= (a===1?'n<sup>2</sup>':a+'n<sup>2</sup>');
+  correct+=term(b,'n');
+  if(c!==0) correct+=(c>0?' + '+c:' − '+Math.abs(c));
+  return finalize('Algebra','sequencesQuadratic','Find the nth term of the quadratic sequence <span class="num">'+terms.join(', ')+', …</span>',correct,
+    [(a===1?'n<sup>2</sup>':a+'n<sup>2</sup>')+term(c,'n')+(b!==0?(b>0?' + '+b:' − '+Math.abs(b)):''),
+     ((2*a)===1?'n<sup>2</sup>':(2*a)+'n<sup>2</sup>')+term(b,'n')+(c!==0?(c>0?' + '+c:' − '+Math.abs(c)):''),
+     (a===1?'n<sup>2</sup>':a+'n<sup>2</sup>')+term(-b,'n')+(c!==0?(c>0?' + '+c:' − '+Math.abs(c)):'')],
+    'The second difference is '+(2*a)+', so the n<sup>2</sup> coefficient is '+(2*a)+' ÷ 2 = '+a+'. Subtract '+(a===1?'n<sup>2</sup>':a+'n<sup>2</sup>')+' from each term and find the linear nth term of what is left. Answer: <b>'+correct+'</b>.');
+}
+function genGeometricSequence(){
+  const a=randInt(2,6), r=choice([2,3,4,0.5]);
+  const n=randInt(5,7);   /* four terms are shown, so ask beyond them */
+  const terms=[0,1,2,3].map(i=>round(a*Math.pow(r,i),3));
+  const correct=round(a*Math.pow(r,n-1),4);
+  return finalize('Algebra','geometricSequence','A geometric sequence starts <span class="num">'+terms.join(', ')+', …</span> Find the <span class="num">'+n+'th</span> term.',correct,
+    [round(a*Math.pow(r,n),4), round(a+r*(n-1),4), round(a*r*n,4)],
+    'Each term is multiplied by '+r+'. The '+n+'th term is '+a+' × '+r+'<sup>'+(n-1)+'</sup> = <b>'+correct+'</b>.');
+}
+function genArithmeticSeries(){
+  const a=randInt(2,12), d=randInt(2,9), n=choice([10,12,15,20,25,30]);
+  const S=n/2*(2*a+(n-1)*d);
+  return finalize('Algebra','arithmeticSeries',
+    'An arithmetic series has first term <span class="num">'+a+'</span> and common difference <span class="num">'+d+'</span>. Find the sum of the first <span class="num">'+n+'</span> terms.',S,
+    [n/2*(2*a+n*d), a+(n-1)*d, n*(a+d)],
+    'S<sub>n</sub> = n/2 [2a + (n − 1)d] = '+n+'/2 × [2×'+a+' + '+(n-1)+'×'+d+'] = '+(n/2)+' × '+(2*a+(n-1)*d)+' = <b>'+S+'</b>.');
+}
+function genFunctionNotation(){
+  const kind=choice(['evaluate','composite','inverse']);
+  const a=randInt(2,6), b=nonZero(-8,8);
+  if(kind==='evaluate'){
+    const x=nonZero(-5,7);
+    const correct=a*x*x+b;
+    return finalize('Algebra','functions','Given <span class="num">f(x) = '+a+'x<sup>2</sup> '+sgn(b)+'</span>, work out <span class="num">f('+x+')</span>.',correct,
+      [Math.pow(a*x,2)+b, a*x+b, a*x*x-b],
+      'Substitute x = '+x+': '+a+'×('+x+')<sup>2</sup> '+sgn(b)+' = '+(a*x*x)+' '+sgn(b)+' = <b>'+correct+'</b>.');
+  }
+  if(kind==='composite'){
+    const c=randInt(2,5), x=nonZero(-4,6);
+    const g=c*x+b;
+    const correct=a*g;
+    return finalize('Algebra','functions','Given <span class="num">f(x) = '+a+'x</span> and <span class="num">g(x) = '+c+'x '+sgn(b)+'</span>, work out <span class="num">fg('+x+')</span>.',correct,
+      [c*(a*x)+b, a*x*c+b, a+g],
+      'fg means "do g first". g('+x+') = '+g+', then f('+g+') = '+a+' × '+g+' = <b>'+correct+'</b>.');
+  }
+  return finalize('Algebra','functions','Given <span class="num">f(x) = '+a+'x '+sgn(b)+'</span>, find the inverse function <span class="num">f<sup>−1</sup>(x)</span>.',
+    '(x '+sgn(-b)+') / '+a,
+    ['(x '+sgn(b)+') / '+a, a+'x '+sgn(-b), '1 / ('+a+'x '+sgn(b)+')'],
+    'Write y = '+a+'x '+sgn(b)+', swap x and y, then make y the subject: <b>f<sup>−1</sup>(x) = (x '+sgn(-b)+')/'+a+'</b>.');
+}
+
+/* ==================== 3. Graphs ==================== */
+function genCoordinatesMidpoint(){
+  const x1=nonZero(-8,8), y1=nonZero(-8,8), x2=nonZero(-8,8), y2=nonZero(-8,8);
+  if(x1===x2&&y1===y2) return genCoordinatesMidpoint();
+  const kind=choice(['midpoint','length']);
+  if(kind==='midpoint'){
+    const mx=(x1+x2)/2, my=(y1+y2)/2;
+    const correct='('+mx+', '+my+')';
+    return finalize('Graphs','midpoint','Find the midpoint of the line segment joining <span class="num">A('+x1+', '+y1+')</span> and <span class="num">B('+x2+', '+y2+')</span>.',correct,
+      ['('+(x2-x1)+', '+(y2-y1)+')','('+my+', '+mx+')','('+(x1+x2)+', '+(y1+y2)+')'],
+      'Average the coordinates: (('+x1+' + '+x2+')/2, ('+y1+' + '+y2+')/2) = <b>'+correct+'</b>.');
+  }
+  const len=Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
+  const correct=len.toFixed(2);
+  return finalize('Graphs','lineLength','Find the length of the line segment joining <span class="num">A('+x1+', '+y1+')</span> and <span class="num">B('+x2+', '+y2+')</span>, to 2 decimal places.',correct,
+    [(Math.abs(x2-x1)+Math.abs(y2-y1)).toFixed(2), (Math.pow(x2-x1,2)+Math.pow(y2-y1,2)).toFixed(2), (len/2).toFixed(2)],
+    'Use Pythagoras on the differences: √(('+(x2-x1)+')<sup>2</sup> + ('+(y2-y1)+')<sup>2</sup>) = √'+(Math.pow(x2-x1,2)+Math.pow(y2-y1,2))+' = <b>'+correct+'</b>.');
+}
+function genGradientFromPoints(){
+  const x1=nonZero(-6,6), x2=nonZero(-6,6);
+  if(x1===x2) return genGradientFromPoints();
+  const m=nonZero(-4,4), c=randInt(-5,5);
+  const y1=m*x1+c, y2=m*x2+c;
+  return finalize('Graphs','gradientFromPoints','Find the gradient of the line through <span class="num">('+x1+', '+y1+')</span> and <span class="num">('+x2+', '+y2+')</span>.',m,
+    [round((x2-x1)/(y2-y1),2), -m, round((y2+y1)/(x2+x1),2)],
+    'Gradient = change in y ÷ change in x = ('+y2+' − '+y1+') ÷ ('+x2+' − '+x1+') = '+(y2-y1)+'/'+(x2-x1)+' = <b>'+m+'</b>.');
+}
+function genGradientFromGraph(){
+  const m=choice([-3,-2,-1,1,2,3]), c=nonZero(-4,4);
+  const xMin=-6,xMax=6;
+  const ys=[m*xMin+c, m*xMax+c];
+  const yMin=Math.min(...ys,-2), yMax=Math.max(...ys,2);
+  const f=chartFrame(xMin,xMax,yMin,yMax,2,2,320,250,true);
+  const p1=f.toPx(xMin,m*xMin+c), p2=f.toPx(xMax,m*xMax+c);
+  const svg=svgWrap(f.width,f.height,f.svgBase+'<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="'+SVG_ACCENT+'" stroke-width="2.4"/>');
+  const eq='y = '+coef(m,'x')+(c===0?'':(c>0?' + '+c:' − '+Math.abs(c)));
+  const ask=choice(['gradient','equation']);
+  if(ask==='gradient'){
+    return finalize('Graphs','gradientFromGraph','Find the gradient of the line shown.'+svg,m,
+      [-m, c, m===1||m===-1? m+c : round(1/m,2)],
+      'Pick two points on the line and divide the rise by the run. The gradient is <b>'+m+'</b> and the line crosses the y-axis at '+c+', so its equation is '+eq+'.');
+  }
+  return finalize('Graphs','equationFromGraph','Find the equation of the line shown.'+svg,eq,
+    ['y = '+coef(c,'x')+constTerm(m),'y = '+coef(-m,'x')+constTerm(c),'y = '+coef(m,'x')+constTerm(-c)],
+    'The line crosses the y-axis at '+c+' (that is c) and rises '+m+' for every 1 across (that is m), so <b>'+eq+'</b>.');
+}
+function genParallelPerp(){
+  const m=choice([2,3,4,-2,-3,5]), c=nonZero(-6,6), p=nonZero(-5,5);
+  const kind=choice(['parallel','perpendicular']);
+  if(kind==='parallel'){
+    const x0=nonZero(-4,4), y0=m*x0+p;
+    const correct='y = '+coef(m,'x')+(p>0?' + '+p:' − '+Math.abs(p));
+    return finalize('Graphs','parallelPerp',
+      'Find the equation of the line parallel to <span class="num">y = '+coef(m,'x')+' '+sgn(c)+'</span> that passes through <span class="num">('+x0+', '+y0+')</span>.',correct,
+      ['y = '+coef(m,'x')+' '+sgn(c),'y = '+coef(-1/m,'x')+(p>0?' + '+p:' − '+Math.abs(p)),'y = '+coef(m,'x')+(p>0?' − '+p:' + '+Math.abs(p))],
+      'Parallel lines share the same gradient, so m = '+m+'. Substituting ('+x0+', '+y0+') gives c = '+p+': <b>'+correct+'</b>.');
+  }
+  const pm=frac(-1,m);
+  const correct='y = '+pm+'x '+sgn(c);
+  return finalize('Graphs','parallelPerp','A line has gradient <span class="num">'+m+'</span>. What is the gradient of a line perpendicular to it?',pm,
+    [String(m), String(-m), frac(1,m)],
+    'Perpendicular gradients multiply to −1, so the gradient is −1 ÷ '+m+' = <b>'+pm+'</b>.');
+}
+function genQuadraticGraphRead(){
+  /* Roots are integers so they can be read exactly off the drawn axes. */
+  const p=nonZero(-4,4), q=nonZero(-4,4);
+  if(p===q) return genQuadraticGraphRead();
+  const r1=Math.min(-p,-q), r2=Math.max(-p,-q);
+  const b=p+q, c=p*q;
+  const fx=(x)=>x*x+b*x+c;
+  const vx=-b/2, vy=fx(vx);
+  /* Window: symmetric about the vertex so the parabola is centered and both roots show. */
+  const halfWidth=Math.max(r2-vx, vx-r1)+2;
+  const xMin=Math.floor(vx-halfWidth), xMax=Math.ceil(vx+halfWidth);
+  const yMin=Math.floor(Math.min(vy,0))-1;
+  const yMax=Math.ceil(Math.max(fx(xMin),fx(xMax),1));
+  const f=chartFrame(xMin,xMax,yMin,yMax,1,null,320,250,false);
+  const d=plotCurve(f,fx,xMin,xMax,yMin,yMax);
+  const svg=svgWrap(f.width,f.height,f.svgBase+'<path d="'+d+'" fill="none" stroke="'+SVG_ACCENT+'" stroke-width="2.2" stroke-linecap="round"/>');
+  const eq=poly(1,b,c,'x');
+  const ask=choice(['roots','turning']);
+  if(ask==='roots'){
+    const correct='x = '+r1+' or x = '+r2;
+    return finalize('Graphs','quadraticGraph','The graph of <span class="num">y = '+eq+'</span> is shown. Use it to write down the solutions of <span class="num">'+eq+' = 0</span>.'+svg,correct,
+      ['x = '+(-r1)+' or x = '+(-r2),'x = '+r1+' or x = '+(r2+1),'x = '+round(vx,1)+' or x = '+round(vy,1)],
+      'The solutions of '+eq+' = 0 are where the curve crosses the x-axis: <b>'+correct+'</b>.');
+  }
+  const correct='('+round(vx,2)+', '+round(vy,2)+')';
+  return finalize('Graphs','quadraticGraph','The graph of <span class="num">y = '+eq+'</span> is shown. Write down the coordinates of its turning point.'+svg,correct,
+    ['('+r1+', 0)','('+round(-vx,2)+', '+round(vy,2)+')','(0, '+c+')'],
+    'The turning point lies halfway between the roots '+r1+' and '+r2+', so x = '+round(vx,2)+'. Substituting back gives y = '+round(vy,2)+', so the minimum is <b>'+correct+'</b>. Completing the square gives the same answer.');
+}
+function genDistanceTime(){
+  const t1=randInt(1,3), d1=randInt(20,60);
+  const tRest=randInt(1,2);
+  const t3=randInt(1,3), d3=randInt(20,80);
+  const times=[0,t1,t1+tRest,t1+tRest+t3];
+  const dists=[0,d1,d1,d1+d3];
+  const f=chartFrame(0,times[3],0,dists[3],null,null,320,220,false);
+  let path='';
+  times.forEach((t,i)=>{ const p=f.toPx(t,dists[i]); path+=(i===0?'M ':'L ')+p.x.toFixed(1)+' '+p.y.toFixed(1)+' '; });
+  const svg=svgWrap(f.width,f.height,f.svgBase+'<path d="'+path+'" fill="none" stroke="'+SVG_ACCENT+'" stroke-width="2.4" stroke-linejoin="round"/>'+
+    txt(f.margin.left+f.plotW/2, f.height-4,'time (hours)',{size:9})+txt(f.margin.left,10,'distance (km)',{size:9,anchor:'start'}));
+  const ask=choice(['speed1','speed3','rest']);
+  if(ask==='rest'){
+    return finalize('Graphs','distanceTime','The distance–time graph shows a journey. For how many hours was the traveler stationary?'+svg,tRest,
+      [t1,t3,times[3]],'A horizontal section means the distance is not changing, so the traveler is at rest. That lasts <b>'+tRest+' hours</b>.');
+  }
+  const seg= ask==='speed1'? {t:t1,d:d1,label:'first'} : {t:t3,d:d3,label:'final'};
+  const correct=round(seg.d/seg.t,2);
+  return finalize('Graphs','distanceTime','The distance–time graph shows a journey. Find the speed during the '+seg.label+' stage, in km/h.'+svg,correct,
+    [round(seg.t/seg.d,3), seg.d, round(dists[3]/times[3],2)],
+    'Speed is the gradient of a distance–time graph: '+seg.d+' km ÷ '+seg.t+' h = <b>'+correct+' km/h</b>.');
+}
+function genVelocityTime(){
+  const t1=randInt(2,5), v=randInt(10,30), t2=randInt(3,8);
+  const f=chartFrame(0,t1+t2,0,v,null,null,320,210,false);
+  const pts=[[0,0],[t1,v],[t1+t2,v]];
+  let path='';
+  pts.forEach((p,i)=>{ const q=f.toPx(p[0],p[1]); path+=(i===0?'M ':'L ')+q.x.toFixed(1)+' '+q.y.toFixed(1)+' '; });
+  const svg=svgWrap(f.width,f.height,f.svgBase+'<path d="'+path+'" fill="none" stroke="'+SVG_ACCENT+'" stroke-width="2.4"/>'+
+    txt(f.margin.left+f.plotW/2,f.height-4,'time (s)',{size:9})+txt(f.margin.left,10,'velocity (m/s)',{size:9,anchor:'start'}));
+  const ask=choice(['accel','distance']);
+  if(ask==='accel'){
+    const correct=round(v/t1,2);
+    return finalize('Graphs','velocityTime','The velocity–time graph shows a journey. Find the acceleration during the first '+t1+' seconds, in m/s<sup>2</sup>.'+svg,correct,
+      [round(t1/v,3), v, round(v/(t1+t2),2)],
+      'Acceleration is the gradient: '+v+' m/s ÷ '+t1+' s = <b>'+correct+' m/s<sup>2</sup></b>.');
+  }
+  const area=0.5*t1*v + t2*v;
+  return finalize('Graphs','velocityTime','The velocity–time graph shows a journey. Find the total distance traveled, in meters.'+svg,area,
+    [v*(t1+t2), 0.5*(t1+t2)*v, v*t2],
+    'Distance is the area under the graph: triangle ½ × '+t1+' × '+v+' = '+(0.5*t1*v)+', plus rectangle '+t2+' × '+v+' = '+(t2*v)+'. Total = <b>'+area+' m</b>.');
+}
+function genTangentRate(){
+  const a=randInt(2,5), t=randInt(2,5);
+  const correct=2*a*t;
+  return finalize('Graphs','rateOfChange',
+    'The depth of water in a tank is modeled by <span class="num">d = '+a+'t<sup>2</sup></span> meters after t seconds. By considering the gradient of the tangent, find the rate at which the depth is increasing when <span class="num">t = '+t+'</span>, in m/s.',correct,
+    [a*t*t, a*t, round(a*t*t/t,2)],
+    'The gradient of the tangent gives the rate of change. Differentiating, dd/dt = '+(2*a)+'t, so at t = '+t+' the rate is '+(2*a)+' × '+t+' = <b>'+correct+' m/s</b>.');
+}
+function genCircleEquation(){
+  const r=choice([2,3,4,5,6,7,10]);
+  const kind=choice(['radius','equation']);
+  if(kind==='radius'){
+    return finalize('Graphs','circleEquation','A circle has equation <span class="num">x<sup>2</sup> + y<sup>2</sup> = '+(r*r)+'</span>. Write down its radius.',r,
+      [r*r,round(r*r/2,2),2*r],
+      'x<sup>2</sup> + y<sup>2</sup> = r<sup>2</sup> is a circle centered on the origin, so r = √'+(r*r)+' = <b>'+r+'</b>.');
+  }
+  return finalize('Graphs','circleEquation','Write down the equation of the circle with center the origin and radius <span class="num">'+r+'</span>.','x<sup>2</sup> + y<sup>2</sup> = '+(r*r),
+    ['x<sup>2</sup> + y<sup>2</sup> = '+r,'x + y = '+(r*r),'x<sup>2</sup> + y<sup>2</sup> = '+(2*r)],
+    'The equation is x<sup>2</sup> + y<sup>2</sup> = r<sup>2</sup>, and r<sup>2</sup> = '+r+'<sup>2</sup> = '+(r*r)+'.');
+}
+function genInequalityRegion(){
+  const m=choice([1,2,-1,-2]), c=nonZero(-3,4);
+  const strict=choice([true,false]);
+  const above=choice([true,false]);
+  const sym= above? (strict?'&gt;':'≥') : (strict?'&lt;':'≤');
+  const correct='y '+sym+' '+coef(m,'x')+(c>0?' + '+c:' − '+Math.abs(c));
+  return finalize('Graphs','inequalityRegion',
+    'A region is bounded by the line <span class="num">y = '+coef(m,'x')+(c>0?' + '+c:' − '+Math.abs(c))+'</span>, drawn as a '+(strict?'dashed':'solid')+' line, and contains all the points <b>'+(above?'above':'below')+'</b> it. Write down the inequality that describes the region.',
+    correct,
+    ['y '+(above?(strict?'&lt;':'≤'):(strict?'&gt;':'≥'))+' '+coef(m,'x')+(c>0?' + '+c:' − '+Math.abs(c)),
+     'x '+sym+' '+coef(m,'y')+(c>0?' + '+c:' − '+Math.abs(c)),
+     'y '+sym+' '+coef(-m,'x')+(c>0?' + '+c:' − '+Math.abs(c))],
+    'A '+(strict?'dashed line means the boundary is not included, so a strict inequality':'solid line means the boundary is included, so ≤ or ≥')+'. Above the line means y is greater. Answer: <b>'+correct+'</b>.');
+}
+
+/* ==================== 4. Ratio, proportion and rates of change ==================== */
+function genSimplifyRatio(){
+  const k=randInt(2,9), a=randInt(2,9), b=randInt(2,9);
+  if(gcd(a,b)!==1) return genSimplifyRatio();
+  return finalize('Ratio','simplifyRatio','Write the ratio <span class="num">'+(k*a)+' : '+(k*b)+'</span> in its simplest form.',a+' : '+b,
+    [(k*a)+' : '+(k*b), b+' : '+a, (a*2)+' : '+(b*2)],
+    'Divide both parts by the HCF, which is '+k+': <b>'+a+' : '+b+'</b>.');
+}
+function genRatioToFraction(){
+  const a=randInt(2,7), b=randInt(2,7);
+  if(a===b) return genRatioToFraction();
+  const correct=frac(a,a+b);
+  return finalize('Ratio','ratioFraction','The ratio of red counters to blue counters in a bag is <span class="num">'+a+' : '+b+'</span>. What fraction of the counters are red?',correct,
+    [frac(a,b), frac(b,a+b), frac(a+b,a)],
+    'There are '+a+' + '+b+' = '+(a+b)+' parts in total and '+a+' of them are red, so the fraction is <b>'+correct+'</b>.');
+}
+function genShareRatio(){
+  const a=randInt(2,7), b=randInt(2,7), c=choice([0,0,randInt(2,5)]);
+  if(gcd(a,b)!==1 && !c) return genShareRatio();   /* a ratio is quoted in its simplest form */
+  const parts=a+b+c;
+  const unit=randInt(3,25);
+  const total=parts*unit;
+  const ratio= c? a+' : '+b+' : '+c : a+' : '+b;
+  const which= c? choice([a,b,c]) : choice([a,b]);
+  const correct=which*unit;
+  return finalize('Ratio','shareRatio','AED <span class="num">'+total+'</span> is shared in the ratio <span class="num">'+ratio+'</span>. How much does the person with <span class="num">'+which+'</span> part'+(which>1?'s':'')+' receive?',
+    'AED '+correct,
+    ['AED '+round(total/which,2),'AED '+(total-correct),'AED '+(which*total/(parts+1)).toFixed(2)],
+    'There are '+parts+' parts altogether, so one part is '+total+' ÷ '+parts+' = AED '+unit+'. Then '+which+' × '+unit+' = <b>AED '+correct+'</b>.');
+}
+function genRatioGivenOnePart(){
+  const a=randInt(2,6), b=randInt(2,6);
+  if(a===b) return genRatioGivenOnePart();
+  const unit=randInt(4,20);
+  const known=a*unit, other=b*unit;
+  return finalize('Ratio','ratioProblem','Ali and Sara share some sweets in the ratio <span class="num">'+a+' : '+b+'</span>. Ali gets <span class="num">'+known+'</span> sweets. How many sweets do they have altogether?',(a+b)*unit,
+    [other, known+b, round(known*(a+b)/b,2)],
+    'Ali’s '+a+' parts are worth '+known+', so one part is '+unit+'. Altogether there are '+(a+b)+' parts: '+(a+b)+' × '+unit+' = <b>'+((a+b)*unit)+'</b>.');
+}
+function genDirectProportion(){
+  const k=randInt(2,9), x1=randInt(2,9), x2=randInt(3,15);
+  if(x1===x2) return genDirectProportion();
+  const y1=k*x1, y2=k*x2;
+  return finalize('Ratio','directProportion','<span class="num">'+x1+'</span> identical books weigh <span class="num">'+y1+' kg</span>. Assuming direct proportion, how much do <span class="num">'+x2+'</span> books weigh?',y2+' kg',
+    [round(y1*x1/x2,2)+' kg',(y1+x2-x1)+' kg',round(y1/x2,2)+' kg'],
+    'One book weighs '+y1+' ÷ '+x1+' = '+k+' kg, so '+x2+' books weigh '+x2+' × '+k+' = <b>'+y2+' kg</b>.');
+}
+function genInverseProportion(){
+  const k=choice([24,36,48,60,72,120]);
+  const x1=choice([2,3,4,6]), x2=choice([5,8,10,12]);
+  if(k%x1!==0||k%x2!==0) return genInverseProportion();
+  const y1=k/x1, y2=k/x2;
+  return finalize('Ratio','inverseProportion','<span class="num">'+x1+'</span> workers can finish a job in <span class="num">'+y1+'</span> hours. Working at the same rate, how long would <span class="num">'+x2+'</span> workers take?',y2+' hours',
+    [round(y1*x2/x1,2)+' hours',(y1+x2-x1)+' hours',round(x2/y1,2)+' hours'],
+    'This is inverse proportion: more workers, less time. Total work = '+x1+' × '+y1+' = '+k+' worker-hours, so '+x2+' workers take '+k+' ÷ '+x2+' = <b>'+y2+' hours</b>.');
+}
+function genProportionPower(){
+  const k=randInt(2,6), x1=randInt(2,5), x2=randInt(2,7);
+  if(x1===x2) return genProportionPower();
+  const y1=k*x1*x1, y2=k*x2*x2;
+  return finalize('Ratio','proportionPower','<span class="num">y</span> is directly proportional to <span class="num">x<sup>2</sup></span>. When <span class="num">x = '+x1+'</span>, <span class="num">y = '+y1+'</span>. Find y when <span class="num">x = '+x2+'</span>.',y2,
+    [k*x2, y1*x2/x1, k*x2*x2*x2],
+    'y = kx<sup>2</sup>, so k = '+y1+' ÷ '+x1+'<sup>2</sup> = '+k+'. Then y = '+k+' × '+x2+'<sup>2</sup> = <b>'+y2+'</b>.');
+}
+function genBestBuy(){
+  const unit=choice([0.4,0.5,0.6,0.75,0.8]);
+  const sizeA=choice([250,300,400]), sizeB=choice([500,750,1000]);
+  const priceA=round(sizeA/100*unit,2);
+  const cheaper=choice(['A','B']);
+  const priceB= cheaper==='B'? round(sizeB/100*unit*0.85,2) : round(sizeB/100*unit*1.15,2);
+  const perA=round(priceA/sizeA*100,3), perB=round(priceB/sizeB*100,3);
+  const correct= perA<perB? 'The '+sizeA+' g pack' : 'The '+sizeB+' g pack';
+  return finalize('Ratio','bestBuy',
+    'A '+sizeA+' g pack of rice costs <span class="num">AED '+priceA.toFixed(2)+'</span>. A '+sizeB+' g pack costs <span class="num">AED '+priceB.toFixed(2)+'</span>. Which is better value?',
+    correct,
+    [perA<perB? 'The '+sizeB+' g pack':'The '+sizeA+' g pack','They are the same value','There is not enough information'],
+    'Compare cost per 100 g: '+sizeA+' g pack = AED '+perA.toFixed(3)+', '+sizeB+' g pack = AED '+perB.toFixed(3)+'. The cheaper rate is better value, so <b>'+correct.toLowerCase()+'</b>.');
+}
+function genSpeedDistanceTime(){
+  const kind=choice(['speed','distance','time']);
+  const s=choice([40,45,50,60,72,80,90]), t=choice([0.5,1.5,2,2.5,3,4]);
+  const d=s*t;
+  if(kind==='speed'){
+    return finalize('Ratio','speedDistanceTime','A car travels <span class="num">'+d+' km</span> in <span class="num">'+t+' hours</span>. Find its average speed in km/h.',s,
+      [round(t/d,3), d*t, round(d/(t*60),3)],
+      'Speed = distance ÷ time = '+d+' ÷ '+t+' = <b>'+s+' km/h</b>.');
+  }
+  if(kind==='distance'){
+    return finalize('Ratio','speedDistanceTime','A train travels at <span class="num">'+s+' km/h</span> for <span class="num">'+t+' hours</span>. How far does it travel?',d+' km',
+      [round(s/t,2)+' km',(s+t)+' km',round(s*t/60,2)+' km'],
+      'Distance = speed × time = '+s+' × '+t+' = <b>'+d+' km</b>.');
+  }
+  return finalize('Ratio','speedDistanceTime','A cyclist covers <span class="num">'+d+' km</span> at an average speed of <span class="num">'+s+' km/h</span>. How long does the journey take, in hours?',t,
+    [round(s/d,3), d*s, round(d/s*60,2)],
+    'Time = distance ÷ speed = '+d+' ÷ '+s+' = <b>'+t+' hours</b>.');
+}
+function genDensityPressure(){
+  const kind=choice(['density','mass','pressure']);
+  const rho=choice([2,2.5,4,5,8,10]), v=choice([3,4,6,10,12,20]);
+  const m=round(rho*v,2);
+  if(kind==='density'){
+    return finalize('Ratio','compoundMeasures','An object has mass <span class="num">'+m+' g</span> and volume <span class="num">'+v+' cm<sup>3</sup></span>. Find its density in g/cm<sup>3</sup>.',rho,
+      [round(v/m,3), m*v, round(m-v,2)],
+      'Density = mass ÷ volume = '+m+' ÷ '+v+' = <b>'+rho+' g/cm<sup>3</sup></b>.');
+  }
+  if(kind==='mass'){
+    return finalize('Ratio','compoundMeasures','A block has density <span class="num">'+rho+' g/cm<sup>3</sup></span> and volume <span class="num">'+v+' cm<sup>3</sup></span>. Find its mass in grams.',m,
+      [round(v/rho,3), rho+v, round(m/2,2)],
+      'Mass = density × volume = '+rho+' × '+v+' = <b>'+m+' g</b>.');
+  }
+  const force=choice([20,30,45,60,100]), area=choice([2,4,5,10]);
+  const pres=round(force/area,2);
+  return finalize('Ratio','compoundMeasures','A force of <span class="num">'+force+' N</span> acts on an area of <span class="num">'+area+' m<sup>2</sup></span>. Find the pressure in N/m<sup>2</sup>.',pres,
+    [force*area, round(area/force,3), force-area],
+    'Pressure = force ÷ area = '+force+' ÷ '+area+' = <b>'+pres+' N/m<sup>2</sup></b>.');
+}
+function genExchangeRate(){
+  const rate=choice([3.67,4.2,4.6,0.22,5.1]);
+  const amount=choice([50,100,150,200,400,750]);
+  const dir=choice(['to','from']);
+  if(dir==='to'){
+    const correct=round(amount*rate,2);
+    return finalize('Ratio','exchangeRate','The exchange rate is <span class="num">1 unit = '+rate+' AED</span>. Convert <span class="num">'+amount+' units</span> into dirhams.','AED '+correct.toFixed(2),
+      ['AED '+round(amount/rate,2).toFixed(2),'AED '+(amount+rate).toFixed(2),'AED '+round(amount*rate/10,2).toFixed(2)],
+      'Multiply by the rate: '+amount+' × '+rate+' = <b>AED '+correct.toFixed(2)+'</b>.');
+  }
+  const correct=round(amount/rate,2);
+  return finalize('Ratio','exchangeRate','The exchange rate is <span class="num">1 unit = '+rate+' AED</span>. Convert <span class="num">AED '+amount+'</span> into units.',correct.toFixed(2),
+    [round(amount*rate,2).toFixed(2),(amount-rate).toFixed(2),round(amount/rate/10,2).toFixed(2)],
+    'Divide by the rate: '+amount+' ÷ '+rate+' = <b>'+correct.toFixed(2)+' units</b>.');
+}
+function genScaleMap(){
+  const scale=choice([25000,50000,100000,200000]);
+  const cm=choice([2,3,4,5,6,8]);
+  const km=round(cm*scale/100000,2);
+  return finalize('Ratio','scale','A map has a scale of <span class="num">1 : '+scale+'</span>. Two towns are <span class="num">'+cm+' cm</span> apart on the map. Find the real distance in kilometers.',km+' km',
+    [round(cm*scale/1000,2)+' km',round(cm*scale/10000,2)+' km',round(scale/cm/100000,4)+' km'],
+    cm+' cm on the map is '+cm+' × '+scale+' = '+(cm*scale)+' cm in real life. Divide by 100 000 to get kilometers: <b>'+km+' km</b>.');
+}
+
+/* ==================== 5. Geometry and measures ==================== */
+const NOT_TO_SCALE='<div class="muted" style="text-align:center;font-size:11px;margin-top:-6px;">Diagram not accurately drawn</div>';
+function genAnglesParallel(){
+  const a=randInt(35,145);
+  const kind=choice(['alternate','corresponding','cointerior']);
+  const correct= kind==='cointerior'? 180-a : a;
+  const name= kind==='alternate'? 'alternate angles (a Z-shape)' : kind==='corresponding'? 'corresponding angles (an F-shape)' : 'co-interior angles (a C-shape)';
+  const rule= kind==='cointerior'? 'co-interior angles add up to 180°' : name+' are equal';
+  return finalize('Geometry','anglesParallel',
+    'Two parallel lines are crossed by a straight line. One angle is <span class="num">'+a+'°</span>. Find the '+(kind==='cointerior'?'co-interior':kind)+' angle.',correct+'°',
+    [(180-correct)+'°',(360-a)+'°',(90-a)+'°'],
+    'Because '+rule+', the answer is <b>'+correct+'°</b>.');
+}
+function genTriangleAngles(){
+  const a=randInt(25,80), b=randInt(25,80);
+  const c=180-a-b;
+  if(c<20) return genTriangleAngles();
+  const ask=choice(['third','exterior']);
+  if(ask==='third'){
+    return finalize('Geometry','anglesTriangle','Two angles in a triangle are <span class="num">'+a+'°</span> and <span class="num">'+b+'°</span>. Find the third angle.',c+'°',
+      [(a+b)+'°',(360-a-b)+'°',(180-a)+'°'],
+      'Angles in a triangle add to 180°: 180 − '+a+' − '+b+' = <b>'+c+'°</b>.');
+  }
+  return finalize('Geometry','anglesTriangle','In a triangle, two interior angles are <span class="num">'+a+'°</span> and <span class="num">'+b+'°</span>. Find the exterior angle at the third vertex.',(a+b)+'°',
+    [c+'°',(180-a-b)+'°',(360-a-b)+'°'],
+    'The exterior angle equals the sum of the two opposite interior angles: '+a+' + '+b+' = <b>'+(a+b)+'°</b>.');
+}
+function genPolygonAngles(){
+  const n=randInt(5,12);
+  const kind=choice(['interiorSum','oneInterior','oneExterior','findN']);
+  if(kind==='interiorSum'){
+    const s=(n-2)*180;
+    return finalize('Geometry','polygonAngles','Find the sum of the interior angles of a polygon with <span class="num">'+n+'</span> sides.',s+'°',
+      [(n*180)+'°',(360)+'°',((n-1)*180)+'°'],
+      'Sum = (n − 2) × 180° = ('+n+' − 2) × 180 = <b>'+s+'°</b>.');
+  }
+  if(kind==='oneInterior'){
+    const v=round((n-2)*180/n,2);
+    return finalize('Geometry','polygonAngles','Find the size of one interior angle of a <b>regular</b> polygon with <span class="num">'+n+'</span> sides.',v+'°',
+      [round(360/n,2)+'°',((n-2)*180)+'°',round(180/n,2)+'°'],
+      'Each exterior angle is 360 ÷ '+n+' = '+round(360/n,2)+'°, so each interior angle is 180 − '+round(360/n,2)+' = <b>'+v+'°</b>.');
+  }
+  if(kind==='oneExterior'){
+    const v=round(360/n,2);
+    return finalize('Geometry','polygonAngles','Find the size of one exterior angle of a <b>regular</b> polygon with <span class="num">'+n+'</span> sides.',v+'°',
+      [round((n-2)*180/n,2)+'°',round(180/n,2)+'°',((n-2)*180)+'°'],
+      'The exterior angles of any polygon add to 360°, so each one is 360 ÷ '+n+' = <b>'+v+'°</b>.');
+  }
+  const nice=choice([5,6,8,9,10,12,15,18]);
+  const ext=360/nice;
+  return finalize('Geometry','polygonAngles','A regular polygon has an exterior angle of <span class="num">'+ext+'°</span>. How many sides does it have?',nice,
+    [round(180/ext,2), nice+2, round(ext,2)],
+    'Number of sides = 360 ÷ exterior angle = 360 ÷ '+ext+' = <b>'+nice+'</b>.');
+}
+function genAreaComposite(){
+  const shape=choice(['trapezium','parallelogram','triangle','compound']);
+  if(shape==='trapezium'){
+    const a=randInt(4,12), b=randInt(a+2,20), h=randInt(3,10);
+    const A=round((a+b)/2*h,2);
+    return finalize('Geometry','area','A trapezium has parallel sides of <span class="num">'+a+' cm</span> and <span class="num">'+b+' cm</span>, and a perpendicular height of <span class="num">'+h+' cm</span>. Find its area.',A+' cm<sup>2</sup>',
+      [round(a*b/2,2)+' cm<sup>2</sup>',round((a+b)*h,2)+' cm<sup>2</sup>',round((a+b)/2,2)+' cm<sup>2</sup>'],
+      'Area = ½(a + b)h = ½ × ('+a+' + '+b+') × '+h+' = <b>'+A+' cm<sup>2</sup></b>.');
+  }
+  if(shape==='parallelogram'){
+    const b=randInt(5,18), h=randInt(3,12);
+    return finalize('Geometry','area','A parallelogram has base <span class="num">'+b+' cm</span> and perpendicular height <span class="num">'+h+' cm</span>. Find its area.',(b*h)+' cm<sup>2</sup>',
+      [round(b*h/2,2)+' cm<sup>2</sup>',(2*(b+h))+' cm<sup>2</sup>',(b+h)+' cm<sup>2</sup>'],
+      'Area of a parallelogram = base × perpendicular height = '+b+' × '+h+' = <b>'+(b*h)+' cm<sup>2</sup></b>.');
+  }
+  if(shape==='triangle'){
+    const b=randInt(4,20), h=randInt(3,14);
+    const A=round(b*h/2,2);
+    return finalize('Geometry','area','A triangle has base <span class="num">'+b+' cm</span> and perpendicular height <span class="num">'+h+' cm</span>. Find its area.',A+' cm<sup>2</sup>',
+      [(b*h)+' cm<sup>2</sup>',(b+h)+' cm<sup>2</sup>',round(b*h/3,2)+' cm<sup>2</sup>'],
+      'Area = ½ × base × height = ½ × '+b+' × '+h+' = <b>'+A+' cm<sup>2</sup></b>.');
+  }
+  const W=randInt(8,16), H=randInt(6,12), w=randInt(2,W-4), h=randInt(2,H-3);
+  const A=W*H-w*h;
+  return finalize('Geometry','area','A rectangle measuring <span class="num">'+W+' cm</span> by <span class="num">'+H+' cm</span> has a smaller rectangle measuring <span class="num">'+w+' cm</span> by <span class="num">'+h+' cm</span> cut out of it. Find the area remaining.',A+' cm<sup>2</sup>',
+    [(W*H+w*h)+' cm<sup>2</sup>',(W*H)+' cm<sup>2</sup>',(2*(W+H)-2*(w+h))+' cm<sup>2</sup>'],
+    'Subtract the cut-out from the whole: '+W+'×'+H+' − '+w+'×'+h+' = '+(W*H)+' − '+(w*h)+' = <b>'+A+' cm<sup>2</sup></b>.');
+}
+function genCircleAreaCirc(){
+  const r=randInt(3,15);
+  const kind=choice(['area','circumference','areaFromDiameter','radiusFromArea']);
+  if(kind==='area'){
+    const A=round(Math.PI*r*r,2);
+    return finalize('Geometry','circle','A circle has radius <span class="num">'+r+' cm</span>. Find its area to 2 decimal places.',A+' cm<sup>2</sup>',
+      [round(2*Math.PI*r,2)+' cm<sup>2</sup>',round(Math.PI*2*r*r,2)+' cm<sup>2</sup>',round(Math.PI*r,2)+' cm<sup>2</sup>'],
+      'Area = πr<sup>2</sup> = π × '+r+'<sup>2</sup> = <b>'+A+' cm<sup>2</sup></b>.');
+  }
+  if(kind==='circumference'){
+    const C=round(2*Math.PI*r,2);
+    return finalize('Geometry','circle','A circle has radius <span class="num">'+r+' cm</span>. Find its circumference to 2 decimal places.',C+' cm',
+      [round(Math.PI*r*r,2)+' cm',round(Math.PI*r,2)+' cm',round(4*Math.PI*r,2)+' cm'],
+      'Circumference = 2πr = 2 × π × '+r+' = <b>'+C+' cm</b>.');
+  }
+  if(kind==='areaFromDiameter'){
+    const d=2*r;
+    const A=round(Math.PI*r*r,2);
+    return finalize('Geometry','circle','A circle has diameter <span class="num">'+d+' cm</span>. Find its area to 2 decimal places.',A+' cm<sup>2</sup>',
+      [round(Math.PI*d*d,2)+' cm<sup>2</sup>',round(Math.PI*d,2)+' cm<sup>2</sup>',round(2*Math.PI*r,2)+' cm<sup>2</sup>'],
+      'Halve the diameter first: r = '+r+' cm. Then A = πr<sup>2</sup> = <b>'+A+' cm<sup>2</sup></b>. (Squaring the diameter is the usual slip.)');
+  }
+  const A=round(Math.PI*r*r,2);
+  return finalize('Geometry','circle','A circle has area <span class="num">'+A+' cm<sup>2</sup></span>. Find its radius to the nearest centimeter.',r+' cm',
+    [round(A/Math.PI,2)+' cm',(2*r)+' cm',round(Math.sqrt(A),2)+' cm'],
+    'Divide by π then square-root: √('+A+' ÷ π) = <b>'+r+' cm</b>.');
+}
+function genArcSector(){
+  const r=randInt(4,14), ang=choice([30,45,60,90,120,135,150,180,240]);
+  const kind=choice(['arc','sector']);
+  if(kind==='arc'){
+    const L=round(ang/360*2*Math.PI*r,2);
+    return finalize('Geometry','arcSector','A sector of a circle has radius <span class="num">'+r+' cm</span> and angle <span class="num">'+ang+'°</span>. Find the length of its arc, to 2 decimal places.',L+' cm',
+      [round(ang/360*Math.PI*r*r,2)+' cm',round(2*Math.PI*r,2)+' cm',round(L+2*r,2)+' cm'],
+      'Arc length = (θ/360) × 2πr = ('+ang+'/360) × 2π × '+r+' = <b>'+L+' cm</b>.');
+  }
+  const A=round(ang/360*Math.PI*r*r,2);
+  return finalize('Geometry','arcSector','A sector of a circle has radius <span class="num">'+r+' cm</span> and angle <span class="num">'+ang+'°</span>. Find its area, to 2 decimal places.',A+' cm<sup>2</sup>',
+    [round(ang/360*2*Math.PI*r,2)+' cm<sup>2</sup>',round(Math.PI*r*r,2)+' cm<sup>2</sup>',round(A*2,2)+' cm<sup>2</sup>'],
+    'Sector area = (θ/360) × πr<sup>2</sup> = ('+ang+'/360) × π × '+r+'<sup>2</sup> = <b>'+A+' cm<sup>2</sup></b>.');
+}
+function genVolumePrism(){
+  const kind=choice(['cuboid','cylinder','triangularPrism']);
+  if(kind==='cuboid'){
+    const a=randInt(2,12), b=randInt(2,12), c=randInt(2,12);
+    return finalize('Geometry','volume','Find the volume of a cuboid measuring <span class="num">'+a+' cm × '+b+' cm × '+c+' cm</span>.',(a*b*c)+' cm<sup>3</sup>',
+      [(2*(a*b+b*c+a*c))+' cm<sup>3</sup>',(a+b+c)+' cm<sup>3</sup>',(a*b)+' cm<sup>3</sup>'],
+      'Volume = length × width × height = '+a+' × '+b+' × '+c+' = <b>'+(a*b*c)+' cm<sup>3</sup></b>.');
+  }
+  if(kind==='cylinder'){
+    const r=randInt(2,9), h=randInt(4,20);
+    const V=round(Math.PI*r*r*h,2);
+    return finalize('Geometry','volume','A cylinder has radius <span class="num">'+r+' cm</span> and height <span class="num">'+h+' cm</span>. Find its volume to 2 decimal places.',V+' cm<sup>3</sup>',
+      [round(2*Math.PI*r*h,2)+' cm<sup>3</sup>',round(Math.PI*r*h,2)+' cm<sup>3</sup>',round(V/3,2)+' cm<sup>3</sup>'],
+      'Volume = πr<sup>2</sup>h = π × '+r+'<sup>2</sup> × '+h+' = <b>'+V+' cm<sup>3</sup></b>.');
+  }
+  const b=randInt(3,12), hT=randInt(3,10), L=randInt(5,20);
+  const V=round(0.5*b*hT*L,2);
+  return finalize('Geometry','volume','A prism has a triangular cross-section with base <span class="num">'+b+' cm</span> and height <span class="num">'+hT+' cm</span>. The prism is <span class="num">'+L+' cm</span> long. Find its volume.',V+' cm<sup>3</sup>',
+    [(b*hT*L)+' cm<sup>3</sup>',round(0.5*b*hT,2)+' cm<sup>3</sup>',(b+hT+L)+' cm<sup>3</sup>'],
+    'Volume of a prism = area of cross-section × length = (½ × '+b+' × '+hT+') × '+L+' = <b>'+V+' cm<sup>3</sup></b>.');
+}
+function genVolumeConeSphere(){
+  const kind=choice(['sphere','cone','pyramid','hemisphere']);
+  const r=randInt(2,10), h=randInt(4,18);
+  if(kind==='sphere'){
+    const V=round(4/3*Math.PI*r*r*r,2);
+    return finalize('Geometry','volumeAdvanced','A sphere has radius <span class="num">'+r+' cm</span>. Find its volume to 2 decimal places.',V+' cm<sup>3</sup>',
+      [round(4*Math.PI*r*r,2)+' cm<sup>3</sup>',round(Math.PI*r*r*r,2)+' cm<sup>3</sup>',round(V/2,2)+' cm<sup>3</sup>'],
+      'Volume of a sphere = 4/3 πr<sup>3</sup> = 4/3 × π × '+r+'<sup>3</sup> = <b>'+V+' cm<sup>3</sup></b>.');
+  }
+  if(kind==='hemisphere'){
+    const V=round(2/3*Math.PI*r*r*r,2);
+    return finalize('Geometry','volumeAdvanced','A hemisphere has radius <span class="num">'+r+' cm</span>. Find its volume to 2 decimal places.',V+' cm<sup>3</sup>',
+      [round(4/3*Math.PI*r*r*r,2)+' cm<sup>3</sup>',round(2*Math.PI*r*r,2)+' cm<sup>3</sup>',round(V/2,2)+' cm<sup>3</sup>'],
+      'A hemisphere is half a sphere: ½ × 4/3 πr<sup>3</sup> = 2/3 × π × '+r+'<sup>3</sup> = <b>'+V+' cm<sup>3</sup></b>.');
+  }
+  if(kind==='cone'){
+    const V=round(1/3*Math.PI*r*r*h,2);
+    return finalize('Geometry','volumeAdvanced','A cone has radius <span class="num">'+r+' cm</span> and perpendicular height <span class="num">'+h+' cm</span>. Find its volume to 2 decimal places.',V+' cm<sup>3</sup>',
+      [round(Math.PI*r*r*h,2)+' cm<sup>3</sup>',round(1/3*Math.PI*r*h,2)+' cm<sup>3</sup>',round(V*2,2)+' cm<sup>3</sup>'],
+      'Volume of a cone = 1/3 πr<sup>2</sup>h = 1/3 × π × '+r+'<sup>2</sup> × '+h+' = <b>'+V+' cm<sup>3</sup></b>. (It is a third of the cylinder with the same base and height.)');
+  }
+  const a=randInt(3,12), b=randInt(3,12);
+  const V=round(1/3*a*b*h,2);
+  return finalize('Geometry','volumeAdvanced','A pyramid has a rectangular base <span class="num">'+a+' cm × '+b+' cm</span> and perpendicular height <span class="num">'+h+' cm</span>. Find its volume.',V+' cm<sup>3</sup>',
+    [(a*b*h)+' cm<sup>3</sup>',round(a*b*h/2,2)+' cm<sup>3</sup>',round(1/3*(a+b)*h,2)+' cm<sup>3</sup>'],
+    'Volume of a pyramid = 1/3 × base area × height = 1/3 × '+(a*b)+' × '+h+' = <b>'+V+' cm<sup>3</sup></b>.');
+}
+function genSurfaceArea(){
+  const kind=choice(['cuboid','cylinder','sphere']);
+  if(kind==='cuboid'){
+    const a=randInt(2,10), b=randInt(2,10), c=randInt(2,10);
+    const S=2*(a*b+b*c+a*c);
+    return finalize('Geometry','surfaceArea','Find the total surface area of a cuboid measuring <span class="num">'+a+' cm × '+b+' cm × '+c+' cm</span>.',S+' cm<sup>2</sup>',
+      [(a*b*c)+' cm<sup>2</sup>',(a*b+b*c+a*c)+' cm<sup>2</sup>',(4*(a+b+c))+' cm<sup>2</sup>'],
+      'There are three pairs of identical faces: 2('+a+'×'+b+' + '+b+'×'+c+' + '+a+'×'+c+') = <b>'+S+' cm<sup>2</sup></b>.');
+  }
+  if(kind==='cylinder'){
+    const r=randInt(2,9), h=randInt(4,16);
+    const S=round(2*Math.PI*r*r+2*Math.PI*r*h,2);
+    return finalize('Geometry','surfaceArea','A closed cylinder has radius <span class="num">'+r+' cm</span> and height <span class="num">'+h+' cm</span>. Find its total surface area to 2 decimal places.',S+' cm<sup>2</sup>',
+      [round(2*Math.PI*r*h,2)+' cm<sup>2</sup>',round(Math.PI*r*r*h,2)+' cm<sup>2</sup>',round(2*Math.PI*r*r+Math.PI*r*h,2)+' cm<sup>2</sup>'],
+      'Two circular ends plus the curved surface: 2πr<sup>2</sup> + 2πrh = '+round(2*Math.PI*r*r,2)+' + '+round(2*Math.PI*r*h,2)+' = <b>'+S+' cm<sup>2</sup></b>.');
+  }
+  const r=randInt(2,12);
+  const S=round(4*Math.PI*r*r,2);
+  return finalize('Geometry','surfaceArea','A sphere has radius <span class="num">'+r+' cm</span>. Find its surface area to 2 decimal places.',S+' cm<sup>2</sup>',
+    [round(4/3*Math.PI*r*r*r,2)+' cm<sup>2</sup>',round(Math.PI*r*r,2)+' cm<sup>2</sup>',round(2*Math.PI*r*r,2)+' cm<sup>2</sup>'],
+    'Surface area of a sphere = 4πr<sup>2</sup> = 4 × π × '+r+'<sup>2</sup> = <b>'+S+' cm<sup>2</sup></b>.');
+}
+function genPythagoras(){
+  const triples=[[3,4,5],[5,12,13],[6,8,10],[8,15,17],[7,24,25],[9,12,15],[20,21,29],[12,16,20]];
+  const t=choice(triples);
+  const kind=choice(['hyp','leg','decimal']);
+  if(kind==='hyp'){
+    const svg=rightTriangleSVG({base:t[0]+' cm',height:t[1]+' cm',hyp:'x'})+NOT_TO_SCALE;
+    return finalize('Geometry','pythagoras','Find the length <span class="num">x</span>.'+svg,t[2]+' cm',
+      [(t[0]+t[1])+' cm',round(Math.sqrt(Math.abs(t[1]*t[1]-t[0]*t[0])),2)+' cm',round(t[0]*t[1]/2,2)+' cm'],
+      'The unknown side is the hypotenuse, so add the squares: '+t[0]+'<sup>2</sup> + '+t[1]+'<sup>2</sup> = '+(t[0]*t[0]+t[1]*t[1])+', and √'+(t[0]*t[0]+t[1]*t[1])+' = <b>'+t[2]+' cm</b>.');
+  }
+  if(kind==='leg'){
+    const svg=rightTriangleSVG({base:'x',height:t[1]+' cm',hyp:t[2]+' cm'})+NOT_TO_SCALE;
+    return finalize('Geometry','pythagoras','Find the length <span class="num">x</span>.'+svg,t[0]+' cm',
+      [round(Math.sqrt(t[1]*t[1]+t[2]*t[2]),2)+' cm',(t[2]-t[1])+' cm',round(t[2]/t[1],2)+' cm'],
+      'The unknown side is shorter than the hypotenuse, so <b>subtract</b> the squares: '+t[2]+'<sup>2</sup> − '+t[1]+'<sup>2</sup> = '+(t[2]*t[2]-t[1]*t[1])+', and √'+(t[2]*t[2]-t[1]*t[1])+' = <b>'+t[0]+' cm</b>.');
+  }
+  const a=randInt(3,14), b=randInt(3,14);
+  const c=round(Math.sqrt(a*a+b*b),2);
+  const svg=rightTriangleSVG({base:a+' cm',height:b+' cm',hyp:'x'})+NOT_TO_SCALE;
+  return finalize('Geometry','pythagoras','Find the length <span class="num">x</span>, to 2 decimal places.'+svg,c+' cm',
+    [(a+b)+' cm',(a*a+b*b)+' cm',round(Math.sqrt(Math.abs(b*b-a*a)),2)+' cm'],
+    'x<sup>2</sup> = '+a+'<sup>2</sup> + '+b+'<sup>2</sup> = '+(a*a+b*b)+', so x = √'+(a*a+b*b)+' = <b>'+c+' cm</b>.');
+}
+function genPythagoras3D(){
+  const a=randInt(3,10), b=randInt(3,10), c=randInt(3,10);
+  const d=round(Math.sqrt(a*a+b*b+c*c),2);
+  return finalize('Geometry','pythagoras3D','A cuboid measures <span class="num">'+a+' cm × '+b+' cm × '+c+' cm</span>. Find the length of the longest diagonal inside it, to 2 decimal places.',d+' cm',
+    [round(Math.sqrt(a*a+b*b),2)+' cm',(a+b+c)+' cm',(a*a+b*b+c*c)+' cm'],
+    'Apply Pythagoras twice, which gives d = √(a<sup>2</sup> + b<sup>2</sup> + c<sup>2</sup>) = √'+(a*a+b*b+c*c)+' = <b>'+d+' cm</b>.');
+}
+function genTrigSide(){
+  const ang=choice([20,25,30,35,40,45,50,55,60,65,70]);
+  const known=randInt(5,20);
+  const which=choice(['opp','adj','hyp']);
+  let correct, ratio, svg, working;
+  const rad=ang*Math.PI/180;
+  if(which==='opp'){
+    correct=round(known*Math.tan(rad),2);
+    ratio='tan'; working='tan '+ang+'° = opposite / '+known+', so opposite = '+known+' × tan '+ang+'° = '+correct;
+    svg=rightTriangleSVG({base:known+' cm',height:'x',angle:ang+'°'});
+  }else if(which==='adj'){
+    correct=round(known*Math.cos(rad),2);
+    ratio='cos'; working='cos '+ang+'° = adjacent / '+known+', so adjacent = '+known+' × cos '+ang+'° = '+correct;
+    svg=rightTriangleSVG({base:'x',hyp:known+' cm',angle:ang+'°'});
+  }else{
+    correct=round(known/Math.cos(rad),2);
+    ratio='cos'; working='cos '+ang+'° = '+known+' / x, so x = '+known+' ÷ cos '+ang+'° = '+correct;
+    svg=rightTriangleSVG({base:known+' cm',hyp:'x',angle:ang+'°'});
+  }
+  return finalize('Geometry','trigonometry','Find the length <span class="num">x</span>, to 2 decimal places.'+svg+NOT_TO_SCALE,correct+' cm',
+    [round(known*Math.sin(rad),2)+' cm',round(known/Math.tan(rad),2)+' cm',round(known*Math.tan(rad)*2,2)+' cm'],
+    'Label the sides relative to the '+ang+'° angle, then use <b>'+ratio.toUpperCase()+'</b>: '+working+'.');
+}
+function genTrigAngle(){
+  const triples=[[3,4,5],[5,12,13],[6,8,10],[8,15,17],[7,24,25]];
+  const t=choice(triples);
+  const which=choice(['sin','cos','tan']);
+  let correct, pair;
+  if(which==='sin'){ correct=round(Math.asin(t[1]/t[2])*180/Math.PI,1); pair='the side opposite θ is '+t[1]+' cm and the hypotenuse is '+t[2]+' cm'; }
+  else if(which==='cos'){ correct=round(Math.acos(t[0]/t[2])*180/Math.PI,1); pair='the side adjacent to θ is '+t[0]+' cm and the hypotenuse is '+t[2]+' cm'; }
+  else { correct=round(Math.atan(t[1]/t[0])*180/Math.PI,1); pair='the side opposite θ is '+t[1]+' cm and the side adjacent to θ is '+t[0]+' cm'; }
+  return finalize('Geometry','trigFindAngle','In a right-angled triangle, '+pair+'. Find the angle θ, to 1 decimal place.',correct+'°',
+    [round(90-correct,1)+'°',round(correct*2,1)+'°',round(180-correct,1)+'°'],
+    'Use the inverse function: θ = '+which+'<sup>−1</sup>('+(which==='sin'?t[1]+'/'+t[2]:which==='cos'?t[0]+'/'+t[2]:t[1]+'/'+t[0])+') = <b>'+correct+'°</b>.');
+}
+function genExactTrig(){
+  const table=[
+    {a:0,sin:'0',cos:'1',tan:'0'},
+    {a:30,sin:'1/2',cos:'√3/2',tan:'1/√3'},
+    {a:45,sin:'1/√2',cos:'1/√2',tan:'1'},
+    {a:60,sin:'√3/2',cos:'1/2',tan:'√3'},
+    {a:90,sin:'1',cos:'0',tan:'undefined'}
+  ];
+  const row=choice(table.filter(r=>r.a!==90||true));
+  const fn=choice(['sin','cos','tan']);
+  const correct=row[fn];
+  if(correct==='undefined') return genExactTrig();
+  const others=[...new Set(table.flatMap(r=>[r.sin,r.cos,r.tan]).filter(v=>v!==correct&&v!=='undefined'))];
+  return finalize('Geometry','exactTrig','Write down the exact value of <span class="num">'+fn+' '+row.a+'°</span>.',correct,
+    shuffle(others).slice(0,3),
+    'These come from the 30–60–90 and 45–45–90 triangles and must be learned. '+fn+' '+row.a+'° = <b>'+correct+'</b>.');
+}
+function genSimilarLengths(){
+  const k=choice([1.5,2,2.5,3,4]);
+  const a=randInt(3,12), b=randInt(2,a);   /* the second side must also belong to the smaller shape */
+  const A=round(a*k,2), B=round(b*k,2);
+  return finalize('Geometry','similarShapes',
+    'Two similar triangles have corresponding sides of <span class="num">'+a+' cm</span> and <span class="num">'+A+' cm</span>. A second side of the smaller triangle is <span class="num">'+b+' cm</span>. Find the corresponding side of the larger triangle.',B+' cm',
+    [round(b/k,2)+' cm',round(b+A-a,2)+' cm',round(b*k*k,2)+' cm'],
+    'The length scale factor is '+A+' ÷ '+a+' = '+k+'. So the missing side is '+b+' × '+k+' = <b>'+B+' cm</b>.');
+}
+function genSimilarAreaVolume(){
+  const k=choice([2,3,4,1.5]);
+  const which=choice(['area','volume']);
+  const base=randInt(4,30);
+  const correct= which==='area'? round(base*k*k,2) : round(base*k*k*k,2);
+  const unit= which==='area'? 'cm<sup>2</sup>' : 'cm<sup>3</sup>';
+  return finalize('Geometry','similarScaleFactors',
+    'Two similar solids have a length scale factor of <span class="num">'+k+'</span>. The smaller has '+which+' <span class="num">'+base+' '+unit+'</span>. Find the '+which+' of the larger solid.',correct+' '+unit,
+    [round(base*k,2)+' '+unit, which==='area'? round(base*k*k*k,2)+' '+unit : round(base*k*k,2)+' '+unit, round(base/k,2)+' '+unit],
+    'Areas scale by k<sup>2</sup> and volumes by k<sup>3</sup>. Here '+which+' scale factor = '+k+'<sup>'+(which==='area'?2:3)+'</sup> = '+(which==='area'?k*k:k*k*k)+', so '+base+' × '+(which==='area'?k*k:k*k*k)+' = <b>'+correct+' '+unit+'</b>.');
+}
+function genTransformations(){
+  const kind=choice(['translate','reflect','rotate','enlarge']);
+  const x=nonZero(-6,6), y=nonZero(-6,6);
+  if(kind==='translate'){
+    const a=nonZero(-6,6), b=nonZero(-6,6);
+    const correct='('+(x+a)+', '+(y+b)+')';
+    return finalize('Geometry','transformations','The point <span class="num">('+x+', '+y+')</span> is translated by the vector <span class="num">('+a+', '+b+')</span>. Write down its image.',correct,
+      ['('+(x-a)+', '+(y-b)+')','('+(y+b)+', '+(x+a)+')','('+(x*a)+', '+(y*b)+')'],
+      'Add the vector to the coordinates: ('+x+' + '+a+', '+y+' + '+b+') = <b>'+correct+'</b>.');
+  }
+  if(kind==='reflect'){
+    const line=choice(['x-axis','y-axis','y = x']);
+    const correct= line==='x-axis'? '('+x+', '+(-y)+')' : line==='y-axis'? '('+(-x)+', '+y+')' : '('+y+', '+x+')';
+    return finalize('Geometry','transformations','The point <span class="num">('+x+', '+y+')</span> is reflected in the line <span class="num">'+line+'</span>. Write down its image.',correct,
+      ['('+(-x)+', '+(-y)+')','('+y+', '+x+')','('+x+', '+y+')'],
+      'Reflecting in the '+line+' '+(line==='x-axis'?'changes the sign of the y-coordinate':line==='y-axis'?'changes the sign of the x-coordinate':'swaps the coordinates')+': <b>'+correct+'</b>.');
+  }
+  if(kind==='rotate'){
+    const deg=choice([90,180,270]);
+    const dir=choice(['clockwise','anticlockwise']);
+    let cx=x, cy=y;
+    let steps= dir==='clockwise'? deg/90 : (360-deg)/90;
+    for(let i=0;i<steps%4;i++){ const t=cx; cx=cy; cy=-t; }   /* one 90° clockwise turn about the origin */
+    const correct='('+cx+', '+cy+')';
+    return finalize('Geometry','transformations','The point <span class="num">('+x+', '+y+')</span> is rotated <span class="num">'+deg+'° '+dir+'</span> about the origin. Write down its image.',correct,
+      ['('+(-cx)+', '+(-cy)+')','('+cy+', '+cx+')','('+x+', '+y+')'],
+      'A 90° clockwise turn about the origin sends (a, b) to (b, −a). Applying that '+(steps%4)+' time(s) gives <b>'+correct+'</b>.');
+  }
+  const k=choice([2,3,-2,0.5]);
+  const correct='('+round(x*k,2)+', '+round(y*k,2)+')';
+  return finalize('Geometry','transformations','The point <span class="num">('+x+', '+y+')</span> is enlarged by scale factor <span class="num">'+k+'</span> about the origin. Write down its image.',correct,
+    ['('+round(x/k,2)+', '+round(y/k,2)+')','('+round(x+k,2)+', '+round(y+k,2)+')','('+round(y*k,2)+', '+round(x*k,2)+')'],
+    'Multiply both coordinates by the scale factor '+k+': <b>'+correct+'</b>.'+(k<0?' A negative scale factor also sends the image to the opposite side of the center.':''));
+}
+function genBearings(){
+  const b=randInt(20,340);
+  const kind=choice(['back','describe']);
+  if(kind==='back'){
+    const correct= b<180? b+180 : b-180;
+    const str=(correct<100?(correct<10?'00':'0'):'')+correct+'°';
+    const bStr=(b<100?(b<10?'00':'0'):'')+b+'°';
+    return finalize('Geometry','bearings','The bearing of B from A is <span class="num">'+bStr+'</span>. Find the bearing of A from B.',str,
+      [(360-b)+'°',(b<180?b+90:b-90)+'°',bStr],
+      'A back bearing differs by 180°: '+b+(b<180?' + 180':' − 180')+' = <b>'+str+'</b>.');
+  }
+  const dirs={'north':0,'east':90,'south':180,'west':270,'north-east':45,'south-east':135,'south-west':225,'north-west':315};
+  const key=choice(Object.keys(dirs));
+  const v=dirs[key];
+  const str=(v<100?(v<10?'00':'0'):'')+v+'°';
+  return finalize('Geometry','bearings','Write the direction <span class="num">'+key+'</span> as a three-figure bearing.',str,
+    [((v+90)%360<100?'0':'')+((v+90)%360)+'°',((v+180)%360)+'°',(360-v)+'°'],
+    'Bearings are measured clockwise from north and always written with three figures: '+key+' = <b>'+str+'</b>.');
+}
+function genVectors(){
+  const a=nonZero(-6,6), b=nonZero(-6,6), c=nonZero(-6,6), d=nonZero(-6,6);
+  const kind=choice(['add','scalar','magnitude']);
+  if(kind==='add'){
+    const k=randInt(2,4);
+    const correct='('+(a+k*c)+', '+(b+k*d)+')';
+    return finalize('Geometry','vectors','Given <span class="num">a = ('+a+', '+b+')</span> and <span class="num">b = ('+c+', '+d+')</span>, find <span class="num">a + '+k+'b</span> as a column vector.',correct,
+      ['('+(a+c)+', '+(b+d)+')','('+(k*a+c)+', '+(k*b+d)+')','('+(a-k*c)+', '+(b-k*d)+')'],
+      'Multiply b by '+k+' first: ('+(k*c)+', '+(k*d)+'). Then add componentwise: <b>'+correct+'</b>.');
+  }
+  if(kind==='scalar'){
+    const k=nonZero(-4,4);
+    const correct='('+(k*a)+', '+(k*b)+')';
+    return finalize('Geometry','vectors','Given <span class="num">a = ('+a+', '+b+')</span>, find <span class="num">'+k+'a</span> as a column vector.',correct,
+      ['('+(a+k)+', '+(b+k)+')','('+(k*b)+', '+(k*a)+')','('+(-k*a)+', '+(-k*b)+')'],
+      'Multiply each component by '+k+': <b>'+correct+'</b>.');
+  }
+  const mag=round(Math.sqrt(a*a+b*b),2);
+  return finalize('Geometry','vectorMagnitude','Find the magnitude of the vector <span class="num">('+a+', '+b+')</span>, to 2 decimal places.',mag,
+    [Math.abs(a)+Math.abs(b), a*a+b*b, round(mag/2,2)],
+    'The magnitude is √(x<sup>2</sup> + y<sup>2</sup>) = √('+(a*a)+' + '+(b*b)+') = √'+(a*a+b*b)+' = <b>'+mag+'</b>.');
+}
+function genCircleTheorem(){
+  const kind=choice(['semicircle','centerAngle','sameSegment','cyclic','tangentRadius','alternate']);
+  const a=randInt(25,75);
+  if(kind==='semicircle'){
+    return finalize('Geometry','circleTheorems','AB is a diameter of a circle and C is a point on the circumference. One angle of triangle ABC is <span class="num">'+a+'°</span> at A. Find the angle at C.','90°',
+      [(90-a)+'°',(180-a)+'°',a+'°'],
+      'The angle in a semicircle is always 90°, so angle ACB = <b>90°</b>. (The angle at B would be '+(90-a)+'°.)');
+  }
+  if(kind==='centerAngle'){
+    return finalize('Geometry','circleTheorems','An angle at the circumference of a circle is <span class="num">'+a+'°</span>. Find the angle subtended by the same arc at the center.',(2*a)+'°',
+      [round(a/2,1)+'°',(180-a)+'°',(90-a)+'°'],
+      'The angle at the center is twice the angle at the circumference: 2 × '+a+' = <b>'+(2*a)+'°</b>.');
+  }
+  if(kind==='sameSegment'){
+    return finalize('Geometry','circleTheorems','Two angles at the circumference of a circle are subtended by the same arc. One is <span class="num">'+a+'°</span>. Find the other.',a+'°',
+      [(2*a)+'°',(180-a)+'°',(90-a)+'°'],
+      'Angles in the same segment are equal, so the other angle is also <b>'+a+'°</b>.');
+  }
+  if(kind==='cyclic'){
+    return finalize('Geometry','circleTheorems','ABCD is a cyclic quadrilateral. Angle A is <span class="num">'+a+'°</span>. Find angle C.',(180-a)+'°',
+      [a+'°',(360-a)+'°',(90-a)+'°'],
+      'Opposite angles in a cyclic quadrilateral add to 180°: 180 − '+a+' = <b>'+(180-a)+'°</b>.');
+  }
+  if(kind==='tangentRadius'){
+    return finalize('Geometry','circleTheorems','A tangent touches a circle at P, and OP is a radius. A chord from P makes an angle of <span class="num">'+a+'°</span> with the tangent. Find the angle between that chord and the radius OP.',(90-a)+'°',
+      [a+'°',(180-a)+'°','90°'],
+      'A tangent meets a radius at 90°, so the remaining angle is 90 − '+a+' = <b>'+(90-a)+'°</b>.');
+  }
+  return finalize('Geometry','circleTheorems','The angle between a tangent and a chord is <span class="num">'+a+'°</span>. Find the angle in the alternate segment.',a+'°',
+    [(90-a)+'°',(180-a)+'°',(2*a)+'°'],
+    'By the alternate segment theorem, the angle between a tangent and a chord equals the angle in the alternate segment: <b>'+a+'°</b>.');
+}
+function genIntersectingChords(){
+  const a=randInt(2,9), b=randInt(2,9), c=randInt(2,9);
+  const prod=a*b;
+  if(prod%c!==0) return genIntersectingChords();
+  const d=prod/c;
+  return finalize('Geometry','intersectingChords',
+    'Two chords of a circle cross inside it. One chord is split into lengths <span class="num">'+a+' cm</span> and <span class="num">'+b+' cm</span>. The other is split into <span class="num">'+c+' cm</span> and <span class="num">x</span>. Find x.',d+' cm',
+    [(a+b-c)+' cm',round(c/prod,3)+' cm',(prod)+' cm'],
+    'The intersecting chords theorem gives '+a+' × '+b+' = '+c+' × x, so x = '+prod+' ÷ '+c+' = <b>'+d+' cm</b>.');
+}
+function genLoci(){
+  const kind=choice(['circle','perpBisector','angleBisector','parallel']);
+  const d=randInt(2,8);
+  const map={
+    circle:{q:'the set of points exactly <span class="num">'+d+' cm</span> from a fixed point A',a:'A circle of radius '+d+' cm centered on A'},
+    perpBisector:{q:'the set of points equidistant from two fixed points A and B',a:'The perpendicular bisector of AB'},
+    angleBisector:{q:'the set of points equidistant from two intersecting lines',a:'The bisector of the angle between the lines'},
+    parallel:{q:'the set of points exactly <span class="num">'+d+' cm</span> from a long straight wall',a:'A line parallel to the wall, '+d+' cm from it'}
+  };
+  const m=map[kind];
+  const all=Object.keys(map).filter(k=>k!==kind).map(k=>map[k].a);
+  return finalize('Geometry','loci','Describe the locus of '+m.q+'.',m.a,all,
+    'Sketch a few points that satisfy the condition and the shape becomes clear: <b>'+m.a+'</b>.');
+}
+
+/* ==================== 6. Probability and statistics ==================== */
+function tableHTML(headers,rows){
+  let h='<div class="scroll-x"><table class="qtable"><tr>'+headers.map(x=>'<th>'+x+'</th>').join('')+'</tr>';
+  rows.forEach(r=>{ h+='<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>'; });
+  return h+'</table></div>';
+}
+function genAveragesList(){
+  const n=choice([5,7,9]);
+  const data=Array.from({length:n},()=>randInt(1,20));
+  const sorted=[...data].sort((a,b)=>a-b);
+  const mean=round(data.reduce((s,x)=>s+x,0)/n,2);
+  const median=sorted[(n-1)/2];
+  const range=sorted[n-1]-sorted[0];
+  const ask=choice(['mean','median','range']);
+  const correct= ask==='mean'? mean : ask==='median'? median : range;
+  return finalize('Statistics','averages','Find the '+ask+' of this data set:<br><span class="num">'+data.join(', ')+'</span>',correct,
+    [mean===correct?median:mean, median===correct?range:median, range===correct?mean:range],
+    ask==='mean'? 'Add them up ('+data.reduce((s,x)=>s+x,0)+') and divide by '+n+': <b>'+mean+'</b>.'
+    : ask==='median'? 'Put them in order: '+sorted.join(', ')+'. The middle value is <b>'+median+'</b>.'
+    : 'Range = largest − smallest = '+sorted[n-1]+' − '+sorted[0]+' = <b>'+range+'</b>.');
+}
+function genAveragesFreqTable(){
+  const vals=[0,1,2,3,4];
+  const freqs=vals.map(()=>randInt(1,9));
+  const N=freqs.reduce((s,x)=>s+x,0);
+  const sumFX=vals.reduce((s,v,i)=>s+v*freqs[i],0);
+  const mean=round(sumFX/N,2);
+  const mode=vals[freqs.indexOf(Math.max(...freqs))];
+  let cum=0, median=null;
+  const pos=(N+1)/2;
+  for(let i=0;i<vals.length;i++){ cum+=freqs[i]; if(median===null&&cum>=pos) median=vals[i]; }
+  const table=tableHTML(['Goals','Frequency'],vals.map((v,i)=>[v,freqs[i]]));
+  const ask=choice(['mean','median','mode']);
+  const correct= ask==='mean'? mean : ask==='median'? median : mode;
+  return finalize('Statistics','frequencyTable','The table shows the number of goals scored in '+N+' matches. Find the '+ask+'.'+table,correct,
+    [mean===correct?mode:mean, median===correct?mode:median, mode===correct?mean:mode],
+    ask==='mean'? 'Add an fx column: Σfx = '+sumFX+' and Σf = '+N+', so the mean is '+sumFX+' ÷ '+N+' = <b>'+mean+'</b>.'
+    : ask==='median'? 'There are '+N+' values, so the median is value number '+pos+'. Counting through the frequencies gives <b>'+median+'</b>.'
+    : 'The mode is the value with the highest frequency ('+Math.max(...freqs)+'), which is <b>'+mode+'</b>.');
+}
+function genEstimatedMean(){
+  const width=choice([10,20,5]);
+  const starts=[0,width,2*width,3*width];
+  const freqs=starts.map(()=>randInt(2,12));
+  const mids=starts.map(s=>s+width/2);
+  const N=freqs.reduce((s,x)=>s+x,0);
+  const sumFX=mids.reduce((s,m,i)=>s+m*freqs[i],0);
+  const mean=round(sumFX/N,2);
+  const rows=starts.map((s,i)=>[s+' &lt; x ≤ '+(s+width), freqs[i]]);
+  const table=tableHTML(['Class','Frequency'],rows);
+  return finalize('Statistics','estimatedMean','The grouped table shows the times taken by '+N+' students. Calculate an estimate of the mean, to 2 decimal places.'+table,mean,
+    [round(mids.reduce((s,m)=>s+m,0)/4,2), round(sumFX,2), round(N/4,2)],
+    'Use the midpoint of each class ('+mids.join(', ')+'). Σfx = '+sumFX+' and Σf = '+N+', so the estimated mean is '+sumFX+' ÷ '+N+' = <b>'+mean+'</b>. It is only an estimate because the exact values inside each class are unknown.');
+}
+function genCumulativeFrequency(){
+  const width=10;
+  const starts=[0,10,20,30,40];
+  const freqs=starts.map(()=>randInt(3,15));
+  const cum=[]; let running=0;
+  freqs.forEach(f=>{ running+=f; cum.push(running); });
+  const N=running;
+  const table=tableHTML(['Class','Frequency','Cumulative frequency'],starts.map((s,i)=>[s+' &lt; x ≤ '+(s+width),freqs[i],cum[i]]));
+  const half=N/2;
+  let medClass=0;
+  for(let i=0;i<cum.length;i++){ if(cum[i]>=half){ medClass=i; break; } }
+  const correct=starts[medClass]+' &lt; x ≤ '+(starts[medClass]+width);
+  return finalize('Statistics','cumulativeFrequency','The table shows the cumulative frequency for '+N+' values. Which class interval contains the median?'+table,correct,
+    starts.filter((s,i)=>i!==medClass).slice(0,3).map(s=>s+' &lt; x ≤ '+(s+width)),
+    'The median is the '+half+'th value. The cumulative frequency first reaches '+half+' in the class <b>'+correct+'</b>.');
+}
+function genBoxPlot(){
+  const min=randInt(1,10);
+  const q1=min+randInt(3,8), med=q1+randInt(2,8), q3=med+randInt(2,8), max=q3+randInt(2,10);
+  const ask=choice(['iqr','range']);
+  const correct= ask==='iqr'? q3-q1 : max-min;
+  return finalize('Statistics','boxPlot',
+    'A box plot has minimum <span class="num">'+min+'</span>, lower quartile <span class="num">'+q1+'</span>, median <span class="num">'+med+'</span>, upper quartile <span class="num">'+q3+'</span> and maximum <span class="num">'+max+'</span>. Find the '+(ask==='iqr'?'interquartile range':'range')+'.',correct,
+    [ask==='iqr'? max-min : q3-q1, med, q3+q1],
+    ask==='iqr'? 'IQR = upper quartile − lower quartile = '+q3+' − '+q1+' = <b>'+correct+'</b>.' : 'Range = maximum − minimum = '+max+' − '+min+' = <b>'+correct+'</b>.');
+}
+function genHistogram(){
+  const classes=[[0,10],[10,20],[20,50],[50,60]];
+  const freqs=classes.map(()=>randInt(5,60));
+  const i=randInt(0,3);
+  const w=classes[i][1]-classes[i][0];
+  const fd=round(freqs[i]/w,2);
+  const ask=choice(['fd','freq']);
+  if(ask==='fd'){
+    const rows=classes.map((c,j)=>[c[0]+' &lt; x ≤ '+c[1],freqs[j]]);
+    return finalize('Statistics','histogram','The table shows grouped data with unequal class widths. Find the frequency density of the class <span class="num">'+classes[i][0]+' &lt; x ≤ '+classes[i][1]+'</span>.'+tableHTML(['Class','Frequency'],rows),fd,
+      [freqs[i], round(w/freqs[i],3), freqs[i]*w],
+      'Frequency density = frequency ÷ class width = '+freqs[i]+' ÷ '+w+' = <b>'+fd+'</b>. On a histogram it is the frequency density, not the frequency, that goes on the vertical axis.');
+  }
+  const fdGiven=round(freqs[i]/w,2);
+  const correct=round(fdGiven*w,0);
+  return finalize('Statistics','histogram','On a histogram, the bar for <span class="num">'+classes[i][0]+' &lt; x ≤ '+classes[i][1]+'</span> has frequency density <span class="num">'+fdGiven+'</span>. Find the frequency for this class.',correct,
+    [fdGiven, round(fdGiven/w,3), w],
+    'Frequency = frequency density × class width = '+fdGiven+' × '+w+' = <b>'+correct+'</b> (the area of the bar).');
+}
+function genScatter(){
+  const type=choice(['positive','negative','none']);
+  const pts=[];
+  for(let i=0;i<12;i++){
+    const x=randInt(1,19);
+    let y;
+    if(type==='positive') y=Math.max(1,Math.min(19,Math.round(x*0.8+randInt(-2,2)+2)));
+    else if(type==='negative') y=Math.max(1,Math.min(19,Math.round(20-x*0.8+randInt(-2,2))));
+    else y=randInt(1,19);
+    pts.push([x,y]);
+  }
+  const f=chartFrame(0,20,0,20,5,5,300,240,true);
+  let dots='';
+  pts.forEach(p=>{ const q=f.toPx(p[0],p[1]); dots+='<circle cx="'+q.x.toFixed(1)+'" cy="'+q.y.toFixed(1)+'" r="3.4" fill="'+SVG_ACCENT+'" opacity="0.85"/>'; });
+  const svg=svgWrap(f.width,f.height,f.svgBase+dots);
+  const label= type==='positive'?'Positive correlation': type==='negative'?'Negative correlation':'No correlation';
+  return finalize('Statistics','scatter','Describe the correlation shown by this scatter graph.'+svg,label,
+    ['Positive correlation','Negative correlation','No correlation','Perfect correlation'].filter(l=>l!==label).slice(0,3),
+    type==='none'? 'The points are scattered with no clear trend, so there is <b>no correlation</b>. Remember that correlation never proves cause.'
+      : 'As one variable increases the other '+(type==='positive'?'increases':'decreases')+', so this is <b>'+label.toLowerCase()+'</b>.');
+}
+function genPieChart(){
+  const cats=['Bus','Car','Walk','Cycle'];
+  const freqs=[randInt(2,10),randInt(2,10),randInt(2,10),randInt(2,10)];
+  const total=freqs.reduce((s,x)=>s+x,0);
+  const idx=randInt(0,3);
+  const ask=choice(['angle','frequency']);
+  if(ask==='angle'){
+    const correct=round(freqs[idx]/total*360,1);
+    return finalize('Statistics','pieChart','A pie chart is drawn for '+total+' students. <span class="num">'+freqs[idx]+'</span> of them travel by '+cats[idx].toLowerCase()+'. Find the angle of that sector, to 1 decimal place.',correct+'°',
+      [round(freqs[idx]/total*100,1)+'°',round(360/total,1)+'°',(freqs[idx]*10)+'°'],
+      'Each person is worth 360 ÷ '+total+' = '+round(360/total,2)+'°, so '+freqs[idx]+' people take '+freqs[idx]+' × '+round(360/total,2)+' = <b>'+correct+'°</b>.');
+  }
+  const angle=round(freqs[idx]/total*360,0);
+  let start=0, sectors='';
+  const colors=['#2F7A5B','#7FB79E','#C25E4E','#E0C36A'];
+  freqs.forEach((fr,i)=>{
+    const sweep=fr/total*360;
+    sectors+='<path d="'+describeArc(110,105,80,start,start+sweep)+'" fill="'+colors[i]+'" opacity="0.85" stroke="#fff" stroke-width="1.5"/>';
+    start+=sweep;
+  });
+  let legend='';
+  cats.forEach((c,i)=>{ legend+='<rect x="205" y="'+(40+i*22)+'" width="11" height="11" fill="'+colors[i]+'"/>'+txt(222,50+i*22,c,{size:10,anchor:'start'}); });
+  const svg=svgWrap(300,215,sectors+legend);
+  const correct=Math.round(angle/360*total);
+  return finalize('Statistics','pieChart','This pie chart shows how '+total+' students travel to school. The '+cats[idx].toLowerCase()+' sector has an angle of <span class="num">'+angle+'°</span>. How many students does it represent?'+svg,correct,
+    [angle, round(total/angle,2), round(angle/total,2)],
+    'Fraction of the circle = '+angle+'/360, so the number of students is ('+angle+'/360) × '+total+' = <b>'+correct+'</b>.');
+}
+function genProbabilityBasic(){
+  const r=randInt(2,9), b=randInt(2,9), g=randInt(2,9);
+  const total=r+b+g;
+  const which=choice([['red',r],['blue',b],['green',g]]);
+  const kind=choice(['single','not']);
+  if(kind==='single'){
+    const correct=frac(which[1],total);
+    return finalize('Statistics','probability','A bag contains <span class="num">'+r+'</span> red, <span class="num">'+b+'</span> blue and <span class="num">'+g+'</span> green counters. One is taken at random. Find the probability that it is '+which[0]+'.',correct,
+      [frac(total,which[1]), frac(which[1],total-which[1]), frac(which[1]+1,total)],
+      'P('+which[0]+') = number of '+which[0]+' ÷ total = '+which[1]+'/'+total+' = <b>'+correct+'</b>.');
+  }
+  const correct=frac(total-which[1],total);
+  return finalize('Statistics','probability','A bag contains <span class="num">'+r+'</span> red, <span class="num">'+b+'</span> blue and <span class="num">'+g+'</span> green counters. One is taken at random. Find the probability that it is <b>not</b> '+which[0]+'.',correct,
+    [frac(which[1],total), frac(total,total-which[1]), frac(total-which[1],which[1])],
+    'P(not '+which[0]+') = 1 − '+which[1]+'/'+total+' = '+(total-which[1])+'/'+total+' = <b>'+correct+'</b>.');
+}
+function genRelativeFrequency(){
+  const trials=choice([50,100,200,500]);
+  const p=choice([0.15,0.2,0.25,0.3,0.4,0.6]);
+  const hits=Math.round(trials*p);
+  const bigger=choice([200,400,1000]);
+  const correct=Math.round(p*bigger);
+  return finalize('Statistics','relativeFrequency',
+    'A biased dice is rolled <span class="num">'+trials+'</span> times and lands on six <span class="num">'+hits+'</span> times. Estimate how many sixes there would be in <span class="num">'+bigger+'</span> rolls.',correct,
+    [hits, Math.round(bigger/6), Math.round(bigger-correct)],
+    'The relative frequency is '+hits+'/'+trials+' = '+p+'. Multiply by the new number of trials: '+p+' × '+bigger+' = <b>'+correct+'</b>.');
+}
+function genTreeDiagram(){
+  const d1=choice([4,5,8,10]), n1=randInt(1,d1-1);
+  const d2=choice([4,5,8,10]), n2=randInt(1,d2-1);
+  const kind=choice(['both','neither','exactlyOne']);
+  let num,den,label,working;
+  if(kind==='both'){ num=n1*n2; den=d1*d2; label='both events happen'; working='P(A and B) = '+n1+'/'+d1+' × '+n2+'/'+d2; }
+  else if(kind==='neither'){ num=(d1-n1)*(d2-n2); den=d1*d2; label='neither event happens'; working='P(not A and not B) = '+(d1-n1)+'/'+d1+' × '+(d2-n2)+'/'+d2; }
+  else { num=n1*(d2-n2)+(d1-n1)*n2; den=d1*d2; label='exactly one of them happens'; working='Add the two branches: '+n1+'/'+d1+' × '+(d2-n2)+'/'+d2+' + '+(d1-n1)+'/'+d1+' × '+n2+'/'+d2; }
+  const correct=frac(num,den);
+  return finalize('Statistics','treeDiagram',
+    'Two independent events A and B have <span class="num">P(A) = '+frac(n1,d1)+'</span> and <span class="num">P(B) = '+frac(n2,d2)+'</span>. Find the probability that '+label+'.',correct,
+    [frac(n1*d2+n2*d1,d1*d2), frac(n1+n2,d1+d2), frac(den-num,den)],
+    'Draw a tree diagram: multiply <i>along</i> branches and add <i>between</i> them. '+working+' = <b>'+correct+'</b>.');
+}
+function genProbWithoutReplacement(){
+  const r=randInt(3,8), b=randInt(3,8);
+  const total=r+b;
+  const kind=choice(['bothRed','oneEach']);
+  let num,den,working;
+  if(kind==='bothRed'){
+    num=r*(r-1); den=total*(total-1);
+    working='P(red then red) = '+r+'/'+total+' × '+(r-1)+'/'+(total-1);
+  }else{
+    num=2*r*b; den=total*(total-1);
+    working='P(one of each) = '+r+'/'+total+' × '+b+'/'+(total-1)+' + '+b+'/'+total+' × '+r+'/'+(total-1);
+  }
+  const correct=frac(num,den);
+  return finalize('Statistics','withoutReplacement',
+    'A bag holds <span class="num">'+r+'</span> red and <span class="num">'+b+'</span> blue counters. Two are taken <b>without replacement</b>. Find the probability that '+(kind==='bothRed'?'both are red':'one of each color is taken')+'.',correct,
+    [kind==='bothRed'? frac(r*r,total*total) : frac(2*r*b,total*total), frac(num,total*total), frac(r,total)],
+    'After the first counter there are only '+(total-1)+' left, so the second fraction changes. '+working+' = <b>'+correct+'</b>.');
+}
+function genVennSets(){
+  const both=randInt(2,6), onlyA=randInt(3,9), onlyB=randInt(3,9), neither=randInt(1,6);
+  const total=both+onlyA+onlyB+neither;
+  const ask=choice(['union','intersectionProb','complement','conditional']);
+  if(ask==='union'){
+    const correct=onlyA+onlyB+both;
+    return finalize('Statistics','venn',
+      'In a group of '+total+' students, '+(onlyA+both)+' study French, '+(onlyB+both)+' study Spanish and '+both+' study both. How many study French <b>or</b> Spanish (or both)?',correct,
+      [onlyA+onlyB, onlyA+onlyB+both+neither, both],
+      'n(F ∪ S) = n(F) + n(S) − n(F ∩ S) = '+(onlyA+both)+' + '+(onlyB+both)+' − '+both+' = <b>'+correct+'</b>. Subtracting the overlap stops it being counted twice.');
+  }
+  if(ask==='intersectionProb'){
+    const correct=frac(both,total);
+    return finalize('Statistics','venn',
+      'In a group of '+total+' students, '+(onlyA+both)+' study French, '+(onlyB+both)+' study Spanish and '+both+' study both. One student is chosen at random. Find P(French and Spanish).',correct,
+      [frac(onlyA+both,total), frac(both,onlyA+onlyB), frac(onlyA+onlyB+both,total)],
+      both+' of the '+total+' students are in the overlap, so the probability is '+both+'/'+total+' = <b>'+correct+'</b>.');
+  }
+  if(ask==='complement'){
+    const correct=neither;
+    return finalize('Statistics','venn',
+      'In a group of '+total+' students, '+(onlyA+both)+' study French, '+(onlyB+both)+' study Spanish and '+both+' study both. How many study neither subject?',correct,
+      [total-both, onlyA+onlyB, total-onlyA-onlyB],
+      'Inside the two circles there are '+(onlyA+onlyB+both)+' students, so outside them there are '+total+' − '+(onlyA+onlyB+both)+' = <b>'+neither+'</b>.');
+  }
+  const correct=frac(both,onlyB+both);
+  return finalize('Statistics','venn',
+    'In a group of '+total+' students, '+(onlyA+both)+' study French, '+(onlyB+both)+' study Spanish and '+both+' study both. A student who studies Spanish is chosen at random. Find the probability that they also study French.',correct,
+    [frac(both,total), frac(both,onlyA+both), frac(onlyB,onlyB+both)],
+    'This is conditional: the sample is now only the '+(onlyB+both)+' Spanish students, and '+both+' of them also study French, giving '+both+'/'+(onlyB+both)+' = <b>'+correct+'</b>.');
+}
+function genSampling(){
+  const total=choice([600,800,1200,1500]);
+  const groupFrac=choice([0.4,0.45,0.5,0.55,0.6]);
+  const group=Math.round(total*groupFrac);
+  const sample=choice([50,60,80,100]);
+  const correct=Math.round(group/total*sample);
+  return finalize('Statistics','sampling',
+    'A school has <span class="num">'+total+'</span> students, of whom <span class="num">'+group+'</span> are in Key Stage 4. A stratified sample of <span class="num">'+sample+'</span> students is taken. How many should be from Key Stage 4?',correct,
+    [Math.round(sample/2), group, Math.round(total/sample)],
+    'Keep the same proportion: ('+group+' ÷ '+total+') × '+sample+' = <b>'+correct+'</b>.');
+}
+
+/* ==================== 7. Calculus (International GCSE Higher) ==================== */
+function dTerm(c,n){
+  if(n===0) return null;
+  const nc=c*n, np=n-1;
+  return {c:nc, p:np};
+}
+function polyStr(terms){
+  let s='';
+  terms.forEach((t,i)=>{
+    if(t.c===0) return;
+    const abs=Math.abs(t.c);
+    let piece= t.p===0? String(abs) : (abs===1?'':abs)+'x'+(t.p===1?'':'<sup>'+t.p+'</sup>');
+    if(s===''){ s=(t.c<0?'−':'')+piece; }
+    else{ s+=(t.c<0?' − ':' + ')+piece; }
+  });
+  return s===''?'0':s;
+}
+function genDifferentiate(){
+  const a=randInt(2,6), b=nonZero(-8,8), c=nonZero(-9,9);
+  const n=choice([2,3]);
+  const terms=[{c:a,p:n},{c:b,p:1},{c:c,p:0}];
+  const der=terms.map(t=>dTerm(t.c,t.p)).filter(Boolean);
+  const correct=polyStr(der);
+  return finalize('Calculus','differentiate','Differentiate <span class="num">y = '+polyStr(terms)+'</span>.',correct,
+    [polyStr([{c:a*n,p:n},{c:b,p:1}]), polyStr(terms), polyStr(der.concat([{c:c,p:0}]))],
+    'Multiply by the power and reduce the power by one. '+a+'x<sup>'+n+'</sup> → '+(a*n)+'x<sup>'+(n-1)+'</sup>, '+b+'x → '+b+', and the constant '+c+' differentiates to 0. So dy/dx = <b>'+correct+'</b>.');
+}
+function genGradientAtPoint(){
+  const a=randInt(1,5), b=nonZero(-8,8), x=nonZero(-4,5);
+  const grad=2*a*x+b;
+  return finalize('Calculus','gradientAtPoint','Find the gradient of the curve <span class="num">y = '+a+'x<sup>2</sup> '+sgn(b)+'x</span> at the point where <span class="num">x = '+x+'</span>.',grad,
+    [a*x*x+b*x, 2*a*x, a*2+b],
+    'Differentiate: dy/dx = '+(2*a)+'x '+sgn(b)+'. Then substitute x = '+x+': '+(2*a)+'×('+x+') '+sgn(b)+' = <b>'+grad+'</b>.');
+}
+function genStationaryPoint(){
+  const a=randInt(1,3);
+  const h=nonZero(-5,5);
+  const b=-2*a*h;               /* so dy/dx = 2ax + b = 0 at x = h */
+  const c=nonZero(-9,9);
+  const y=a*h*h+b*h+c;
+  const ask=choice(['x','nature']);
+  if(ask==='x'){
+    const correct='('+h+', '+y+')';
+    return finalize('Calculus','stationaryPoints','Find the coordinates of the stationary point on the curve <span class="num">y = '+poly(a,b,c,'x')+'</span>.',correct,
+      ['('+(-h)+', '+y+')','('+h+', '+c+')','('+y+', '+h+')'],
+      'Set dy/dx = '+(2*a)+'x '+sgn(b)+' = 0, giving x = '+h+'. Substituting back gives y = '+y+', so the stationary point is <b>'+correct+'</b>.');
+  }
+  return finalize('Calculus','stationaryPoints','The curve <span class="num">y = '+poly(a,b,c,'x')+'</span> has one stationary point. Is it a maximum or a minimum?','Minimum',
+    ['Maximum','A point of inflection','It cannot be determined'],
+    'The second derivative is d<sup>2</sup>y/dx<sup>2</sup> = '+(2*a)+', which is positive, so the curve is a <b>minimum</b>. (Any positive x<sup>2</sup> coefficient gives a U-shape.)');
+}
+function genKinematics(){
+  const a=randInt(1,4), b=nonZero(-9,9), t=randInt(1,5);
+  const ask=choice(['velocity','acceleration']);
+  if(ask==='velocity'){
+    const v=3*a*t*t+b;
+    return finalize('Calculus','kinematics','A particle has displacement <span class="num">s = '+a+'t<sup>3</sup> '+sgn(b)+'t</span> meters after t seconds. Find its velocity when <span class="num">t = '+t+'</span>, in m/s.',v,
+      [a*t*t*t+b*t, 6*a*t, 3*a*t+b],
+      'Velocity is the derivative of displacement: v = '+(3*a)+'t<sup>2</sup> '+sgn(b)+'. At t = '+t+': '+(3*a)+'×'+(t*t)+' '+sgn(b)+' = <b>'+v+' m/s</b>.');
+  }
+  const acc=6*a*t;
+  return finalize('Calculus','kinematics','A particle has displacement <span class="num">s = '+a+'t<sup>3</sup> '+sgn(b)+'t</span> meters after t seconds. Find its acceleration when <span class="num">t = '+t+'</span>, in m/s<sup>2</sup>.',acc,
+    [3*a*t*t+b, a*t*t*t+b*t, 6*a],
+    'Differentiate twice: v = '+(3*a)+'t<sup>2</sup> '+sgn(b)+', then a = '+(6*a)+'t. At t = '+t+': '+(6*a)+' × '+t+' = <b>'+acc+' m/s<sup>2</sup></b>.');
+}
+
+/* ==================== Curriculum registry ====================
+   tier   : 'both'   = on Foundation and Higher papers
+            'higher' = Higher tier only
+   spec   : 'both'   = in Edexcel GCSE 1MA1 and International GCSE 4MA1
+            'gcse'   = UK GCSE (1MA1) only
+            'igcse'  = International GCSE (4MA1) only
+   diff   : 1 (warm-up) to 4 (stretch), used to build a rising difficulty ladder
+============================================================== */
+const CHAPTERS=[
+  {id:'number',   n:1, label:'Number'},
+  {id:'algebra',  n:2, label:'Algebra'},
+  {id:'graphs',   n:3, label:'Graphs & Functions'},
+  {id:'ratio',    n:4, label:'Ratio & Proportion'},
+  {id:'geometry', n:5, label:'Geometry & Measures'},
+  {id:'stats',    n:6, label:'Probability & Statistics'},
+  {id:'calculus', n:7, label:'Differentiation'}
+];
+const GEN=[
+  /* --- Number --- */
+  {ch:'number', sub:'Rounding & significant figures', diff:1, tier:'both', spec:'both', fn:genRoundingSF},
+  {ch:'number', sub:'Estimation', diff:1, tier:'both', spec:'both', fn:genEstimation},
+  {ch:'number', sub:'Percentage of an amount', diff:1, tier:'both', spec:'both', fn:genPercentOf},
+  {ch:'number', sub:'HCF & LCM', diff:2, tier:'both', spec:'both', fn:genHCFLCM},
+  {ch:'number', sub:'Fraction arithmetic', diff:2, tier:'both', spec:'both', fn:genFractionArith},
+  {ch:'number', sub:'Percentage change', diff:2, tier:'both', spec:'both', fn:genPercentChange},
+  {ch:'number', sub:'Index laws', diff:2, tier:'both', spec:'both', fn:genIndicesLaws},
+  {ch:'number', sub:'Standard form', diff:2, tier:'both', spec:'both', fn:genStandardFormConvert},
+  {ch:'number', sub:'Product rule for counting', diff:2, tier:'both', spec:'gcse', fn:genProductRuleCounting},
+  {ch:'number', sub:'Error intervals', diff:3, tier:'both', spec:'gcse', fn:genErrorInterval},
+  {ch:'number', sub:'Reverse percentages', diff:3, tier:'both', spec:'both', fn:genReversePercentage},
+  {ch:'number', sub:'Standard form calculations', diff:3, tier:'both', spec:'both', fn:genStandardFormCalc},
+  {ch:'number', sub:'Compound growth & decay', diff:3, tier:'both', spec:'both', fn:genCompoundGrowth},
+  {ch:'number', sub:'Negative & fractional indices', diff:4, tier:'higher', spec:'both', fn:genIndicesNegFrac},
+  {ch:'number', sub:'Simplifying surds', diff:4, tier:'higher', spec:'both', fn:genSurdSimplify},
+  {ch:'number', sub:'Rationalizing the denominator', diff:4, tier:'higher', spec:'both', fn:genSurdRationalize},
+  {ch:'number', sub:'Recurring decimals to fractions', diff:4, tier:'higher', spec:'both', fn:genRecurringDecimal},
+  {ch:'number', sub:'Bounds', diff:4, tier:'higher', spec:'both', fn:genBoundsCalc},
+
+  /* --- Algebra --- */
+  {ch:'algebra', sub:'Collecting like terms', diff:1, tier:'both', spec:'both', fn:genSimplifyExpr},
+  {ch:'algebra', sub:'Substitution', diff:1, tier:'both', spec:'both', fn:genSubstitution},
+  {ch:'algebra', sub:'Solving linear equations', diff:1, tier:'both', spec:'both', fn:genSolveLinear},
+  {ch:'algebra', sub:'Expanding brackets', diff:2, tier:'both', spec:'both', fn:genExpandSingle},
+  {ch:'algebra', sub:'Expanding double brackets', diff:2, tier:'both', spec:'both', fn:genExpandDouble},
+  {ch:'algebra', sub:'Factorizing (common factor)', diff:2, tier:'both', spec:'both', fn:genFactorizeCommon},
+  {ch:'algebra', sub:'Linear sequences', diff:2, tier:'both', spec:'both', fn:genSequencesLinear},
+  {ch:'algebra', sub:'Equations with x on both sides', diff:2, tier:'both', spec:'both', fn:genSolveBothSides},
+  {ch:'algebra', sub:'Inequalities', diff:3, tier:'both', spec:'both', fn:genInequalities},
+  {ch:'algebra', sub:'Rearranging formulae', diff:3, tier:'both', spec:'both', fn:genRearrangeFormula},
+  {ch:'algebra', sub:'Simultaneous equations', diff:3, tier:'both', spec:'both', fn:genSimultaneous},
+  {ch:'algebra', sub:'Factorizing quadratics', diff:3, tier:'both', spec:'both', fn:genFactorizeQuadratic},
+  {ch:'algebra', sub:'Geometric sequences', diff:3, tier:'both', spec:'gcse', fn:genGeometricSequence},
+  {ch:'algebra', sub:'Difference of two squares', diff:3, tier:'higher', spec:'both', fn:genDOTS},
+  {ch:'algebra', sub:'Solving quadratics by factorizing', diff:3, tier:'higher', spec:'both', fn:genSolveQuadFactorize},
+  {ch:'algebra', sub:'Harder factorizing (a ≠ 1)', diff:4, tier:'higher', spec:'both', fn:genFactorizeQuadraticHard},
+  {ch:'algebra', sub:'Expanding triple brackets', diff:4, tier:'higher', spec:'both', fn:genExpandTriple},
+  {ch:'algebra', sub:'The quadratic formula', diff:4, tier:'higher', spec:'both', fn:genQuadraticFormula},
+  {ch:'algebra', sub:'Completing the square', diff:4, tier:'higher', spec:'both', fn:genCompleteSquare},
+  {ch:'algebra', sub:'Quadratic sequences', diff:4, tier:'higher', spec:'both', fn:genSequencesQuadratic},
+  {ch:'algebra', sub:'Rearranging with the subject twice', diff:4, tier:'higher', spec:'both', fn:genRearrangeTwice},
+  {ch:'algebra', sub:'Function notation', diff:4, tier:'higher', spec:'both', fn:genFunctionNotation},
+  {ch:'algebra', sub:'Arithmetic series', diff:4, tier:'higher', spec:'igcse', fn:genArithmeticSeries},
+
+  /* --- Graphs --- */
+  {ch:'graphs', sub:'Midpoint & length of a line', diff:1, tier:'both', spec:'both', fn:genCoordinatesMidpoint},
+  {ch:'graphs', sub:'Gradient from two points', diff:2, tier:'both', spec:'both', fn:genGradientFromPoints},
+  {ch:'graphs', sub:'Reading a straight-line graph', diff:2, tier:'both', spec:'both', fn:genGradientFromGraph},
+  {ch:'graphs', sub:'Distance–time graphs', diff:2, tier:'both', spec:'both', fn:genDistanceTime},
+  {ch:'graphs', sub:'Parallel & perpendicular lines', diff:3, tier:'higher', spec:'both', fn:genParallelPerp},
+  {ch:'graphs', sub:'Velocity–time graphs', diff:3, tier:'higher', spec:'both', fn:genVelocityTime},
+  {ch:'graphs', sub:'Regions & inequalities', diff:3, tier:'both', spec:'igcse', fn:genInequalityRegion},
+  {ch:'graphs', sub:'Quadratic graphs', diff:4, tier:'higher', spec:'both', fn:genQuadraticGraphRead},
+  {ch:'graphs', sub:'Equation of a circle', diff:4, tier:'higher', spec:'gcse', fn:genCircleEquation},
+  {ch:'graphs', sub:'Rate of change from a tangent', diff:4, tier:'higher', spec:'igcse', fn:genTangentRate},
+
+  /* --- Ratio & proportion --- */
+  {ch:'ratio', sub:'Simplifying ratio', diff:1, tier:'both', spec:'both', fn:genSimplifyRatio},
+  {ch:'ratio', sub:'Ratio as a fraction', diff:1, tier:'both', spec:'both', fn:genRatioToFraction},
+  {ch:'ratio', sub:'Best buys', diff:1, tier:'both', spec:'gcse', fn:genBestBuy},
+  {ch:'ratio', sub:'Sharing in a ratio', diff:2, tier:'both', spec:'both', fn:genShareRatio},
+  {ch:'ratio', sub:'Direct proportion', diff:2, tier:'both', spec:'both', fn:genDirectProportion},
+  {ch:'ratio', sub:'Speed, distance & time', diff:2, tier:'both', spec:'both', fn:genSpeedDistanceTime},
+  {ch:'ratio', sub:'Scale drawings & maps', diff:2, tier:'both', spec:'both', fn:genScaleMap},
+  {ch:'ratio', sub:'Exchange rates', diff:2, tier:'both', spec:'both', fn:genExchangeRate},
+  {ch:'ratio', sub:'Ratio problems', diff:3, tier:'both', spec:'both', fn:genRatioGivenOnePart},
+  {ch:'ratio', sub:'Density & pressure', diff:3, tier:'both', spec:'both', fn:genDensityPressure},
+  {ch:'ratio', sub:'Inverse proportion', diff:3, tier:'higher', spec:'both', fn:genInverseProportion},
+  {ch:'ratio', sub:'Proportion with powers', diff:4, tier:'higher', spec:'both', fn:genProportionPower},
+
+  /* --- Geometry --- */
+  {ch:'geometry', sub:'Angles in a triangle', diff:1, tier:'both', spec:'both', fn:genTriangleAngles},
+  {ch:'geometry', sub:'Angles in parallel lines', diff:1, tier:'both', spec:'both', fn:genAnglesParallel},
+  {ch:'geometry', sub:'Area of 2D shapes', diff:1, tier:'both', spec:'both', fn:genAreaComposite},
+  {ch:'geometry', sub:'Polygon angles', diff:2, tier:'both', spec:'both', fn:genPolygonAngles},
+  {ch:'geometry', sub:'Circles: area & circumference', diff:2, tier:'both', spec:'both', fn:genCircleAreaCirc},
+  {ch:'geometry', sub:'Volume of prisms', diff:2, tier:'both', spec:'both', fn:genVolumePrism},
+  {ch:'geometry', sub:'Pythagoras’ theorem', diff:2, tier:'both', spec:'both', fn:genPythagoras},
+  {ch:'geometry', sub:'Transformations', diff:2, tier:'both', spec:'both', fn:genTransformations},
+  {ch:'geometry', sub:'Bearings', diff:2, tier:'both', spec:'both', fn:genBearings},
+  {ch:'geometry', sub:'Loci', diff:2, tier:'both', spec:'gcse', fn:genLoci},
+  {ch:'geometry', sub:'Trigonometry: finding a side', diff:3, tier:'both', spec:'both', fn:genTrigSide},
+  {ch:'geometry', sub:'Similar shapes', diff:3, tier:'both', spec:'both', fn:genSimilarLengths},
+  {ch:'geometry', sub:'Trigonometry: finding an angle', diff:3, tier:'higher', spec:'both', fn:genTrigAngle},
+  {ch:'geometry', sub:'Arcs & sectors', diff:3, tier:'higher', spec:'both', fn:genArcSector},
+  {ch:'geometry', sub:'Exact trigonometric values', diff:3, tier:'higher', spec:'gcse', fn:genExactTrig},
+  {ch:'geometry', sub:'Circle theorems', diff:3, tier:'higher', spec:'both', fn:genCircleTheorem},
+  {ch:'geometry', sub:'Surface area', diff:4, tier:'higher', spec:'both', fn:genSurfaceArea},
+  {ch:'geometry', sub:'Cones, spheres & pyramids', diff:4, tier:'higher', spec:'both', fn:genVolumeConeSphere},
+  {ch:'geometry', sub:'Area & volume scale factors', diff:4, tier:'higher', spec:'both', fn:genSimilarAreaVolume},
+  {ch:'geometry', sub:'Pythagoras in 3D', diff:4, tier:'higher', spec:'both', fn:genPythagoras3D},
+  {ch:'geometry', sub:'Vectors', diff:4, tier:'higher', spec:'both', fn:genVectors},
+  {ch:'geometry', sub:'Intersecting chords', diff:4, tier:'higher', spec:'igcse', fn:genIntersectingChords},
+
+  /* --- Statistics --- */
+  {ch:'stats', sub:'Averages from a list', diff:1, tier:'both', spec:'both', fn:genAveragesList},
+  {ch:'stats', sub:'Basic probability', diff:1, tier:'both', spec:'both', fn:genProbabilityBasic},
+  {ch:'stats', sub:'Pie charts', diff:1, tier:'both', spec:'both', fn:genPieChart},
+  {ch:'stats', sub:'Averages from a frequency table', diff:2, tier:'both', spec:'both', fn:genAveragesFreqTable},
+  {ch:'stats', sub:'Scatter graphs & correlation', diff:2, tier:'both', spec:'both', fn:genScatter},
+  {ch:'stats', sub:'Relative frequency', diff:2, tier:'both', spec:'both', fn:genRelativeFrequency},
+  {ch:'stats', sub:'Estimated mean (grouped data)', diff:3, tier:'both', spec:'both', fn:genEstimatedMean},
+  {ch:'stats', sub:'Tree diagrams', diff:3, tier:'both', spec:'both', fn:genTreeDiagram},
+  {ch:'stats', sub:'Cumulative frequency', diff:3, tier:'higher', spec:'both', fn:genCumulativeFrequency},
+  {ch:'stats', sub:'Sampling', diff:3, tier:'higher', spec:'gcse', fn:genSampling},
+  {ch:'stats', sub:'Box plots', diff:3, tier:'higher', spec:'gcse', fn:genBoxPlot},
+  {ch:'stats', sub:'Probability without replacement', diff:4, tier:'higher', spec:'both', fn:genProbWithoutReplacement},
+  {ch:'stats', sub:'Venn diagrams & set notation', diff:4, tier:'higher', spec:'both', fn:genVennSets},
+  {ch:'stats', sub:'Histograms', diff:4, tier:'higher', spec:'both', fn:genHistogram},
+
+  /* --- Calculus (4MA1 Higher only) --- */
+  {ch:'calculus', sub:'Differentiating polynomials', diff:3, tier:'higher', spec:'igcse', fn:genDifferentiate},
+  {ch:'calculus', sub:'Gradient of a curve at a point', diff:4, tier:'higher', spec:'igcse', fn:genGradientAtPoint},
+  {ch:'calculus', sub:'Stationary points', diff:4, tier:'higher', spec:'igcse', fn:genStationaryPoint},
+  {ch:'calculus', sub:'Kinematics', diff:4, tier:'higher', spec:'igcse', fn:genKinematics}
+];
+function availableGens(){
+  return GEN.filter(g=>
+    (state.tier==='higher' || g.tier==='both') &&
+    (g.spec==='both' || g.spec===state.spec)
+  );
+}
+function chapterGens(chId){ return availableGens().filter(g=>g.ch===chId); }
+
+/* ==================== State & storage ==================== */
+const PREF_KEY='y10:prefs', STAT_KEY='y10:stats', HIST_PREFIX='y10:hist:';
+
+/* ---- Which syllabus this book is set to. Change these two words to re-point it. ----
+   DEFAULT_TIER : 'higher'     (grades 4-9)   or 'foundation' (grades 1-5)
+   DEFAULT_SPEC : 'gcse'       (Edexcel GCSE 1MA1, the UK paper)
+                  'igcse'      (Edexcel International GCSE 4MA1)
+   The tier decides how hard the topic list goes; the specification decides which
+   topics exist at all. See the note at the foot of the home screen.            */
+const DEFAULT_TIER='higher';
+const DEFAULT_SPEC='gcse';
+
+const state={
+  screen:'home',
+  tier:DEFAULT_TIER,
+  spec:DEFAULT_SPEC,
+  mode:'full',
+  answerMode:'type',      /* mixed: typed where an answer is a number, multiple choice otherwise */
+  selected:[],
+  count:20,
+  ladder:'increasing',
+  quiz:null,
+  history:[],
+  stats:{},
+  lastEntry:null,
+  theme:'auto'
+};
+function loadJSON(key,fallback){ try{ const v=localStorage.getItem(key); return v? JSON.parse(v) : fallback; }catch(e){ return fallback; } }
+function saveJSON(key,val){ try{ localStorage.setItem(key,JSON.stringify(val)); }catch(e){} }
+function loadAll(){
+  const prefs=loadJSON(PREF_KEY,{});
+  ['count','theme'].forEach(k=>{ if(prefs[k]!==undefined) state[k]=prefs[k]; });
+  state.stats=loadJSON(STAT_KEY,{});
+  const items=[];
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k&&k.indexOf(HIST_PREFIX)===0){ const v=localStorage.getItem(k); if(v) items.push(JSON.parse(v)); }
+    }
+  }catch(e){}
+  items.sort((a,b)=>b.ts-a.ts);
+  state.history=items;
+  applyTheme();
+}
+function savePrefs(){ saveJSON(PREF_KEY,{count:state.count,theme:state.theme}); }
+function recordStat(sub,correct){
+  if(!state.stats[sub]) state.stats[sub]={seen:0,correct:0};
+  state.stats[sub].seen++;
+  if(correct) state.stats[sub].correct++;
+  saveJSON(STAT_KEY,state.stats);
+}
+function systemPrefersDark(){
+  try{ return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; }catch(e){ return false; }
+}
+function effectiveTheme(){ return state.theme==='auto'? (systemPrefersDark()?'dark':'light') : state.theme; }
+function applyTheme(){
+  /* No stamp while on 'auto', so the reader's own system setting decides. */
+  if(state.theme==='auto') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', state.theme);
+}
+function toggleTheme(){ state.theme = effectiveTheme()==='dark'?'light':'dark'; applyTheme(); savePrefs(); render(); }
+
+/* ==================== Answer checking ==================== */
+/* A question is answerable by typing only when its answer reduces to a single
+   number (or a single fraction). Anything algebraic stays multiple choice. */
+function typedTarget(correctStr){
+  let plain=stripMarkup(correctStr).trim();
+  plain=plain.replace(/^(AED|aed|£|\$|€)\s*/,'');          /* currency label */
+  plain=plain.replace(/^[a-zA-Z](\^-?1)?\s*=\s*/,'');       /* "x = " */
+  plain=plain.replace(/(?:\s+[a-zA-Z][a-zA-Z°/^]*[23]?|°)\s*$/,''); /* trailing unit: " cm", " m/s", " cm^2", "°" */
+  plain=plain.replace(/\s+/g,'');
+  const m=plain.match(/^(-?\d+(?:\.\d+)?)(?:\/(-?\d+(?:\.\d+)?))?$/);
+  if(!m) return null;                                        /* anything algebraic stays multiple choice */
+  const den=m[2]===undefined? 1 : parseFloat(m[2]);
+  if(den===0) return null;
+  const value=parseFloat(m[1])/den;
+  if(!isFinite(value)) return null;
+  return {value:value, isFraction:m[2]!==undefined, plain:plain};
+}
+function checkTyped(input,correctStr){
+  const t=typedTarget(correctStr);
+  if(!t) return false;
+  let cleaned=String(input).replace(/[−–—]/g,'-').replace(/,/g,'').trim();
+  cleaned=cleaned.replace(/^(AED|aed|£|\$|€)\s*/,'');
+  cleaned=cleaned.replace(/^[a-zA-Z](\^-?1)?\s*=\s*/,'');
+  cleaned=cleaned.replace(/(?:\s+[a-zA-Z][a-zA-Z°/^]*[23]?|°)\s*$/,'');
+  cleaned=cleaned.replace(/\s+/g,'');
+  const v=parseNumeric(cleaned);
+  if(v===null) return false;
+  /* Exact: a question that asks for 2 d.p. is not satisfied by 3 d.p., and an
+     equivalent fraction (22/24 for 11/12) is still the right value, so it counts. */
+  return Math.abs(v-t.value)<=1e-9*Math.max(1,Math.abs(t.value))+1e-9;
+}
+function isTypeable(q){ return typedTarget(q.choices[q.correctIndex])!==null; }
+
+/* ==================== Question selection ==================== */
+function pickEntry(pool,targetDiff){
+  let candidates=pool.filter(e=>e.diff===targetDiff);
+  if(!candidates.length){
+    const diffs=[...new Set(pool.map(e=>e.diff))].sort((a,b)=>Math.abs(a-targetDiff)-Math.abs(b-targetDiff));
+    candidates=pool.filter(e=>e.diff===diffs[0]);
+  }
+  return choice(candidates);
+}
+function buildLadder(n,pattern){
+  if(pattern==='mixed') return Array.from({length:n},()=>choice([1,2,3,4]));
+  return Array.from({length:n},(_,i)=>{
+    const f= n>1? i/(n-1) : 0;
+    return f<0.25?1 : f<0.55?2 : f<0.8?3 : 4;
+  });
+}
+function weakPool(){
+  const avail=availableGens();
+  const scored=avail.map(g=>{
+    const s=state.stats[g.sub];
+    if(!s||s.seen<2) return {g, score:0.55};              /* untested topics are worth a look */
+    return {g, score:1-(s.correct/s.seen)};
+  }).filter(x=>x.score>0.25);
+  scored.sort((a,b)=>b.score-a.score);
+  const top=scored.slice(0,12).map(x=>x.g);
+  return top.length? top : avail;
+}
+function currentPool(){
+  if(state.mode==='weak') return weakPool();
+  const chapters= state.mode==='full'? CHAPTERS.map(c=>c.id) : state.selected;
+  const pool=availableGens().filter(g=>chapters.indexOf(g.ch)>=0);
+  return pool;
+}
+function makeQuestion(entry){
+  let q;
+  try{ q=entry.fn(); }catch(err){ q=null; }
+  if(!q) q={topic:'Number',subtopic:'Rounding & significant figures',text:'Round 3.146 to 2 decimal places.',choices:['3.15','3.14','3.1','3.2'],correctIndex:0,explanation:'The third decimal is 6, so round up: 3.15.'};
+  q.subtopic=entry.sub;
+  q.chapter=entry.ch;
+  q.difficulty=entry.diff;
+  return q;
+}
+function buildQuestions(n,pool){
+  const ladder=buildLadder(n,state.ladder);
+  const out=[]; const recent=[];
+  ladder.forEach(d=>{
+    let entry, guard=0;
+    do{ entry=pickEntry(pool,d); guard++; }while(recent.indexOf(entry.sub)>=0 && guard<12);
+    recent.push(entry.sub); if(recent.length>3) recent.shift();
+    out.push(makeQuestion(entry));
+  });
+  return out;
+}
+
+/* ==================== Quiz flow ==================== */
+function startQuiz(){
+  const pool=currentPool();
+  if(!pool.length){ alert('Pick at least one chapter first.'); return; }
+  state.quiz={
+    questions:buildQuestions(state.count,pool),
+    index:0, correctCount:0, answered:null, typed:'', typedCorrect:null,
+    breakdown:{}, log:[]
+  };
+  state.screen='quiz';
+  render();
+}
+function gradeCurrent(payload){
+  const q=state.quiz;
+  const question=q.questions[q.index];
+  let isCorrect, given;
+  if(payload.type==='choice'){
+    given=question.choices[payload.index];
+    isCorrect=payload.index===question.correctIndex;
+    q.answered=payload.index;
+  }else{
+    given=payload.text;
+    isCorrect=checkTyped(payload.text,question.choices[question.correctIndex]);
+    q.answered='typed';
+    q.typedCorrect=isCorrect;
+  }
+  if(isCorrect) q.correctCount++;
+  const ch=CHAPTERS.find(c=>c.id===question.chapter);
+  const key= ch? ch.label : question.topic;
+  if(!q.breakdown[key]) q.breakdown[key]={correct:0,total:0};
+  q.breakdown[key].total++;
+  if(isCorrect) q.breakdown[key].correct++;
+  q.log.push({text:question.text, sub:question.subtopic, given:given, correct:question.choices[question.correctIndex], ok:isCorrect, explanation:question.explanation});
+  recordStat(question.subtopic,isCorrect);
+  render();
+}
+function answerChoice(i){ if(state.quiz.answered!==null) return; gradeCurrent({type:'choice',index:i}); }
+function submitTyped(){
+  if(state.quiz.answered!==null) return;
+  const el=document.getElementById('typed-input');
+  const val=el? el.value.trim() : '';
+  if(val===''){ if(el) el.focus(); return; }
+  gradeCurrent({type:'typed',text:val});
+}
+function nextQuestion(){
+  const q=state.quiz;
+  if(q.index+1<q.questions.length){ q.index++; q.answered=null; q.typedCorrect=null; render(); }
+  else finishQuiz();
+}
+function finishQuiz(){
+  const q=state.quiz;
+  const now=new Date();
+  const entry={
+    id:uid(), ts:now.getTime(),
+    date:now.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),
+    time:now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}),
+    total:q.questions.length, correct:q.correctCount, breakdown:q.breakdown,
+    tier:state.tier, spec:state.spec,
+    mode: state.mode==='full'?'Full curriculum': state.mode==='weak'?'Weak topics': state.selected.map(id=>CHAPTERS.find(c=>c.id===id).label).join(', '),
+    log:q.log
+  };
+  state.history.unshift(entry);
+  saveJSON(HIST_PREFIX+entry.id,entry);
+  state.lastEntry=entry;
+  state.screen='summary';
+  render();
+}
+function clearHistory(){
+  if(!confirm('Delete all saved results and topic progress?')) return;
+  state.history.forEach(h=>{ try{ localStorage.removeItem(HIST_PREFIX+h.id); }catch(e){} });
+  state.history=[]; state.stats={}; saveJSON(STAT_KEY,{});
+  render();
+}
+
+/* ==================== Rendering ==================== */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function pct(a,b){ return b? Math.round(a/b*100) : 0; }
+function diffDots(d){ return '<span class="topic-chip" title="difficulty">'+'●'.repeat(d)+'○'.repeat(4-d)+'</span>'; }
+function setPref(key,val){ state[key]=val; savePrefs(); render(); }
+function setMode(m){ state.mode=m; render(); }
+function toggleChapter(id){
+  if(!chapterGens(id).length) return;
+  const i=state.selected.indexOf(id);
+  if(i>=0) state.selected.splice(i,1); else state.selected.push(id);
+  render();
+}
+function go(screen){ state.screen=screen; render(); }
+
+function render(){
+  const app=document.getElementById('app');
+  let content='';
+  if(state.screen==='home') content=renderHome();
+  else if(state.screen==='quiz') content=renderQuiz();
+  else if(state.screen==='summary') content=renderSummary();
+  else if(state.screen==='review') content=renderReview();
+  else if(state.screen==='history') content=renderHistory();
+  else if(state.screen==='progress') content=renderProgress();
+  app.innerHTML=
+    '<div class="topbar">'+
+      '<div class="brand"><h1>Year 10 Math</h1><span class="chapter-tag">'+(state.tier==='higher'?'Higher':'Foundation')+' · '+(state.spec==='gcse'?'GCSE 1MA1':'IGCSE 4MA1')+'</span></div>'+
+      '<div style="display:flex;gap:8px;">'+
+        '<div class="iconbtn" onclick="go(\'progress\')" title="Progress">Progress</div>'+
+        '<div class="iconbtn" onclick="go(\'history\')" title="History">☷</div>'+
+        '<div class="iconbtn" onclick="toggleTheme()" title="Light or dark">'+(effectiveTheme()==='dark'?'☀':'☾')+'</div>'+
+      '</div>'+
+    '</div>'+content;
+  const input=document.getElementById('typed-input');
+  if(input) input.focus();
+}
+
+function renderHome(){
+  const chapters=CHAPTERS.filter(c=>chapterGens(c.id).length).map(c=>{
+    const n=chapterGens(c.id).length;
+    const sel=state.selected.indexOf(c.id)>=0;
+    return '<div class="chapter-row '+(sel?'selected':'')+'" onclick="toggleChapter(\''+c.id+'\')">'+
+      '<div class="chapter-num">0'+c.n+'</div>'+
+      '<div><div class="chapter-label">'+c.label+'</div>'+
+      '<div class="chapter-sub">'+n+' topic'+(n>1?'s':'')+'</div></div></div>';
+  }).join('');
+  const total=availableGens().length;
+  return ''+
+  '<div class="page">'+
+    '<div class="eyebrow">New practice set</div>'+
+    '<div class="section-title">Ready for some practice?</div>'+
+    '<div class="muted">'+total+' topics, every question generated fresh. Type the answer where it is a number; pick from four where it is not.</div>'+
+
+    '<div class="eyebrow" style="margin-top:22px;">Topics</div>'+
+    '<div class="seg">'+
+      '<div class="seg-btn '+(state.mode==='full'?'active':'')+'" onclick="setMode(\'full\')">Everything</div>'+
+      '<div class="seg-btn '+(state.mode==='choose'?'active':'')+'" onclick="setMode(\'choose\')">Choose chapters</div>'+
+    '</div>'+
+    (state.mode==='choose'? '<div class="chapters">'+chapters+'</div>':'')+
+
+    '<div class="eyebrow" style="margin-top:20px;">How many questions?</div>'+
+    '<div class="count-row">'+[20,30,40].map(n=>'<div class="count-btn '+(state.count===n?'active':'')+'" onclick="setPref(\'count\','+n+')">'+n+'</div>').join('')+'</div>'+
+
+    '<button class="btn-primary" onclick="startQuiz()">Start practice →</button>'+
+    '<div class="note">Set for the <b>'+(state.tier==='higher'?'Higher':'Foundation')+' tier</b> of <b>'+(state.spec==='gcse'?'Edexcel GCSE 1MA1':'Edexcel International GCSE 4MA1')+'</b>. Questions get harder as the set goes on, like a real paper.</div>'+
+  '</div>'+
+  (state.history.length? renderRecentStrip():'');
+}
+function renderRecentStrip(){
+  const last=state.history[0];
+  return '<div class="muted" style="margin-top:16px;text-align:center;">Last set: '+last.correct+'/'+last.total+' ('+pct(last.correct,last.total)+'%) on '+last.date+
+    ' — <a href="#" onclick="go(\'progress\');return false;">see progress</a></div>';
+}
+
+function renderQuiz(){
+  const q=state.quiz;
+  const question=q.questions[q.index];
+  const progress=Math.round(q.index/q.questions.length*100);
+  const answered=q.answered!==null;
+  const correctText=question.choices[question.correctIndex];
+  const useTyping= state.answerMode==='type' && isTypeable(question);
+  let answerBlock;
+  if(useTyping){
+    const ok=q.typedCorrect;
+    answerBlock='<div class="type-row">'+
+      '<input id="typed-input" class="type-input'+(answered? (ok?' ok':' no') :'')+'" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="your answer" value="'+(answered?esc(q.log[q.log.length-1].given):'')+'" '+(answered?'disabled':'')+' onkeydown="if(event.key===\'Enter\'){submitTyped();}">'+
+      (answered?'':'<button class="btn-check" onclick="submitTyped()">Check</button>')+
+    '</div>'+
+    (answered? '<div class="verdict '+(ok?'ok':'no')+'">'+(ok?'Correct':'Not quite — the answer is <b>'+correctText+'</b>')+'</div>' : '<div class="note">Type the number only. Units and currency symbols are optional.</div>');
+  }else{
+    answerBlock='<div class="choices">'+question.choices.map((c,i)=>{
+      let cls='choice';
+      if(answered){ cls+=' disabled'; if(i===question.correctIndex) cls+=' correct'; else if(i===q.answered) cls+=' wrong'; }
+      return '<div class="'+cls+'" onclick="answerChoice('+i+')"><div class="letter">'+String.fromCharCode(65+i)+'</div><div>'+c+'</div></div>';
+    }).join('')+'</div>';
+  }
+  return '<div class="page">'+
+    '<div class="quiz-progress">'+
+      '<span class="qnum">Q'+(q.index+1)+' / '+q.questions.length+'</span>'+
+      '<div class="ruler"><div class="ruler-fill" style="width:'+progress+'%"></div></div>'+
+      '<span class="qnum">'+q.correctCount+' right</span>'+
+    '</div>'+
+    '<div class="topic-row"><span class="topic-chip">'+question.subtopic+'</span>'+diffDots(question.difficulty)+'</div>'+
+    '<div class="question-text">'+question.text+'</div>'+
+    answerBlock+
+    (answered? '<div class="explain">'+question.explanation+'</div>'+
+      '<button class="btn-primary" onclick="nextQuestion()">'+(q.index+1<q.questions.length?'Next question →':'See results →')+'</button>' : '')+
+    '<div class="note">'+(useTyping?'Press Enter to check.':'Press 1–4 or A–D to answer.')+' Then Enter for the next question.</div>'+
+  '</div>';
+}
+
+function renderSummary(){
+  const e=state.lastEntry;
+  const p=pct(e.correct,e.total);
+  const rows=Object.keys(e.breakdown).map(k=>{
+    const st=e.breakdown[k], pc=pct(st.correct,st.total);
+    return '<div class="breakdown-row"><div class="breakdown-label">'+k+'</div>'+
+      '<div class="breakdown-bar"><div class="breakdown-fill '+(pc<60?'weak':'')+'" style="width:'+pc+'%"></div></div>'+
+      '<div class="breakdown-val">'+st.correct+'/'+st.total+'</div></div>';
+  }).join('');
+  const missed=e.log.filter(l=>!l.ok).map(l=>l.sub);
+  const uniqueMissed=[...new Set(missed)];
+  const message= p>=90? 'Excellent — that is exam-ready on these topics.' : p>=70? 'Solid. Tidy up the misses below and this is a strong set.' : p>=50? 'A fair start. The topics below are where the marks went.' : 'Worth slowing down and working through the explanations for each miss.';
+  return '<div class="page">'+
+    '<div class="eyebrow">Results</div>'+
+    '<div class="score-big">'+e.correct+'/'+e.total+'</div>'+
+    '<div class="score-sub">'+p+'% · '+e.mode+' · '+(e.tier==='higher'?'Higher':'Foundation')+' · '+(e.spec==='gcse'?'1MA1':'4MA1')+'</div>'+
+    '<div class="muted" style="margin-top:10px;">'+message+'</div>'+
+    '<div style="margin-top:18px;">'+rows+'</div>'+
+    '<button class="btn-primary" onclick="go(\'review\')">Review every question →</button>'+
+    (uniqueMissed.length? '<button class="btn-ghost" onclick="state.mode=\'weak\';startQuiz()">Practice my weak topics</button>':'')+
+    '<button class="btn-ghost" onclick="go(\'home\')">Back to the start</button>'+
+  '</div>';
+}
+
+function renderReview(){
+  const e=state.lastEntry;
+  const items=e.log.map((l,i)=>
+    '<div class="review-item">'+
+      '<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:6px;">'+
+        '<span class="topic-chip">'+l.sub+'</span>'+
+        '<span class="review-tag '+(l.ok?'ok':'no')+'">'+(l.ok?'correct':'missed')+'</span>'+
+      '</div>'+
+      '<div class="review-q"><b>Q'+(i+1)+'.</b> '+l.text+'</div>'+
+      '<div class="review-ans">Your answer: '+esc(String(l.given))+(l.ok?'':' · Correct answer: <b>'+l.correct+'</b>')+'</div>'+
+      '<div class="review-ans" style="margin-top:6px;">'+l.explanation+'</div>'+
+    '</div>').join('');
+  return '<div class="page"><div class="eyebrow">Review</div><div class="section-title">'+e.correct+'/'+e.total+' on '+e.date+'</div>'+
+    '<div style="margin-top:14px;">'+items+'</div>'+
+    '<button class="btn-ghost" onclick="go(\'home\')">Done</button></div>';
+}
+
+function renderProgress(){
+  const subs=Object.keys(state.stats);
+  if(!subs.length) return '<div class="page"><div class="eyebrow">Progress</div><div class="section-title">Nothing tracked yet</div>'+
+    '<div class="muted">Finish a practice set and this page will show which topics are solid and which need work.</div>'+
+    '<button class="btn-primary" onclick="go(\'home\')">Start a set</button></div>';
+  const totalSeen=subs.reduce((s,k)=>s+state.stats[k].seen,0);
+  const totalRight=subs.reduce((s,k)=>s+state.stats[k].correct,0);
+  const byChapter=CHAPTERS.map(c=>{
+    const gens=GEN.filter(g=>g.ch===c.id).map(g=>g.sub);
+    let seen=0, right=0;
+    gens.forEach(s=>{ if(state.stats[s]){ seen+=state.stats[s].seen; right+=state.stats[s].correct; } });
+    return {label:c.label, seen, right};
+  }).filter(c=>c.seen>0);
+  const chapterRows=byChapter.map(c=>{
+    const pc=pct(c.right,c.seen);
+    return '<div class="breakdown-row"><div class="breakdown-label">'+c.label+'</div>'+
+      '<div class="breakdown-bar"><div class="breakdown-fill '+(pc<60?'weak':'')+'" style="width:'+pc+'%"></div></div>'+
+      '<div class="breakdown-val">'+pc+'%</div></div>';
+  }).join('');
+  const weak=subs.map(k=>({sub:k, s:state.stats[k], acc:state.stats[k].correct/state.stats[k].seen}))
+    .filter(x=>x.s.seen>=2 && x.acc<0.75).sort((a,b)=>a.acc-b.acc).slice(0,6);
+  const strong=subs.map(k=>({sub:k, s:state.stats[k], acc:state.stats[k].correct/state.stats[k].seen}))
+    .filter(x=>x.s.seen>=3 && x.acc>=0.85).sort((a,b)=>b.acc-a.acc).slice(0,6);
+  return '<div class="page">'+
+    '<div class="eyebrow">Progress</div>'+
+    '<div class="score-big">'+pct(totalRight,totalSeen)+'%</div>'+
+    '<div class="score-sub">'+totalRight+' correct out of '+totalSeen+' questions · '+subs.length+' topics touched</div>'+
+    '<div class="eyebrow" style="margin-top:20px;">By chapter</div>'+chapterRows+
+    (weak.length? '<div class="eyebrow" style="margin-top:20px;">Needs work</div>'+
+      weak.map(w=>'<div class="breakdown-row"><div class="breakdown-label">'+w.sub+'</div>'+
+        '<div class="breakdown-bar"><div class="breakdown-fill weak" style="width:'+Math.round(w.acc*100)+'%"></div></div>'+
+        '<div class="breakdown-val">'+w.s.correct+'/'+w.s.seen+'</div></div>').join(''):'')+
+    (strong.length? '<div class="eyebrow" style="margin-top:20px;">Secure</div><div class="muted">'+strong.map(s=>s.sub).join(' · ')+'</div>':'')+
+    '<button class="btn-primary" onclick="state.mode=\'weak\';startQuiz()">Practice my weak topics →</button>'+
+    '<button class="btn-ghost" onclick="go(\'home\')">Back</button>'+
+  '</div>';
+}
+
+function renderHistory(){
+  if(!state.history.length) return '<div class="page"><div class="eyebrow">History</div><div class="section-title">No sets yet</div>'+
+    '<div class="muted">Your last results will be listed here.</div><button class="btn-primary" onclick="go(\'home\')">Start a set</button></div>';
+  const rows=state.history.slice(0,30).map(h=>{
+    const p=pct(h.correct,h.total);
+    return '<div class="history-row"><div style="flex:1;"><div style="font-weight:600;font-size:14px;">'+h.correct+'/'+h.total+' <span class="qnum">('+p+'%)</span></div>'+
+      '<div class="chapter-sub">'+h.date+' '+h.time+' · '+h.mode+'</div></div>'+
+      '<div class="breakdown-bar" style="max-width:110px;"><div class="breakdown-fill '+(p<60?'weak':'')+'" style="width:'+p+'%"></div></div></div>';
+  }).join('');
+  return '<div class="page"><div class="eyebrow">History</div><div class="section-title">Recent sets</div>'+
+    '<div style="margin-top:12px;">'+rows+'</div>'+
+    '<button class="btn-ghost" onclick="go(\'home\')">Back</button>'+
+    '<button class="btn-ghost" onclick="clearHistory()">Clear all saved data</button></div>';
+}
+
+/* ==================== Keyboard ==================== */
+document.addEventListener('keydown',function(ev){
+  if(state.screen!=='quiz'||!state.quiz) return;
+  const q=state.quiz;
+  const typing= document.activeElement && document.activeElement.id==='typed-input';
+  if(q.answered!==null){
+    if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); nextQuestion(); }
+    return;
+  }
+  if(typing) return;
+  const k=ev.key.toLowerCase();
+  const map={'1':0,'2':1,'3':2,'4':3,'a':0,'b':1,'c':2,'d':3};
+  if(map[k]!==undefined && state.answerMode!=='type'){ ev.preventDefault(); answerChoice(map[k]); }
+});
+
+/* ==================== Boot ==================== */
+loadAll();
+render();
+</script>
+</body>
+</html>
